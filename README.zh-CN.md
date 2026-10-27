@@ -2,6 +2,11 @@
 
 **精选 AI 开发工具包，一条命令装进你的 coding agent。**
 
+[![CI](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml)
+[![GitHub release](https://img.shields.io/github/v/release/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/releases/latest)
+[![GitHub stars](https://img.shields.io/github/stars/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/issues)
+
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Catalog](https://img.shields.io/badge/Catalog-Skills%20%2B%20MCP-6f42c1)](docs/CATALOG.md)
@@ -88,9 +93,9 @@ apd list --json
 
 | 预设 | 适用场景 |
 | --- | --- |
-| `starter` | 系统调试、测试驱动开发、交付验证，以及 Context7。 |
-| `python` | Starter + Python 测试模式、Python 打包，以及 Fetch MCP。 |
-| `web` | Starter + Playwright MCP 浏览器工具。 |
+| 🌱 `starter` | 系统调试、测试驱动开发、交付验证，以及 Context7。 |
+| 🐍 `python` | Starter + Python 测试模式、Python 打包，以及 Fetch MCP。 |
+| 🌐 `web` | Starter + Playwright MCP 浏览器工具。 |
 
 每个预设包含的具体条目见目录。也可以通过 ID 选择单项工具：
 
@@ -159,6 +164,8 @@ apd remove --path ../my-project
 ## 参与贡献
 
 欢迎推荐项目、完善安装配方、补充经过测试的 agent 适配。请先阅读 [贡献指南](CONTRIBUTING.md) 和 [路线图](docs/ROADMAP.md)。提交问题时，请移除日志、配置中的密钥和其他敏感内容。
+
+自动化检查与执行结果见 [CI 工作流](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml)，本地运行方法见 [贡献指南](CONTRIBUTING.md)。
 
 组织方式参考 [Awesome](https://github.com/sindresorhus/awesome)、[Awesome Python](https://github.com/vinta/awesome-python) 和 [Awesome MCP Servers](https://github.com/punkpeye/awesome-mcp-servers)；项目初始化体验受到 [OpenSpec](https://github.com/Fission-AI/OpenSpec) 启发。
 

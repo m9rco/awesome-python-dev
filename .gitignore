@@ -5,6 +5,7 @@ __pycache__/
 .ruff_cache/
 dist/
 build/
+test-results/
 *.egg-info/
 .codebase-memory/
 .codegraph/

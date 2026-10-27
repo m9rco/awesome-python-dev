@@ -39,12 +39,21 @@ State what you tested: serialization and merge tests, MCP protocol startup, or a
 git clone https://github.com/m9rco/awesome-python-dev.git
 cd awesome-python-dev
 uv sync --group dev
-uv run pytest
+uv run ruff check .
+uv run pytest -q
+uv build
+uv run python scripts/check_dist.py
 uv run apd list
 uv run apd init --agents codex --profile starter --dry-run
 ```
 
 Keep changes focused. Add behavioral tests for new installation or configuration logic, and update both README languages when the user workflow changes. Use temporary paths for tests; never require a contributor's real agent configuration or credentials.
+
+## Continuous integration
+
+The [GitHub Actions workflow](.github/workflows/ci.yml) runs on pushes, pull requests, and manual dispatch. An independent lint job precedes tests on Linux, macOS, and Windows with Python 3.11 and 3.13. Each matrix job builds the package and installs the wheel into a fresh temporary environment, checking both CLI entry points, the bundled catalog, and previews for every profile across all adapters. These checks do not download upstream skills or start MCP servers.
+
+Each run uploads JUnit test reports for each platform/Python pair and one wheel/source distribution artifact, retained for 14 days. Download them from the workflow run's **Artifacts** section. Runs have explicit timeouts, and a newer run on the same branch or pull request cancels the superseded run. Third-party Actions are pinned to commit SHAs and updated through Dependabot.
 
 ## Pull requests
 

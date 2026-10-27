@@ -2,6 +2,11 @@
 
 **Curated AI development toolkits, ready for your coding agents.**
 
+[![CI](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml)
+[![GitHub release](https://img.shields.io/github/v/release/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/releases/latest)
+[![GitHub stars](https://img.shields.io/github/stars/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/issues)
+
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Catalog](https://img.shields.io/badge/Catalog-Skills%20%2B%20MCP-6f42c1)](docs/CATALOG.md)
@@ -89,9 +94,9 @@ apd list --json
 
 | Profile | Intended use |
 | --- | --- |
-| `starter` | Systematic debugging, test-driven development, completion verification, and Context7. |
-| `python` | Starter + Python testing patterns, Python packaging, and Fetch MCP. |
-| `web` | Starter + Playwright MCP for browser tooling. |
+| 🌱 `starter` | Systematic debugging, test-driven development, completion verification, and Context7. |
+| 🐍 `python` | Starter + Python testing patterns, Python packaging, and Fetch MCP. |
+| 🌐 `web` | Starter + Playwright MCP for browser tooling. |
 
 The catalog contains the exact membership of each profile. You can select specific installable IDs instead:
 
@@ -160,6 +165,8 @@ An installable entry additionally needs a reproducible recipe, a reviewable sour
 ## Contribute
 
 Suggest a tool, improve an installation recipe, or add a tested agent adapter. Start with the [contribution guide](CONTRIBUTING.md) and [roadmap](docs/ROADMAP.md). Report installation problems using the issue template, with secrets removed from logs and configuration.
+
+See the [CI workflow and latest runs](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml) for automated checks, and the [contribution guide](CONTRIBUTING.md) to run them locally.
 
 ## Acknowledgments
 
