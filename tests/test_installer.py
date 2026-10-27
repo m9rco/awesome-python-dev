@@ -8,7 +8,7 @@ import pytest
 from awesome_python_dev import installer
 from awesome_python_dev.adapters import AGENTS, read_mcp
 from awesome_python_dev.catalog import load_catalog, select_tools, validate_catalog
-from awesome_python_dev.cli import main
+from awesome_python_dev.cli import agent_selection, main
 from awesome_python_dev.downloads import digest, skill_files
 
 
@@ -251,6 +251,17 @@ def test_windows_path_and_runtime(tmp_path):
     assert installer.runtime_config(install, windows=True) == {
         "command": "cmd", "args": ["/c", "npx", "-y", "demo@1.2.3"]}
     assert installer.runtime_config(install, windows=False) == install
+
+
+def test_github_workflows_alone_do_not_detect_vscode(tmp_path, monkeypatch):
+    import sys
+
+    monkeypatch.setattr(sys.stdin, "isatty", lambda: False)
+    (tmp_path / ".github/workflows").mkdir(parents=True)
+    with pytest.raises(ValueError, match="No agents detected"):
+        agent_selection(None, tmp_path)
+    (tmp_path / ".vscode").mkdir()
+    assert agent_selection(None, tmp_path) == ["vscode"]
 
 
 @pytest.mark.skipif(os.name != "nt", reason="Windows junction regression")

@@ -15,8 +15,11 @@ def agent_selection(value: str | None, root: Path) -> list[str]:
     if value == "all":
         return list(AGENTS)
     if not value:
+        markers = {"codex": ".codex", "vscode": ".vscode"}
         detected = [name for name, agent in AGENTS.items()
-                    if (root / agent.skills_dir).parent.exists() or (root / agent.mcp_path).exists()]
+                    if (root / agent.skills_dir).exists()
+                    or (root / markers.get(name, str(Path(agent.skills_dir).parent))).exists()
+                    or (root / agent.mcp_path).exists()]
         if sys.stdin.isatty():
             print("Agents: " + ", ".join(AGENTS))
             default = ",".join(detected) or "codex,claude"
