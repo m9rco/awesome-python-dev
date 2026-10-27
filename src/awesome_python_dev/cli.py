@@ -9,6 +9,7 @@ from . import __version__
 from .adapters import AGENTS
 from .catalog import load_catalog, select_tools
 from .installer import apply_plan, doctor, installation_plan, project_lock, removal_plan
+from .rules import NATIVE_RULES_ROOTS
 
 
 def agent_selection(value: str | None, root: Path) -> list[str]:
@@ -36,16 +37,20 @@ def agent_selection(value: str | None, root: Path) -> list[str]:
 
 
 def parser() -> argparse.ArgumentParser:
-    cli = argparse.ArgumentParser(prog="apd", description="Curated skills + MCP servers for coding agents")
+    cli = argparse.ArgumentParser(prog="apd", description="Curated skills, rules, MCP and LSP tools for coding agents")
     cli.add_argument("--version", action="version", version=f"awesome-python-dev {__version__}")
     commands = cli.add_subparsers(dest="command", required=True)
     listing = commands.add_parser("list", help="Browse the curated catalog")
-    listing.add_argument("--kind", choices=["skill", "mcp", "reference"])
+    listing.add_argument("--kind", choices=["skill", "rules", "mcp", "lsp", "reference"])
+    listing.add_argument("--category", help="Filter by catalog category")
+    listing.add_argument("--installable", action="store_true", help="Show only integrated tools")
     listing.add_argument("--json", action="store_true", help="Print machine-readable catalog")
     commands.add_parser("agents", help="List supported agent paths")
+    profiles = commands.add_parser("profiles", help="List toolkit profiles and their tool IDs")
+    profiles.add_argument("--json", action="store_true")
     init = commands.add_parser("init", help="Install a toolkit into a project")
     init.add_argument("--agents", help="Comma-separated IDs, or all; prompts/detects when omitted")
-    init.add_argument("--profile", default="starter", help="starter, python, or web")
+    init.add_argument("--profile", default="starter", help="Toolkit profile; run 'apd profiles' for choices")
     init.add_argument("--tools", help="Explicit comma-separated tool IDs instead of the profile")
     init.add_argument("--path", type=Path, default=Path.cwd(), help="Existing project directory")
     init.add_argument("--dry-run", action="store_true", help="Preview without downloads or writes")
@@ -60,14 +65,27 @@ def parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
     try:
+        if args.command == "profiles":
+            profiles = load_catalog()["profiles"]
+            if args.json:
+                print(json.dumps(profiles, indent=2))
+            else:
+                for name, names in profiles.items():
+                    print(f"{name:16} {', '.join(names)}")
+            return 0
         if args.command == "agents":
             for agent_id, agent in AGENTS.items():
-                print(f"{agent_id:10} skills: {agent.skills_dir}  MCP: {agent.mcp_path}")
+                rules_path = NATIVE_RULES_ROOTS.get(agent_id, "AGENTS.md (managed block)")
+                print(f"{agent_id:10} skills: {agent.skills_dir}  rules: {rules_path}  MCP: {agent.mcp_path}")
             return 0
         if args.command == "list":
             catalog = load_catalog()
             if args.kind:
                 catalog["tools"] = [item for item in catalog["tools"] if item["kind"] == args.kind]
+            if args.category:
+                catalog["tools"] = [item for item in catalog["tools"] if item["category"] == args.category]
+            if args.installable:
+                catalog["tools"] = [item for item in catalog["tools"] if item.get("install")]
             if args.json:
                 print(json.dumps(catalog, indent=2, ensure_ascii=False))
             else:
@@ -104,12 +122,15 @@ def main(argv: list[str] | None = None) -> int:
         print("\n".join(plan.summary) or "Nothing installed.")
         print(f"\n{changed} files changed in {root}.")
         if args.command == "init":
-            print("MCP configurations are registered; servers start when your agent enables them.")
-            print("Run apd doctor, then restart/reload your agent. Review its project trust and MCP prompts.")
-            for agent_id in agents:
-                note = getattr(AGENTS[agent_id], "note", "")
-                if note:
-                    print(f"{agent_id}: {note}")
+            has_mcp = any(tool["install"]["type"] == "mcp" for tool in tools)
+            if has_mcp:
+                print("MCP configurations are registered; servers start when your agent enables them.")
+            print("Run apd doctor, then restart/reload your agent.")
+            if has_mcp:
+                for agent_id in agents:
+                    note = getattr(AGENTS[agent_id], "note", "")
+                    if note:
+                        print(f"{agent_id}: {note}")
         return 0
     except (ValueError, OSError) as exc:
         print(f"Error: {exc}", file=sys.stderr)

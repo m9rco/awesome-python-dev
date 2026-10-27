@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "reviewed_at": "2026-10-27",
   "tools": [
     {
@@ -254,9 +254,9 @@
     {
       "id": "serena",
       "name": "Serena",
-      "kind": "reference",
-      "category": "mcp-ecosystem",
-      "description": "Semantic code navigation and editing backed by language servers.",
+      "kind": "lsp",
+      "category": "lsp-bridge",
+      "description": "Expose semantic code navigation, references, diagnostics, and edits to coding agents through an MCP-to-LSP bridge.",
       "repository": "oraios/serena",
       "homepage": "https://github.com/oraios/serena",
       "license": "GPL-3.0-or-later (application); MIT (SolidLSP)",
@@ -264,11 +264,49 @@
       "checked_at": "2026-10-27",
       "last_pushed_at": "2026-10-27T14:37:49Z",
       "archived": false,
-      "install": null,
-      "notes": "Project activation and language-server dependencies need a dedicated integration.",
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "--python",
+          "3.13",
+          "--from",
+          "git+https://github.com/oraios/serena@5e4f5cd173c7ff3eed37ee3f1de6c266b937c5dc",
+          "serena",
+          "start-mcp-server",
+          "--context",
+          "ide",
+          "--project",
+          "{project}",
+          "--language-backend",
+          "LSP",
+          "--agent-interface",
+          "tools",
+          "--enable-web-dashboard",
+          "false",
+          "--open-web-dashboard",
+          "false",
+          "--enable-gui-log-window",
+          "false"
+        ],
+        "requirements": [
+          "uvx",
+          "git"
+        ],
+        "source": "git",
+        "ref": "5e4f5cd173c7ff3eed37ee3f1de6c266b937c5dc",
+        "version": "2.1.0",
+        "runtime": "uv/uvx + Git; Python 3.13 selected by uvx; language-specific dependencies"
+      },
+      "notes": "Pins stable v2.1.0. uvx selects Python 3.13 (upstream supports >=3.11,<3.15); Git and network access required. Generic single-project ide context, explicit LSP backend and tools interface; dashboard/browser/GUI disabled. Language-server dependencies may download at first project activation; some languages need an external toolchain. MCP handshake and discovery of 22 tools verified on macOS in a temporary Python project; symbol operations and individual agent UIs were not exercised.",
       "evidence": [
         "https://api.github.com/repos/oraios/serena",
-        "https://github.com/oraios/serena"
+        "https://github.com/oraios/serena",
+        "https://github.com/oraios/serena/releases/tag/v2.1.0",
+        "https://github.com/oraios/serena/blob/5e4f5cd173c7ff3eed37ee3f1de6c266b937c5dc/pyproject.toml",
+        "https://github.com/oraios/serena/blob/5e4f5cd173c7ff3eed37ee3f1de6c266b937c5dc/LICENSE",
+        "https://oraios.github.io/serena/02-usage/020_running.html",
+        "https://oraios.github.io/serena/02-usage/050_configuration.html"
       ]
     },
     {
@@ -435,20 +473,21 @@
     {
       "id": "ruff",
       "name": "Ruff",
-      "kind": "reference",
-      "category": "python-toolchain",
-      "description": "Python linting and formatting for fast agent feedback.",
+      "kind": "lsp",
+      "category": "language-servers",
+      "description": "Python linting, formatting, and the built-in Ruff language server for diagnostics and code actions.",
       "repository": "astral-sh/ruff",
-      "homepage": "https://github.com/astral-sh/ruff",
+      "homepage": "https://docs.astral.sh/ruff/editors/",
       "license": "MIT",
-      "stars": 50318,
+      "stars": 50317,
       "checked_at": "2026-10-27",
       "last_pushed_at": "2026-10-27T14:46:40Z",
       "archived": false,
       "install": null,
-      "notes": "Add to the target project development dependencies and CI.",
+      "notes": "Ruff remains useful as a project CLI dependency. Native LSP command is ruff server; combine with a navigation/type server when needed. The former ruff-lsp wrapper is superseded by the built-in server.",
       "evidence": [
         "https://api.github.com/repos/astral-sh/ruff",
+        "https://docs.astral.sh/ruff/editors/",
         "https://github.com/astral-sh/ruff"
       ]
     },
@@ -531,6 +570,864 @@
         "https://api.github.com/repos/modelcontextprotocol/python-sdk",
         "https://github.com/modelcontextprotocol/python-sdk"
       ]
+    },
+    {
+      "id": "security-review",
+      "name": "Security Review",
+      "kind": "skill",
+      "category": "security",
+      "description": "Review authentication, authorization, untrusted input, secrets, and sensitive application changes.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/security-review",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/security-review",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/security-review"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version. Includes cloud-infrastructure-security.md; this guidance does not execute a scanner or establish a security audit."
+    },
+    {
+      "id": "coding-standards",
+      "name": "Coding Standards",
+      "kind": "skill",
+      "category": "engineering-standards",
+      "description": "Shared naming, readability, error-handling, immutability, and code-quality conventions.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/coding-standards",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/coding-standards",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/coding-standards"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version. Its short-rule alternative is available as ecc-common-rules."
+    },
+    {
+      "id": "python-patterns",
+      "name": "Python Patterns",
+      "kind": "skill",
+      "category": "python-skills",
+      "description": "Python idioms, type hints, error handling, resource management, and maintainable code structure.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/python-patterns",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/python-patterns",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/python-patterns"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "fastapi-patterns",
+      "name": "FastAPI Patterns",
+      "kind": "skill",
+      "category": "framework-best-practices",
+      "description": "FastAPI application structure, Pydantic v2, async dependencies, service layers, and HTTP testing.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/fastapi-patterns",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/fastapi-patterns",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/fastapi-patterns"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "django-patterns",
+      "name": "Django Patterns",
+      "kind": "skill",
+      "category": "framework-best-practices",
+      "description": "Django and DRF architecture, ORM access, caching, middleware, and service organization.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/django-patterns",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/django-patterns",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/django-patterns"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "django-security",
+      "name": "Django Security",
+      "kind": "skill",
+      "category": "security",
+      "description": "Django authentication, authorization, request protections, and production security settings.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/django-security",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/django-security",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/django-security"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "frontend-patterns",
+      "name": "Frontend Patterns",
+      "kind": "skill",
+      "category": "framework-best-practices",
+      "description": "React and Next.js component composition, state, data fetching, forms, performance, and accessibility.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/frontend-patterns",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/frontend-patterns",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/frontend-patterns"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "nextjs-turbopack",
+      "name": "Next.js and Turbopack",
+      "kind": "skill",
+      "category": "framework-best-practices",
+      "description": "Next.js 16+ bundler selection, development performance, and middleware-to-proxy migration guidance.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/nextjs-turbopack",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/nextjs-turbopack",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/nextjs-turbopack"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version. Intended for Next.js 16+; do not apply version-specific migration guidance to older apps without checking official docs."
+    },
+    {
+      "id": "backend-patterns",
+      "name": "Backend Patterns",
+      "kind": "skill",
+      "category": "framework-best-practices",
+      "description": "Node.js, Express, and Next.js API architecture, data access, caching, and observability.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/backend-patterns",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/backend-patterns",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/backend-patterns"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "springboot-patterns",
+      "name": "Spring Boot Patterns",
+      "kind": "skill",
+      "category": "framework-best-practices",
+      "description": "Spring Boot REST layers, transactional services, repositories, caching, and production defaults.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/springboot-patterns",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/springboot-patterns",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/springboot-patterns"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "springboot-security",
+      "name": "Spring Boot Security",
+      "kind": "skill",
+      "category": "security",
+      "description": "Spring Security authentication, authorization, validation, secrets, headers, and release checks.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/springboot-security",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/springboot-security",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/springboot-security"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "golang-patterns",
+      "name": "Go Patterns",
+      "kind": "skill",
+      "category": "language-best-practices",
+      "description": "Idiomatic Go errors, interfaces, concurrency, package organization, and resource lifecycle patterns.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/golang-patterns",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/golang-patterns",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/golang-patterns"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "api-design",
+      "name": "API Design",
+      "kind": "skill",
+      "category": "engineering-standards",
+      "description": "REST resources, HTTP semantics, pagination, versioning, error contracts, and rate limits.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/api-design",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/api-design",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/api-design"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "database-migrations",
+      "name": "Database Migrations",
+      "kind": "skill",
+      "category": "data-workflows",
+      "description": "Expand-contract schema changes, safe indexes, batched backfills, and migration-tool workflows.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/database-migrations",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/database-migrations",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/database-migrations"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "deployment-patterns",
+      "name": "Deployment Patterns",
+      "kind": "skill",
+      "category": "delivery-workflows",
+      "description": "Deployment strategies, container builds, health checks, CI/CD, rollback, and production readiness.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/deployment-patterns",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "skill",
+        "subdir": "skills/deployment-patterns",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/deployment-patterns"
+      ],
+      "notes": "Selected ECC skill directory only. No ECC plugin, hooks, agents, commands, memory service, or settings are installed. Framework examples must be checked against the target project version."
+    },
+    {
+      "id": "ecc-common-rules",
+      "name": "ECC Common Rules",
+      "kind": "rules",
+      "category": "engineering-rules",
+      "description": "Portable cross-language engineering guidance selected from ECC rules.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/common",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "rules",
+        "subdir": "rules/common",
+        "license_path": "LICENSE",
+        "files": [
+          "coding-style.md",
+          "security.md",
+          "testing.md",
+          "git-workflow.md",
+          "patterns.md",
+          "development-workflow.md"
+        ],
+        "globs": []
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/common"
+      ],
+      "notes": "Selected Markdown rules only; excludes ECC hooks, agent orchestration, and model-selection rule files. Native activation adapts language scopes and crosslinks; original sources retain MIT attribution. Named ECC reviewer/planner roles and Claude settings assumptions require the portable adaptation described in docs/ECC-MIGRATION.md.",
+      "source_bytes": 9399
+    },
+    {
+      "id": "ecc-python-rules",
+      "name": "ECC Python Rules",
+      "kind": "rules",
+      "category": "engineering-rules",
+      "description": "Portable python-specific engineering guidance selected from ECC rules.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/python",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "rules",
+        "subdir": "rules/python",
+        "license_path": "LICENSE",
+        "files": [
+          "coding-style.md",
+          "security.md",
+          "testing.md",
+          "patterns.md"
+        ],
+        "globs": [
+          "**/*.py",
+          "**/*.pyi"
+        ]
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/python"
+      ],
+      "requires": [
+        "ecc-common-rules"
+      ],
+      "notes": "Selected Markdown rules only; excludes ECC hooks, agent orchestration, and model-selection rule files. Native activation adapts language scopes and crosslinks; original sources retain MIT attribution. Named ECC reviewer/planner roles and Claude settings assumptions require the portable adaptation described in docs/ECC-MIGRATION.md.",
+      "source_bytes": 2639
+    },
+    {
+      "id": "ecc-typescript-rules",
+      "name": "ECC TypeScript Rules",
+      "kind": "rules",
+      "category": "engineering-rules",
+      "description": "Portable typescript-specific engineering guidance selected from ECC rules.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/typescript",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "rules",
+        "subdir": "rules/typescript",
+        "license_path": "LICENSE",
+        "files": [
+          "coding-style.md",
+          "security.md",
+          "testing.md",
+          "patterns.md"
+        ],
+        "globs": [
+          "**/*.ts",
+          "**/*.tsx",
+          "**/*.js",
+          "**/*.jsx"
+        ]
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/typescript"
+      ],
+      "requires": [
+        "ecc-common-rules"
+      ],
+      "notes": "Selected Markdown rules only; excludes ECC hooks, agent orchestration, and model-selection rule files. Native activation adapts language scopes and crosslinks; original sources retain MIT attribution. Named ECC reviewer/planner roles and Claude settings assumptions require the portable adaptation described in docs/ECC-MIGRATION.md.",
+      "source_bytes": 6230
+    },
+    {
+      "id": "ecc-golang-rules",
+      "name": "ECC Go Rules",
+      "kind": "rules",
+      "category": "engineering-rules",
+      "description": "Portable golang-specific engineering guidance selected from ECC rules.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/golang",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "rules",
+        "subdir": "rules/golang",
+        "license_path": "LICENSE",
+        "files": [
+          "coding-style.md",
+          "security.md",
+          "testing.md",
+          "patterns.md"
+        ],
+        "globs": [
+          "**/*.go",
+          "**/go.mod",
+          "**/go.sum"
+        ]
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/golang"
+      ],
+      "requires": [
+        "ecc-common-rules"
+      ],
+      "notes": "Selected Markdown rules only; excludes ECC hooks, agent orchestration, and model-selection rule files. Native activation adapts language scopes and crosslinks; original sources retain MIT attribution. Named ECC reviewer/planner roles and Claude settings assumptions require the portable adaptation described in docs/ECC-MIGRATION.md.",
+      "source_bytes": 2484
+    },
+    {
+      "id": "ecc-java-rules",
+      "name": "ECC Java Rules",
+      "kind": "rules",
+      "category": "engineering-rules",
+      "description": "Portable java-specific engineering guidance selected from ECC rules.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/java",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "rules",
+        "subdir": "rules/java",
+        "license_path": "LICENSE",
+        "files": [
+          "coding-style.md",
+          "security.md",
+          "testing.md",
+          "patterns.md"
+        ],
+        "globs": [
+          "**/*.java"
+        ]
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/java"
+      ],
+      "requires": [
+        "ecc-common-rules"
+      ],
+      "notes": "Selected Markdown rules only; excludes ECC hooks, agent orchestration, and model-selection rule files. Native activation adapts language scopes and crosslinks; original sources retain MIT attribution. Named ECC reviewer/planner roles and Claude settings assumptions require the portable adaptation described in docs/ECC-MIGRATION.md.",
+      "source_bytes": 14794
+    },
+    {
+      "id": "ecc-fastapi-rules",
+      "name": "ECC FastAPI Rules",
+      "kind": "rules",
+      "category": "engineering-rules",
+      "description": "Portable fastapi-specific engineering guidance selected from ECC rules.",
+      "repository": "affaan-m/ECC",
+      "homepage": "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/python",
+      "license": "MIT",
+      "stars": 290505,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T04:56:56Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/affaan-m/ECC/tar.gz/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "sha256": "7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1",
+        "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+        "type": "rules",
+        "subdir": "rules/python",
+        "license_path": "LICENSE",
+        "files": [
+          "fastapi.md"
+        ],
+        "globs": [
+          "**/app/**/*.py",
+          "**/fastapi/**/*.py",
+          "**/*_api.py"
+        ]
+      },
+      "evidence": [
+        "https://api.github.com/repos/affaan-m/ECC",
+        "https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/python"
+      ],
+      "requires": [
+        "ecc-python-rules"
+      ],
+      "notes": "Selected Markdown rules only; excludes ECC hooks, agent orchestration, and model-selection rule files. Native activation adapts language scopes and crosslinks; original sources retain MIT attribution. Named ECC reviewer/planner roles and Claude settings assumptions require the portable adaptation described in docs/ECC-MIGRATION.md. Select for FastAPI apps only; broad app-directory globs also match other Python frameworks.",
+      "source_bytes": 1736
+    },
+    {
+      "id": "pyright",
+      "name": "Pyright",
+      "kind": "lsp",
+      "category": "language-servers",
+      "description": "Python type checking and language-server support for navigation and diagnostics.",
+      "repository": "microsoft/pyright",
+      "homepage": "https://github.com/microsoft/pyright",
+      "license": "MIT",
+      "stars": 15707,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T21:20:29Z",
+      "archived": false,
+      "install": null,
+      "notes": "Standalone LSP reference. Install through the upstream guide and configure pyright-langserver --stdio in an LSP-capable client. Serena has a separately managed Python backend.",
+      "evidence": [
+        "https://api.github.com/repos/microsoft/pyright",
+        "https://github.com/microsoft/pyright",
+        "https://github.com/microsoft/pyright/blob/main/docs/installation.md",
+        "https://github.com/microsoft/pyright/blob/main/LICENSE.txt"
+      ]
+    },
+    {
+      "id": "python-lsp-server",
+      "name": "Python LSP Server",
+      "kind": "lsp",
+      "category": "language-servers",
+      "description": "Jedi-based Python completion and navigation with configurable linting and formatting plugins.",
+      "repository": "python-lsp/python-lsp-server",
+      "homepage": "https://github.com/python-lsp/python-lsp-server",
+      "license": "MIT",
+      "stars": 2605,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-07-27T18:27:08Z",
+      "archived": false,
+      "install": null,
+      "notes": "Standalone LSP reference. Install python-lsp-server into the appropriate environment and launch pylsp from an LSP client; extras/plugins are chosen separately.",
+      "evidence": [
+        "https://api.github.com/repos/python-lsp/python-lsp-server",
+        "https://github.com/python-lsp/python-lsp-server"
+      ]
+    },
+    {
+      "id": "typescript-language-server",
+      "name": "TypeScript Language Server",
+      "kind": "lsp",
+      "category": "language-servers",
+      "description": "Language Server Protocol wrapper around TypeScript language services for JavaScript and TypeScript.",
+      "repository": "typescript-language-server/typescript-language-server",
+      "homepage": "https://github.com/typescript-language-server/typescript-language-server",
+      "license": "Apache-2.0; MIT portions",
+      "stars": 2587,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T06:17:16Z",
+      "archived": false,
+      "install": null,
+      "notes": "Standalone LSP reference. Requires a compatible TypeScript installation and Node.js; launch typescript-language-server --stdio. Check the upstream version compatibility guidance.",
+      "evidence": [
+        "https://api.github.com/repos/typescript-language-server/typescript-language-server",
+        "https://github.com/typescript-language-server/typescript-language-server",
+        "https://github.com/typescript-language-server/typescript-language-server/blob/master/LICENSE"
+      ]
+    },
+    {
+      "id": "gopls",
+      "name": "gopls",
+      "kind": "lsp",
+      "category": "language-servers",
+      "description": "Official Go language server providing code navigation, diagnostics, and refactoring.",
+      "repository": "golang/tools",
+      "homepage": "https://go.dev/gopls/",
+      "license": "BSD-3-Clause",
+      "stars": 8009,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T14:52:31Z",
+      "archived": false,
+      "install": null,
+      "notes": "Requires a supported Go toolchain and project module/workspace configuration. Follow upstream installation; launch gopls. Star count is for golang/tools, which contains gopls.",
+      "evidence": [
+        "https://api.github.com/repos/golang/tools",
+        "https://go.dev/gopls/",
+        "https://github.com/golang/tools/tree/master/gopls"
+      ]
+    },
+    {
+      "id": "rust-analyzer",
+      "name": "rust-analyzer",
+      "kind": "lsp",
+      "category": "language-servers",
+      "description": "Rust language server with code navigation, completion, diagnostics, and assists.",
+      "repository": "rust-lang/rust-analyzer",
+      "homepage": "https://rust-analyzer.github.io/",
+      "license": "MIT OR Apache-2.0",
+      "stars": 16949,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T15:26:54Z",
+      "archived": false,
+      "install": null,
+      "notes": "Install through the Rust toolchain/editor as documented upstream. rustup component add rust-analyzer provides the rust-analyzer command.",
+      "evidence": [
+        "https://api.github.com/repos/rust-lang/rust-analyzer",
+        "https://rust-analyzer.github.io/",
+        "https://rust-analyzer.github.io/book/rust_analyzer_binary.html",
+        "https://github.com/rust-lang/rust-analyzer#license"
+      ]
+    },
+    {
+      "id": "clangd",
+      "name": "clangd",
+      "kind": "lsp",
+      "category": "language-servers",
+      "description": "C/C++ language server with completion, cross-references, diagnostics, and refactoring support.",
+      "repository": "clangd/clangd",
+      "homepage": "https://clangd.llvm.org/",
+      "license": "Apache-2.0 WITH LLVM-exception",
+      "stars": 2315,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-06T08:51:22Z",
+      "archived": false,
+      "install": null,
+      "notes": "Install a suitable LLVM/clangd binary and provide compile_commands.json for accurate project analysis. Repository is the official issue/release tracker; implementation lives in llvm/llvm-project.",
+      "evidence": [
+        "https://api.github.com/repos/clangd/clangd",
+        "https://clangd.llvm.org/",
+        "https://clangd.llvm.org/installation",
+        "https://github.com/clangd/clangd/blob/master/LICENSE"
+      ]
+    },
+    {
+      "id": "semgrep",
+      "name": "Semgrep",
+      "kind": "reference",
+      "category": "security-tooling",
+      "description": "Rule-based static analysis for security issues and code patterns across multiple languages.",
+      "repository": "semgrep/semgrep",
+      "homepage": "https://github.com/semgrep/semgrep",
+      "license": "LGPL-2.1 (community engine); additional offerings/rules have separate terms",
+      "stars": 17306,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T00:06:04Z",
+      "archived": false,
+      "install": null,
+      "notes": "Use the official CLI/integration to select reviewed rules. Configuration, rule licensing, telemetry, and hosted features depend on the selected workflow; not automatically installed or run.",
+      "evidence": [
+        "https://api.github.com/repos/semgrep/semgrep",
+        "https://github.com/semgrep/semgrep",
+        "https://semgrep.dev/docs/getting-started/",
+        "https://github.com/semgrep/semgrep/blob/develop/LICENSE"
+      ]
+    },
+    {
+      "id": "bandit",
+      "name": "Bandit",
+      "kind": "reference",
+      "category": "security-tooling",
+      "description": "Find common Python security issues through AST-based static analysis.",
+      "repository": "PyCQA/bandit",
+      "homepage": "https://github.com/PyCQA/bandit",
+      "license": "Apache-2.0",
+      "stars": 8352,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T00:31:12Z",
+      "archived": false,
+      "install": null,
+      "notes": "Add as a development or CI dependency, configure exclusions and severity/confidence policy, and review findings. Does not replace dependency or secret scanning.",
+      "evidence": [
+        "https://api.github.com/repos/PyCQA/bandit",
+        "https://github.com/PyCQA/bandit",
+        "https://bandit.readthedocs.io/en/latest/start.html"
+      ]
+    },
+    {
+      "id": "pip-audit",
+      "name": "pip-audit",
+      "kind": "reference",
+      "category": "security-tooling",
+      "description": "Audit Python environments and dependency specifications against known vulnerability data.",
+      "repository": "pypa/pip-audit",
+      "homepage": "https://github.com/pypa/pip-audit",
+      "license": "Apache-2.0",
+      "stars": 1386,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-25T16:04:41Z",
+      "archived": false,
+      "install": null,
+      "notes": "Select the actual project environment or supported requirements/lock inputs. Uses external vulnerability data; can require dependency resolution. Not automatically installed or run.",
+      "evidence": [
+        "https://api.github.com/repos/pypa/pip-audit",
+        "https://github.com/pypa/pip-audit"
+      ]
+    },
+    {
+      "id": "gitleaks",
+      "name": "Gitleaks",
+      "kind": "reference",
+      "category": "security-tooling",
+      "description": "Detect committed or working-tree secrets using configurable rules and allowlists.",
+      "repository": "gitleaks/gitleaks",
+      "homepage": "https://github.com/gitleaks/gitleaks",
+      "license": "MIT",
+      "stars": 30384,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-23T20:45:02Z",
+      "archived": false,
+      "install": null,
+      "notes": "Install the CLI or official CI integration, select history/directory scan scope, and keep findings private. Review and rotate real leaked credentials; deleting a finding does not revoke a secret.",
+      "evidence": [
+        "https://api.github.com/repos/gitleaks/gitleaks",
+        "https://github.com/gitleaks/gitleaks"
+      ]
     }
   ],
   "profiles": {
@@ -538,7 +1435,8 @@
       "systematic-debugging",
       "test-driven-development",
       "verification-before-completion",
-      "context7"
+      "context7",
+      "ecc-common-rules"
     ],
     "python": [
       "systematic-debugging",
@@ -547,14 +1445,76 @@
       "context7",
       "python-testing-patterns",
       "python-packaging",
-      "fetch"
+      "fetch",
+      "ecc-python-rules",
+      "python-patterns"
     ],
     "web": [
       "systematic-debugging",
       "test-driven-development",
       "verification-before-completion",
       "context7",
-      "playwright"
+      "playwright",
+      "ecc-typescript-rules",
+      "frontend-patterns"
+    ],
+    "engineering": [
+      "ecc-common-rules",
+      "coding-standards",
+      "api-design",
+      "database-migrations",
+      "deployment-patterns",
+      "systematic-debugging",
+      "test-driven-development",
+      "verification-before-completion"
+    ],
+    "security": [
+      "ecc-common-rules",
+      "security-review"
+    ],
+    "django": [
+      "ecc-python-rules",
+      "python-patterns",
+      "django-patterns",
+      "django-security",
+      "python-testing-patterns",
+      "context7"
+    ],
+    "fastapi": [
+      "ecc-fastapi-rules",
+      "python-patterns",
+      "fastapi-patterns",
+      "api-design",
+      "security-review",
+      "python-testing-patterns",
+      "context7"
+    ],
+    "springboot": [
+      "ecc-java-rules",
+      "springboot-patterns",
+      "springboot-security",
+      "api-design",
+      "database-migrations",
+      "context7"
+    ],
+    "typescript": [
+      "ecc-typescript-rules",
+      "coding-standards",
+      "frontend-patterns",
+      "backend-patterns",
+      "nextjs-turbopack",
+      "security-review",
+      "context7"
+    ],
+    "golang": [
+      "ecc-golang-rules",
+      "golang-patterns",
+      "api-design",
+      "security-review",
+      "context7"
+    ],
+    "lsp": [
+      "serena"
     ]
   }
 }

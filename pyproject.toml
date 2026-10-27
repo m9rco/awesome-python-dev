@@ -4,11 +4,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "awesome-python-dev"
-version = "0.1.0"
-description = "Curated AI development skills and MCP servers, installed into your coding agents."
+version = "0.2.0"
+description = "Curated AI development skills, rules, MCP and LSP tools for your coding agents."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
+license-files = ["LICENSE", "LICENSES/*.txt"]
 authors = [{name = "awesome-python-dev contributors"}]
 keywords = ["ai", "coding-agent", "skills", "mcp", "developer-tools"]
 dependencies = ["tomlkit>=0.13.2,<1"]

@@ -1,14 +1,18 @@
 """Checksum-verified downloads and bounded archive reads; no extraction or execution."""
 
 import hashlib
+import http.client
 import io
 import os
+import ssl
 import tarfile
 import tempfile
 import time
 import urllib.error
 import urllib.request
 from pathlib import Path, PurePosixPath
+
+from . import __version__
 
 MAX_ARCHIVE = 64 * 1024 * 1024
 MAX_EXPANDED = 256 * 1024 * 1024
@@ -37,7 +41,7 @@ def download(install: dict, cache: Path | None = None) -> bytes:
         if digest(data) == install["sha256"]:
             return data
         raise ValueError(f"Archive cache checksum mismatch: {target}; remove this cache file and retry")
-    request = urllib.request.Request(install["url"], headers={"User-Agent": "awesome-python-dev/0.1"})
+    request = urllib.request.Request(install["url"], headers={"User-Agent": f"awesome-python-dev/{__version__}"})
     for attempt in range(3):
         try:
             with urllib.request.urlopen(request, timeout=30) as response:
@@ -45,7 +49,7 @@ def download(install: dict, cache: Path | None = None) -> bytes:
                     raise ValueError("Unexpected download redirect")
                 data = response.read(MAX_ARCHIVE + 1)
             break
-        except (urllib.error.URLError, TimeoutError, ConnectionError) as exc:
+        except (urllib.error.URLError, TimeoutError, ConnectionError, ssl.SSLError, http.client.IncompleteRead) as exc:
             permanent = isinstance(exc, urllib.error.HTTPError) and 400 <= exc.code < 500 and exc.code != 429
             if attempt == 2 or permanent:
                 raise ValueError(f"Could not download {install['url']}: {exc}") from exc
@@ -76,6 +80,7 @@ def skill_files(tool: dict, archive: bytes) -> SkillFiles:
     count = 0
     roots = set()
     prefix = PurePosixPath(install["subdir"])
+    wanted_files = set(install["files"]) if install["type"] == "rules" else None
     try:
         with tarfile.open(fileobj=io.BytesIO(archive), mode="r:gz") as tar:
             for member in tar:
@@ -92,7 +97,9 @@ def skill_files(tool: dict, archive: bytes) -> SkillFiles:
                 if count > MAX_FILES or total_size > MAX_EXPANDED:
                     raise ValueError("Archive exceeds extraction limits")
                 relative = PurePosixPath(*path.parts[1:])
-                wanted = relative.is_relative_to(prefix) or str(relative) == install["license_path"]
+                in_subtree = relative.is_relative_to(prefix)
+                selected_file = in_subtree and (wanted_files is None or str(relative.relative_to(prefix)) in wanted_files)
+                wanted = selected_file or str(relative) == install["license_path"]
                 if not wanted or member.isdir():
                     continue
                 if not member.isfile():
@@ -111,8 +118,9 @@ def skill_files(tool: dict, archive: bytes) -> SkillFiles:
                     selected.modes[key] = 0o700 if member.mode & 0o111 else 0o600
     except tarfile.TarError as exc:
         raise ValueError(f"Invalid skill archive: {exc}") from exc
-    if "SKILL.md" not in selected or license_data is None:
-        raise ValueError(f"{tool['id']}: upstream SKILL.md or license not found")
+    required = wanted_files if wanted_files is not None else {"SKILL.md"}
+    if not required.issubset(selected) or license_data is None:
+        raise ValueError(f"{tool['id']}: required upstream files or license not found")
     selected["UPSTREAM-LICENSE"] = license_data
     selected["UPSTREAM.md"] = (
         f"# Upstream attribution\n\nSource: https://github.com/{tool['repository']}\n\n"

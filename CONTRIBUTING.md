@@ -1,6 +1,6 @@
 # Contributing
 
-Help make a small, useful collection easy to trust and easy to install. Contributions may add a tool, improve an existing recipe, document a limitation, or support another coding agent.
+Help make a useful collection easy to trust and easy to install. Contributions may add a skill, rule pack, MCP server, LSP resource, improve an existing recipe, document a limitation, or support another coding agent.
 
 ## Suggest a tool
 
@@ -16,20 +16,26 @@ Prefer maintained projects with clear documentation and a useful workflow. A hig
 
 ## Add an installable recipe
 
-The machine-readable source is [`src/awesome_python_dev/data/catalog.json`](src/awesome_python_dev/data/catalog.json). Keep its documentation in [`docs/CATALOG.md`](docs/CATALOG.md) and evidence in [`docs/RESEARCH.md`](docs/RESEARCH.md) consistent.
+The machine-readable source is [`src/awesome_python_dev/data/catalog.json`](src/awesome_python_dev/data/catalog.json), currently catalog schema 2. Keep its documentation in [`docs/CATALOG.md`](docs/CATALOG.md) and evidence in [`docs/RESEARCH.md`](docs/RESEARCH.md) consistent. Use `apd profiles` to inspect profile membership.
 
 - Use a stable, descriptive ID and a concise description of what the tool does.
 - Skills require a full upstream commit, an HTTPS archive URL, its verified SHA-256, the skill directory, and the license location. Inspect the complete directory, including scripts and references.
-- MCP recipes require an exact package version, the official launch command, and explicit runtime requirements. Do not use `latest`, shell pipelines, or embedded credentials.
+- Rule packs require a full commit, archive SHA-256, an explicit relative file allowlist, language globs, license location, and declared `requires` dependencies. Preserve original files and attribute every adapted activation copy. Review links and host-specific assumptions; follow the [ECC migration contract](docs/ECC-MIGRATION.md).
+- MCP recipes require an exact package version or a full Git commit, the official launch command, and explicit runtime requirements. For Git sources, record `source: "git"` and the full `ref`; for project-aware commands, use the supported `{project}` placeholder. Do not use branch names, `latest`, shell pipelines, or embedded credentials.
+- An installable LSP bridge uses `kind: "lsp"` with `install.type: "mcp"`. Raw language servers are LSP references, not MCP recipes. See the [LSP guide](docs/LSP.md).
 - Link official source material for paths, configuration, and package identity. Record when you verified it; do not present a star snapshot as live data.
 - Document network access, authentication, costs, or manual steps where they affect whether the user can run the tool.
 - Confirm installation, a repeated installation, and removal in a temporary project. Test modified and unrelated configuration so it survives correctly.
 
-Reference entries should use `install: null`. Never mark a tool installable solely because its upstream README has an install command.
+Reference entries should use `install: null`; native language-server references retain `kind: "lsp"`. Never mark a tool installable solely because its upstream README has an install command. Security and framework guidance must state applicable scope and versions without claiming that installation performs an audit, scan, test, or deployment.
 
 ## Add an agent adapter
 
-Use current official documentation for project-local skill discovery and MCP configuration. Add the paths and limitations to [`docs/AGENTS.md`](docs/AGENTS.md). Include tests for empty configuration, existing unrelated values, name conflicts, malformed input, and removal. If the client supports a format the installer cannot safely edit, return a clear error rather than replacing it.
+Use current official documentation for project-local skill discovery, native rules, and MCP configuration. Add the paths and limitations to [`docs/AGENTS.md`](docs/AGENTS.md). Include tests for empty configuration, existing unrelated values, name conflicts, malformed input, and removal. If the client supports a format the installer cannot safely edit, return a clear error rather than replacing it.
+
+For rule activation, test globs/frontmatter conversion, source attribution, relative links, required common rules, and the shared Codex/OpenCode `AGENTS.md` block. Preserve text outside that block byte-for-byte, reject edited managed content, and cover repeated installation, additive profiles, size-limit failure, and removal. Codex output must respect the installer's 32 KiB guard; do not truncate rules to make a test pass.
+
+Changes to ownership records must retain the v0.2 reader's ability to load manifest schemas 1 and 2, with schema 1 upgraded during `init`. Document that an upgraded manifest cannot be managed by v0.1. Test migration with existing files and unrelated user content.
 
 State what you tested: serialization and merge tests, MCP protocol startup, or a real session in the target client. These are different levels of evidence.
 
@@ -44,7 +50,9 @@ uv run pytest -q
 uv build
 uv run python scripts/check_dist.py
 uv run apd list
+uv run apd profiles
 uv run apd init --agents codex --profile starter --dry-run
+uv run apd init --agents codex,claude --profile fastapi --dry-run
 ```
 
 Keep changes focused. Add behavioral tests for new installation or configuration logic, and update both README languages when the user workflow changes. Use temporary paths for tests; never require a contributor's real agent configuration or credentials.

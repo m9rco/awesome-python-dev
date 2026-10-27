@@ -1,7 +1,7 @@
 """Optional network smoke test; launches pinned MCPs but never calls their tools.
 
 Run: uv run --no-project --with mcp python scripts/smoke_mcp.py
-Select one: add --tool context7 (or playwright / fetch).
+Select one: add --tool context7 (or playwright / fetch / serena).
 This is not part of offline unit tests. Packages may be downloaded by npx/uvx.
 """
 
@@ -30,9 +30,17 @@ async def check(entry: dict, timeout: float) -> dict:
     try:
         async with asyncio.timeout(timeout):
             with TemporaryDirectory(prefix="apd-mcp-smoke-") as cache:
+                project = Path(cache) / "project"
+                project.mkdir()
+                (project / "example.py").write_text("def example():\n    return 42\n")
+                arguments = [str(project) if arg == "{project}" else arg for arg in install["args"]]
+                command = install["command"]
+                if os.name == "nt" and command == "npx":
+                    command, arguments = "cmd", ["/c", "npx", *arguments]
                 params = StdioServerParameters(
-                    command=install["command"], args=install["args"],
-                    env={**network_env, "npm_config_cache": cache},
+                    command=command, args=arguments,
+                    env={**network_env, "npm_config_cache": str(Path(cache) / "npm"),
+                         "SERENA_HOME": str(Path(cache) / "serena-home")},
                 )
                 with open(os.devnull, "w") as errors:
                     async with stdio_client(params, errlog=errors) as (reader, writer):
@@ -60,15 +68,16 @@ async def check(entry: dict, timeout: float) -> dict:
 
 
 async def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--tool", choices=["context7", "playwright", "fetch"])
-    parser.add_argument("--timeout", type=float, default=90)
-    args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     catalog = json.loads((root / "src/awesome_python_dev/data/catalog.json").read_text())
+    integrations = [entry for entry in catalog["tools"]
+                    if entry.get("install") and entry["install"]["type"] == "mcp"]
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--tool", choices=[entry["id"] for entry in integrations])
+    parser.add_argument("--timeout", type=float, default=90)
+    args = parser.parse_args()
     selected = [
-        entry for entry in catalog["tools"]
-        if entry["kind"] == "mcp" and (args.tool is None or entry["id"] == args.tool)
+        entry for entry in integrations if args.tool is None or entry["id"] == args.tool
     ]
     print(json.dumps({"platform": platform.platform(), "python": platform.python_version(), "mcp_sdk": version("mcp")}), flush=True)
     results = []

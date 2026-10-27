@@ -1,94 +1,176 @@
 # Curated catalog / 精选目录
 
-Reviewed **2026-10-27**. 23 curated entries: 5 installable skills, 3 configurable MCP servers, and 15 reference-only tools. Stars are a dated repository-level snapshot, not a score for an individual skill.
+Reviewed **2026-10-27**, catalog schema **2**. **54 entries**, with **30 installable/configurable integrations** and **24 reference-only tools**. The installable set contains 20 skills, 6 rule packs, 3 MCP servers, and 1 MCP-to-LSP bridge. The 8 LSP entries comprise Serena plus 7 standalone language-server references.
 
-The executable catalog lives in [`catalog.json`](../src/awesome_python_dev/data/catalog.json). `install: null` means the CLI only lists the project; use its upstream installation instructions. “Installable MCP” means the CLI writes a pinned launch configuration; the coding agent starts the server on demand.
+Stars are dated repository-level snapshots, not scores for individual skills or rules. Multiple entries from ECC, Superpowers, or another monorepo share the same repository evidence. The executable source of truth is [`catalog.json`](../src/awesome_python_dev/data/catalog.json); every entry records its source, license, review date, and installation status.
+
+## Browse and select
+
+```sh
+apd profiles
+apd list --installable
+apd list --kind rules
+apd list --kind lsp
+apd list --category framework-best-practices --installable
+apd init --agents codex --profile django --dry-run
+```
+
+`install: null` means the CLI lists the tool and its upstream setup guidance. An installable skill copies the pinned skill directory. A rule pack selects and activates reviewed Markdown rules for the chosen agent. A configurable MCP entry writes a pinned server launch configuration; the coding agent starts it later. Serena uses that MCP path to expose language-server capabilities.
 
 ## Presets
 
-| Preset | Included tools |
-| --- | --- |
-| `starter` | `systematic-debugging`, `test-driven-development`, `verification-before-completion`, `context7` |
-| `python` | `systematic-debugging`, `test-driven-development`, `verification-before-completion`, `context7`, `python-testing-patterns`, `python-packaging`, `fetch` |
-| `web` | `systematic-debugging`, `test-driven-development`, `verification-before-completion`, `context7`, `playwright` |
+Profiles select relevant tools instead of loading every available rule and framework. `requires` adds shared rules transitively. For example, FastAPI rules add Python rules, which add common rules.
 
-## Installable skills
+| Preset | Selected entries | Dependencies added |
+| --- | --- | --- |
+| `starter` | `systematic-debugging`, `test-driven-development`, `verification-before-completion`, `context7`, `ecc-common-rules` | None |
+| `python` | `systematic-debugging`, `test-driven-development`, `verification-before-completion`, `context7`, `python-testing-patterns`, `python-packaging`, `fetch`, `ecc-python-rules`, `python-patterns` | `ecc-common-rules` |
+| `web` | `systematic-debugging`, `test-driven-development`, `verification-before-completion`, `context7`, `playwright`, `ecc-typescript-rules`, `frontend-patterns` | `ecc-common-rules` |
+| `engineering` | `ecc-common-rules`, `coding-standards`, `api-design`, `database-migrations`, `deployment-patterns`, `systematic-debugging`, `test-driven-development`, `verification-before-completion` | None |
+| `security` | `ecc-common-rules`, `security-review` | None |
+| `django` | `ecc-python-rules`, `python-patterns`, `django-patterns`, `django-security`, `python-testing-patterns`, `context7` | `ecc-common-rules` |
+| `fastapi` | `ecc-fastapi-rules`, `python-patterns`, `fastapi-patterns`, `api-design`, `security-review`, `python-testing-patterns`, `context7` | `ecc-common-rules`, `ecc-python-rules` |
+| `springboot` | `ecc-java-rules`, `springboot-patterns`, `springboot-security`, `api-design`, `database-migrations`, `context7` | `ecc-common-rules` |
+| `typescript` | `ecc-typescript-rules`, `coding-standards`, `frontend-patterns`, `backend-patterns`, `nextjs-turbopack`, `security-review`, `context7` | `ecc-common-rules` |
+| `golang` | `ecc-golang-rules`, `golang-patterns`, `api-design`, `security-review`, `context7` | `ecc-common-rules` |
+| `lsp` | `serena` | None |
 
-| ID / source | Use case | Repository stars | License |
-| --- | --- | ---: | --- |
-| [`systematic-debugging`](https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/systematic-debugging) | Root-cause investigation, reproducible failures, and hypothesis-driven debugging. | 306,063 | MIT |
-| [`test-driven-development`](https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/test-driven-development) | A test-first workflow with guidance for meaningful regression tests. | 306,063 | MIT |
-| [`verification-before-completion`](https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/verification-before-completion) | Require fresh verification evidence before claiming a change is complete. | 306,063 | MIT |
-| [`python-testing-patterns`](https://github.com/wshobson/agents/tree/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/python-development/skills/python-testing-patterns) | Practical pytest fixtures, parametrization, mocking, async testing, and coverage guidance. | 41,868 | MIT |
-| [`python-packaging`](https://github.com/wshobson/agents/tree/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/python-development/skills/python-packaging) | Build Python libraries and CLIs with package metadata, wheels, and release workflows. | 41,868 | MIT |
+## Engineering skills, standards, and delivery
 
-## Configurable MCP servers
+| ID / source | Use case | Delivery | Stars | License |
+| --- | --- | --- | ---: | --- |
+| [`systematic-debugging`](https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/systematic-debugging) | Root-cause investigation, reproducible failures, and hypothesis-driven debugging. | Install skill | 306,063 | MIT |
+| [`test-driven-development`](https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/test-driven-development) | A test-first workflow with guidance for meaningful regression tests. | Install skill | 306,063 | MIT |
+| [`verification-before-completion`](https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/verification-before-completion) | Require fresh verification evidence before claiming a change is complete. | Install skill | 306,063 | MIT |
+| [`coding-standards`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/coding-standards) | Shared naming, readability, error-handling, immutability, and code-quality conventions. | Install skill | 290,505 | MIT |
+| [`api-design`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/api-design) | REST resources, HTTP semantics, pagination, versioning, error contracts, and rate limits. | Install skill | 290,505 | MIT |
+| [`database-migrations`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/database-migrations) | Expand-contract schema changes, safe indexes, batched backfills, and migration-tool workflows. | Install skill | 290,505 | MIT |
+| [`deployment-patterns`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/deployment-patterns) | Deployment strategies, container builds, health checks, CI/CD, rollback, and production readiness. | Install skill | 290,505 | MIT |
 
-| ID / source | Use case | Repository stars | License |
-| --- | --- | ---: | --- |
-| [`context7`](https://github.com/upstash/context7/tree/master/packages/mcp) | Retrieve library documentation and version-specific examples for coding tasks. | 63,759 | MIT |
-| [`playwright`](https://github.com/microsoft/playwright-mcp) | Browser inspection and interactive web testing through accessibility snapshots. | 38,702 | Apache-2.0 |
-| [`fetch`](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch) | Retrieve web pages as text/Markdown for documentation and research. | 91,599 | Apache-2.0 / MIT; docs CC-BY-4.0 |
+## Python, languages, and framework practices
 
-## Reference tools
+| ID / source | Use case | Delivery | Stars | License |
+| --- | --- | --- | ---: | --- |
+| [`python-testing-patterns`](https://github.com/wshobson/agents/tree/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/python-development/skills/python-testing-patterns) | Practical pytest fixtures, parametrization, mocking, async testing, and coverage guidance. | Install skill | 41,868 | MIT |
+| [`python-packaging`](https://github.com/wshobson/agents/tree/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/python-development/skills/python-packaging) | Build Python libraries and CLIs with package metadata, wheels, and release workflows. | Install skill | 41,868 | MIT |
+| [`python-patterns`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/python-patterns) | Python idioms, type hints, error handling, resource management, and maintainable code structure. | Install skill | 290,505 | MIT |
+| [`fastapi-patterns`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/fastapi-patterns) | FastAPI application structure, Pydantic v2, async dependencies, service layers, and HTTP testing. | Install skill | 290,505 | MIT |
+| [`django-patterns`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/django-patterns) | Django and DRF architecture, ORM access, caching, middleware, and service organization. | Install skill | 290,505 | MIT |
+| [`frontend-patterns`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/frontend-patterns) | React and Next.js component composition, state, data fetching, forms, performance, and accessibility. | Install skill | 290,505 | MIT |
+| [`nextjs-turbopack`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/nextjs-turbopack) | Next.js 16+ bundler selection, development performance, and middleware-to-proxy migration guidance. | Install skill | 290,505 | MIT |
+| [`backend-patterns`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/backend-patterns) | Node.js, Express, and Next.js API architecture, data access, caching, and observability. | Install skill | 290,505 | MIT |
+| [`springboot-patterns`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/springboot-patterns) | Spring Boot REST layers, transactional services, repositories, caching, and production defaults. | Install skill | 290,505 | MIT |
+| [`golang-patterns`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/golang-patterns) | Idiomatic Go errors, interfaces, concurrency, package organization, and resource lifecycle patterns. | Install skill | 290,505 | MIT |
 
-| ID / source | Use case | Repository stars | License |
-| --- | --- | ---: | --- |
-| [`github-mcp`](https://github.com/github/github-mcp-server) | Official GitHub tools for repositories, issues, and pull requests. | 33,999 | MIT |
-| [`serena`](https://github.com/oraios/serena) | Semantic code navigation and editing backed by language servers. | 30,759 | GPL-3.0-or-later (application); MIT (SolidLSP) |
-| [`chrome-devtools`](https://github.com/ChromeDevTools/chrome-devtools-mcp) | Inspect browser performance, network activity, and runtime behavior. | 54,261 | Apache-2.0 |
-| [`sequential-thinking`](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking) | A reference server for structured problem-solving tool calls. | 91,599 | Apache-2.0 / MIT; docs CC-BY-4.0 |
-| [`openspec`](https://github.com/Fission-AI/OpenSpec) | Spec-driven change workflows with per-agent skills and initialization. | 73,139 | MIT |
-| [`spec-kit`](https://github.com/github/spec-kit) | Specification, planning, and implementation templates for coding agents. | 143,181 | MIT |
-| [`anthropic-skills`](https://github.com/anthropics/skills) | Official examples of reusable agent skills and document workflows. | 184,157 | Per-skill licenses; see upstream |
-| [`vercel-agent-skills`](https://github.com/vercel-labs/agent-skills) | Frontend and deployment-oriented skills maintained by Vercel. | 33,096 | See upstream and individual skills |
-| [`skills-cli`](https://github.com/vercel-labs/skills) | Discover and install Agent Skills across supported coding agents. | 36,801 | MIT |
-| [`uv`](https://github.com/astral-sh/uv) | Python environments, dependency management, and isolated tool execution. | 91,242 | Apache-2.0 OR MIT |
-| [`ruff`](https://github.com/astral-sh/ruff) | Python linting and formatting for fast agent feedback. | 50,318 | MIT |
-| [`pytest`](https://github.com/pytest-dev/pytest) | Python testing with fixtures and a broad plugin ecosystem. | 14,649 | MIT |
-| [`pre-commit`](https://github.com/pre-commit/pre-commit) | Run configured repository checks before commits. | 15,664 | MIT |
-| [`fastmcp`](https://github.com/jlowin/fastmcp) | Build Python MCP servers and clients with a high-level API. | 28,217 | Apache-2.0 |
-| [`mcp-python-sdk`](https://github.com/modelcontextprotocol/python-sdk) | Official Python SDK for implementing MCP servers and clients. | 24,684 | MIT |
+## Security review and scanning
 
-## Installation details
+| ID / source | Use case | Delivery | Stars | License |
+| --- | --- | --- | ---: | --- |
+| [`security-review`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/security-review) | Review authentication, authorization, untrusted input, secrets, and sensitive application changes. | Install skill | 290,505 | MIT |
+| [`django-security`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/django-security) | Django authentication, authorization, request protections, and production security settings. | Install skill | 290,505 | MIT |
+| [`springboot-security`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/skills/springboot-security) | Spring Security authentication, authorization, validation, secrets, headers, and release checks. | Install skill | 290,505 | MIT |
+| [`semgrep`](https://github.com/semgrep/semgrep) | Rule-based static analysis for security issues and code patterns across multiple languages. | Reference only | 17,306 | LGPL-2.1 (community engine); additional offerings/rules have separate terms |
+| [`bandit`](https://github.com/PyCQA/bandit) | Find common Python security issues through AST-based static analysis. | Reference only | 8,352 | Apache-2.0 |
+| [`pip-audit`](https://github.com/pypa/pip-audit) | Audit Python environments and dependency specifications against known vulnerability data. | Reference only | 1,386 | Apache-2.0 |
+| [`gitleaks`](https://github.com/gitleaks/gitleaks) | Detect committed or working-tree secrets using configurable rules and allowlists. | Reference only | 30,384 | MIT |
 
-Skill downloads are pinned to full upstream commits and checked against recorded SHA-256 values. The entire selected directory is retained, including reference documents, and the upstream root license accompanies the installation. This is a skills-only integration: Superpowers plugin hooks, agents, marketplace registration, and namespaced commands are not installed. Refer to installed skills by their native names.
+## Portable agent rules
+
+| ID / source | Use case | Delivery | Stars | License |
+| --- | --- | --- | ---: | --- |
+| [`ecc-common-rules`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/common) | Portable cross-language engineering guidance selected from ECC rules. | Install rules | 290,505 | MIT |
+| [`ecc-python-rules`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/python) | Portable python-specific engineering guidance selected from ECC rules. | Install rules | 290,505 | MIT |
+| [`ecc-typescript-rules`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/typescript) | Portable typescript-specific engineering guidance selected from ECC rules. | Install rules | 290,505 | MIT |
+| [`ecc-golang-rules`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/golang) | Portable golang-specific engineering guidance selected from ECC rules. | Install rules | 290,505 | MIT |
+| [`ecc-java-rules`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/java) | Portable java-specific engineering guidance selected from ECC rules. | Install rules | 290,505 | MIT |
+| [`ecc-fastapi-rules`](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b/rules/python) | Portable fastapi-specific engineering guidance selected from ECC rules. | Install rules | 290,505 | MIT |
+
+## Documentation, browser, and MCP ecosystem
+
+| ID / source | Use case | Delivery | Stars | License |
+| --- | --- | --- | ---: | --- |
+| [`context7`](https://github.com/upstash/context7/tree/master/packages/mcp) | Retrieve library documentation and version-specific examples for coding tasks. | Configure MCP | 63,759 | MIT |
+| [`playwright`](https://github.com/microsoft/playwright-mcp) | Browser inspection and interactive web testing through accessibility snapshots. | Configure MCP | 38,702 | Apache-2.0 |
+| [`fetch`](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch) | Retrieve web pages as text/Markdown for documentation and research. | Configure MCP | 91,599 | Apache-2.0 / MIT; docs CC-BY-4.0 |
+| [`github-mcp`](https://github.com/github/github-mcp-server) | Official GitHub tools for repositories, issues, and pull requests. | Reference only | 33,999 | MIT |
+| [`chrome-devtools`](https://github.com/ChromeDevTools/chrome-devtools-mcp) | Inspect browser performance, network activity, and runtime behavior. | Reference only | 54,261 | Apache-2.0 |
+| [`sequential-thinking`](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking) | A reference server for structured problem-solving tool calls. | Reference only | 91,599 | Apache-2.0 / MIT; docs CC-BY-4.0 |
+
+## Language intelligence and LSP
+
+| ID / source | Use case | Delivery | Stars | License |
+| --- | --- | --- | ---: | --- |
+| [`serena`](https://github.com/oraios/serena) | Expose semantic code navigation, references, diagnostics, and edits to coding agents through an MCP-to-LSP bridge. | Configure LSP bridge | 30,759 | GPL-3.0-or-later (application); MIT (SolidLSP) |
+| [`ruff`](https://docs.astral.sh/ruff/editors/) | Python linting, formatting, and the built-in Ruff language server for diagnostics and code actions. | Reference only | 50,317 | MIT |
+| [`pyright`](https://github.com/microsoft/pyright) | Python type checking and language-server support for navigation and diagnostics. | Reference only | 15,707 | MIT |
+| [`python-lsp-server`](https://github.com/python-lsp/python-lsp-server) | Jedi-based Python completion and navigation with configurable linting and formatting plugins. | Reference only | 2,605 | MIT |
+| [`typescript-language-server`](https://github.com/typescript-language-server/typescript-language-server) | Language Server Protocol wrapper around TypeScript language services for JavaScript and TypeScript. | Reference only | 2,587 | Apache-2.0; MIT portions |
+| [`gopls`](https://go.dev/gopls/) | Official Go language server providing code navigation, diagnostics, and refactoring. | Reference only | 8,009 | BSD-3-Clause |
+| [`rust-analyzer`](https://rust-analyzer.github.io/) | Rust language server with code navigation, completion, diagnostics, and assists. | Reference only | 16,949 | MIT OR Apache-2.0 |
+| [`clangd`](https://clangd.llvm.org/) | C/C++ language server with completion, cross-references, diagnostics, and refactoring support. | Reference only | 2,315 | Apache-2.0 WITH LLVM-exception |
+
+## Specification-driven development
+
+| ID / source | Use case | Delivery | Stars | License |
+| --- | --- | --- | ---: | --- |
+| [`openspec`](https://github.com/Fission-AI/OpenSpec) | Spec-driven change workflows with per-agent skills and initialization. | Reference only | 73,139 | MIT |
+| [`spec-kit`](https://github.com/github/spec-kit) | Specification, planning, and implementation templates for coding agents. | Reference only | 143,181 | MIT |
+
+## Skill ecosystems and discovery
+
+| ID / source | Use case | Delivery | Stars | License |
+| --- | --- | --- | ---: | --- |
+| [`anthropic-skills`](https://github.com/anthropics/skills) | Official examples of reusable agent skills and document workflows. | Reference only | 184,157 | Per-skill licenses; see upstream |
+| [`vercel-agent-skills`](https://github.com/vercel-labs/agent-skills) | Frontend and deployment-oriented skills maintained by Vercel. | Reference only | 33,096 | See upstream and individual skills |
+| [`skills-cli`](https://github.com/vercel-labs/skills) | Discover and install Agent Skills across supported coding agents. | Reference only | 36,801 | MIT |
+
+## Python project toolchain
+
+| ID / source | Use case | Delivery | Stars | License |
+| --- | --- | --- | ---: | --- |
+| [`uv`](https://github.com/astral-sh/uv) | Python environments, dependency management, and isolated tool execution. | Reference only | 91,242 | Apache-2.0 OR MIT |
+| [`pytest`](https://github.com/pytest-dev/pytest) | Python testing with fixtures and a broad plugin ecosystem. | Reference only | 14,649 | MIT |
+| [`pre-commit`](https://github.com/pre-commit/pre-commit) | Run configured repository checks before commits. | Reference only | 15,664 | MIT |
+
+## Building MCP integrations
+
+| ID / source | Use case | Delivery | Stars | License |
+| --- | --- | --- | ---: | --- |
+| [`fastmcp`](https://github.com/jlowin/fastmcp) | Build Python MCP servers and clients with a high-level API. | Reference only | 28,217 | Apache-2.0 |
+| [`mcp-python-sdk`](https://github.com/modelcontextprotocol/python-sdk) | Official Python SDK for implementing MCP servers and clients. | Reference only | 24,684 | MIT |
+
+## Source pins and installation boundaries
+
+Skill and rule archives are pinned to full commits and verified against a recorded SHA-256. Skills retain their complete selected directories and supporting documents. Rules use explicit file allowlists, keep upstream originals and attribution, and generate an adapted activation form for each supported agent. See [ECC migration](ECC-MIGRATION.md) for the exact selection and transformations.
 
 | Source | Pinned revision | Archive SHA-256 |
 | --- | --- | --- |
 | [obra/superpowers](https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b) | `2ce8aa15d05bd57213e6f746f953aafb7ded7a8b` | `da34247c51339cdd6175b3590261f16e25b08d46669afd5b6fc3f842ab303e20` |
 | [wshobson/agents](https://github.com/wshobson/agents/tree/0874a27b17a22e2b7c2e2bcd725768e0803cad06) | `0874a27b17a22e2b7c2e2bcd725768e0803cad06` | `468c5d32d4a24ea9629c7713d209bbb46cf462ac487d3bc442414aec4ed54c43` |
+| [affaan-m/ECC](https://github.com/affaan-m/ECC/tree/25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b) | `25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b` | `7979cc21e2093aed6218fa1709373eff5eb8641b0c0a5128c68db91bbedd7bb1` |
 
-| MCP | Launch command | Runtime |
+| Service | Pinned launcher | Runtime / setup |
 | --- | --- | --- |
 | `context7` | `npx -y @upstash/context7-mcp@4.4.4` | Node.js >=20.18.1 |
 | `playwright` | `npx -y @playwright/mcp@0.0.83` | Node.js >=18 |
 | `fetch` | `uvx mcp-server-fetch==2026.10.24` | Python >=3.10 |
+| `serena` | See [exact Serena command](LSP.md#install-the-lsp-bridge); v2.1.0 at `5e4f5cd173c7ff3eed37ee3f1de6c266b937c5dc` | uv/uvx + Git; Python 3.13 selected by uvx; language-specific dependencies |
 
-## Tool-specific setup notes
+- **Context7:** API keys are optional in the pinned stdio package guidance for higher limits/private repositories. Service access and policy can change independently of the package version. Configure credentials through the chosen agent; do not commit secrets.
+- **Playwright:** A supported browser is needed for browser operations. Configuring the server does not install browser binaries.
+- **Fetch:** Requires uv/uvx and a compatible Python. No private-IP bypass is enabled by this recipe.
+- **Serena:** The project path is resolved into the MCP configuration. First startup may download language-server dependencies and create Serena-owned state. The installer does not manage or uninstall those upstream caches. See [language intelligence and setup](LSP.md).
+- **Native language servers:** Pyright, Python LSP Server, Ruff, TypeScript Language Server, gopls, rust-analyzer, and clangd remain reference-only. Their native LSP commands need an LSP client; they are not interchangeable with MCP servers.
+- **Security tooling:** Semgrep, Bandit, pip-audit, and Gitleaks remain reference-only. Installing security skills/rules does not install or run scanners, configure CI, or establish an audit result.
+- **Rule scope:** Choose the language/framework in the project. FastAPI rules are separate from general Python rules. Embedded instruction blocks have a size guard; the full set of rule packs is larger than 32 KiB.
+- **Upstream plugin boundaries:** Superpowers and ECC integrations install only the selected skills/rules. Plugin registration, agent definitions, hooks, commands, memory services, models, and account settings are outside this migration.
 
-- **Systematic Debugging:** Upstream cross-references test-driven-development and verification-before-completion; all three are included in presets. Copies the skill directory, not the full Superpowers plugin.
-- **Context7:** Node.js >=20.18.1. The upstream stdio README documents an optional API key for higher limits/private repositories; service policies and availability apply. Set credentials through your agent, never commit secrets.
-- **Playwright MCP:** Node.js >=18 plus a supported browser. First browser use may require a browser installation. This entry configures the MCP server; it does not install browser binaries.
-- **Fetch MCP:** uv/uvx and Python >=3.10. This is an upstream reference server; assess URL/network access for your environment. No private-IP bypass is enabled.
-- **GitHub MCP Server:** Configure authentication and allowed toolsets with the official installer. No credentials or remote OAuth flow is provisioned by this CLI.
-- **Serena:** Project activation and language-server dependencies need a dedicated integration.
-- **Chrome DevTools MCP:** Browser lifecycle and environment requirements are configured upstream.
-- **Sequential Thinking MCP:** Current npm release 2.0.0 requires Node.js >=24. Kept out of the starter runtime and installer until separately tested.
-- **OpenSpec:** Use the upstream CLI for its coordinated workflow artifacts and update semantics.
-- **Spec Kit:** Use the official Specify CLI to initialize its own project structure.
-- **Anthropic Skills:** Licenses vary by skill, especially document skills. Review the selected directory before redistribution.
-- **Vercel Agent Skills:** Select skills and inspect their individual licenses and runtime assumptions.
-- **Skills CLI:** Useful when a skill is outside this curated catalog; upstream manages its own installation.
-- **uv:** Installed separately; provides uvx for the Fetch MCP preset.
-- **Ruff:** Add to the target project development dependencies and CI.
-- **pytest:** Add to the target project development dependencies; the testing skill does not install pytest.
-- **pre-commit:** Project hooks require an explicit project configuration.
-- **FastMCP:** Development framework, not a ready-to-register MCP server.
-- **MCP Python SDK:** Development dependency; follow the protocol version supported by your clients.
+MCP package/source pins identify the top-level server revision. npm/uv and upstream language-server managers may resolve additional dependencies at launch; this is not a hermetic runtime lock.
 
-## Selection and maintenance
+## Selection, verification, and maintenance
 
-We favor a clear coding workflow, documented installation, visible maintenance, a usable license, and a stable upstream source. We distinguish runtime/configuration checks from actual day-to-day usage; inclusion does not assert that every upstream feature has been tested. A popular project with unsuitable setup requirements stays reference-only.
+Admission considers the coding task served, documented setup, maintenance activity, license, upstream identity, and whether a reproducible integration can be tested. The catalog separates source/configuration checks from runtime operation. Inclusion does not claim every upstream feature or every agent version was tested.
 
-See [research and source evidence](RESEARCH.md) for the awesome-list references, collection date, and verification boundaries. To update a skill, review the upstream diff, download the new full-commit archive, recompute the hash, verify supporting files and license, and test installation before changing the manifest. To update an MCP entry, check its published package and runtime requirements, then test the client configuration.
+See [research and verification evidence](RESEARCH.md), [ECC migration details](ECC-MIGRATION.md), [LSP and security-tool setup](LSP.md), and [agent configuration paths](AGENTS.md).
+
+**Updates are curated and pinned.** Refreshing installed instructions regenerates them from the catalog shipped with this CLI version. It does not watch upstream repositories, follow their default branches, or silently adopt new skills/rules. A catalog update requires reviewing upstream changes and licenses, selecting a new pin, recomputing archive hashes where applicable, updating these documents, and testing the installation lifecycle.
