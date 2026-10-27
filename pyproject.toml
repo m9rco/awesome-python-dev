@@ -15,7 +15,9 @@ keywords = ["ai", "coding-agent", "skills", "mcp", "developer-tools"]
 dependencies = ["tomlkit>=0.13.2,<1"]
 
 [project.urls]
-Homepage = "https://github.com/m9rco/awesome-python-dev"
+Homepage = "https://m9rco.github.io/awesome-python-dev/"
+Documentation = "https://m9rco.github.io/awesome-python-dev/getting-started/"
+Repository = "https://github.com/m9rco/awesome-python-dev"
 Issues = "https://github.com/m9rco/awesome-python-dev/issues"
 
 [project.scripts]

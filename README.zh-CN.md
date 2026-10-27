@@ -3,6 +3,7 @@
 **精选 AI 开发工具包，一条命令装进你的 coding agent。**
 
 [![CI](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml)
+[![GitHub Pages](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml)
 [![GitHub release](https://img.shields.io/github/v/release/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/releases/latest)
 [![GitHub stars](https://img.shields.io/github/stars/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/issues)
@@ -12,6 +13,8 @@
 [![Catalog](https://img.shields.io/badge/Catalog-Skills%20%7C%20Rules%20%7C%20MCP%20%7C%20LSP-6f42c1)](docs/CATALOG.md)
 
 [English](README.md) · 简体中文
+
+**[浏览项目网站](https://m9rco.github.io/awesome-python-dev/zh/) · [安装指南](https://m9rco.github.io/awesome-python-dev/getting-started/) · [网站自动发布说明](docs/WEBSITE.md)**
 
 收集 GitHub 上实用、成熟、有明确来源的 AI 开发工具，并将经过适配的工具组合成可安装的工具包。**Skill** 提供开发流程，**规则** 激活工程规范与安全指导，**MCP** 连接工具和上下文，**LSP 桥接** 提供符号导航和代码诊断。
 

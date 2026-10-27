@@ -3,6 +3,7 @@
 **Curated AI development toolkits, ready for your coding agents.**
 
 [![CI](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml)
+[![GitHub Pages](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml)
 [![GitHub release](https://img.shields.io/github/v/release/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/releases/latest)
 [![GitHub stars](https://img.shields.io/github/stars/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/issues)
@@ -12,6 +13,8 @@
 [![Catalog](https://img.shields.io/badge/Catalog-Skills%20%7C%20Rules%20%7C%20MCP%20%7C%20LSP-6f42c1)](docs/CATALOG.md)
 
 English · [简体中文](README.zh-CN.md)
+
+**[Browse the website](https://m9rco.github.io/awesome-python-dev/) · [Getting started](https://m9rco.github.io/awesome-python-dev/getting-started/) · [Website maintenance](docs/WEBSITE.md)**
 
 Find useful, established GitHub projects for AI assisted development, then install a selected toolkit into your project with one command. **Skills** supply reusable workflows, **rules** activate engineering and security guidance, **MCP servers** connect tools and context, and an **LSP bridge** exposes code intelligence to your agent.
 

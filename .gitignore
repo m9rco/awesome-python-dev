@@ -10,3 +10,4 @@ test-results/
 .codebase-memory/
 .codegraph/
 .awesome-python-dev/
+_site/
