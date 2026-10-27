@@ -1,0 +1,47 @@
+name: Suggest a tool
+description: Recommend a useful skill, MCP server, or AI development project.
+title: "[Tool] "
+body:
+  - type: input
+    id: repository
+    attributes:
+      label: Canonical upstream repository
+      placeholder: https://github.com/owner/repository
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Development use case
+      description: What task does it help with? How does it differ from existing entries?
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Proposed integration
+      options:
+        - Reference entry
+        - Installable skill
+        - Installable MCP server
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Upstream evidence
+      description: Link the license, installation documentation, maintenance evidence, and a stable release or commit. Mention authentication, costs, and runtime requirements.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: What have you verified?
+      description: Describe your environment and hands-on results, or state that this is a discovery suggestion.
+  - type: input
+    id: affiliation
+    attributes:
+      label: Affiliation
+      description: Are you a maintainer or commercially affiliated? "None" is fine.
+    validations:
+      required: true

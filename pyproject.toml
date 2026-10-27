@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling>=1.26,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "awesome-python-dev"
+version = "0.1.0"
+description = "Curated AI development skills and MCP servers, installed into your coding agents."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "awesome-python-dev contributors"}]
+keywords = ["ai", "coding-agent", "skills", "mcp", "developer-tools"]
+dependencies = ["tomlkit>=0.13.2,<1"]
+
+[project.urls]
+Homepage = "https://github.com/m9rco/awesome-python-dev"
+Issues = "https://github.com/m9rco/awesome-python-dev/issues"
+
+[project.scripts]
+apd = "awesome_python_dev.cli:main"
+awesome-python-dev = "awesome_python_dev.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/awesome_python_dev"]
+
+[dependency-groups]
+dev = ["pytest>=8.3,<10", "ruff>=0.11,<1", "build>=1.2,<2"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

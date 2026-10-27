@@ -1,0 +1,560 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-27",
+  "tools": [
+    {
+      "id": "systematic-debugging",
+      "name": "Systematic Debugging",
+      "kind": "skill",
+      "category": "engineering-skills",
+      "description": "Root-cause investigation, reproducible failures, and hypothesis-driven debugging.",
+      "repository": "obra/superpowers",
+      "homepage": "https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/systematic-debugging",
+      "license": "MIT",
+      "stars": 306063,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-23T03:48:57Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/obra/superpowers/tar.gz/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+        "sha256": "da34247c51339cdd6175b3590261f16e25b08d46669afd5b6fc3f842ab303e20",
+        "ref": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+        "type": "skill",
+        "subdir": "skills/systematic-debugging",
+        "license_path": "LICENSE"
+      },
+      "notes": "Upstream cross-references test-driven-development and verification-before-completion; all three are included in presets. Copies the skill directory, not the full Superpowers plugin.",
+      "evidence": [
+        "https://api.github.com/repos/obra/superpowers",
+        "https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/systematic-debugging"
+      ]
+    },
+    {
+      "id": "test-driven-development",
+      "name": "Test-Driven Development",
+      "kind": "skill",
+      "category": "engineering-skills",
+      "description": "A test-first workflow with guidance for meaningful regression tests.",
+      "repository": "obra/superpowers",
+      "homepage": "https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/test-driven-development",
+      "license": "MIT",
+      "stars": 306063,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-23T03:48:57Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/obra/superpowers/tar.gz/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+        "sha256": "da34247c51339cdd6175b3590261f16e25b08d46669afd5b6fc3f842ab303e20",
+        "ref": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+        "type": "skill",
+        "subdir": "skills/test-driven-development",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/obra/superpowers",
+        "https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/test-driven-development"
+      ]
+    },
+    {
+      "id": "verification-before-completion",
+      "name": "Verification Before Completion",
+      "kind": "skill",
+      "category": "engineering-skills",
+      "description": "Require fresh verification evidence before claiming a change is complete.",
+      "repository": "obra/superpowers",
+      "homepage": "https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/verification-before-completion",
+      "license": "MIT",
+      "stars": 306063,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-23T03:48:57Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/obra/superpowers/tar.gz/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+        "sha256": "da34247c51339cdd6175b3590261f16e25b08d46669afd5b6fc3f842ab303e20",
+        "ref": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+        "type": "skill",
+        "subdir": "skills/verification-before-completion",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/obra/superpowers",
+        "https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/verification-before-completion"
+      ]
+    },
+    {
+      "id": "python-testing-patterns",
+      "name": "Python Testing Patterns",
+      "kind": "skill",
+      "category": "python-skills",
+      "description": "Practical pytest fixtures, parametrization, mocking, async testing, and coverage guidance.",
+      "repository": "wshobson/agents",
+      "homepage": "https://github.com/wshobson/agents/tree/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/python-development/skills/python-testing-patterns",
+      "license": "MIT",
+      "stars": 41868,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T01:08:14Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/wshobson/agents/tar.gz/0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+        "sha256": "468c5d32d4a24ea9629c7713d209bbb46cf462ac487d3bc442414aec4ed54c43",
+        "ref": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+        "type": "skill",
+        "subdir": "plugins/python-development/skills/python-testing-patterns",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/wshobson/agents",
+        "https://github.com/wshobson/agents/tree/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/python-development/skills/python-testing-patterns"
+      ]
+    },
+    {
+      "id": "python-packaging",
+      "name": "Python Packaging",
+      "kind": "skill",
+      "category": "python-skills",
+      "description": "Build Python libraries and CLIs with package metadata, wheels, and release workflows.",
+      "repository": "wshobson/agents",
+      "homepage": "https://github.com/wshobson/agents/tree/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/python-development/skills/python-packaging",
+      "license": "MIT",
+      "stars": 41868,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T01:08:14Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/wshobson/agents/tar.gz/0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+        "sha256": "468c5d32d4a24ea9629c7713d209bbb46cf462ac487d3bc442414aec4ed54c43",
+        "ref": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+        "type": "skill",
+        "subdir": "plugins/python-development/skills/python-packaging",
+        "license_path": "LICENSE"
+      },
+      "evidence": [
+        "https://api.github.com/repos/wshobson/agents",
+        "https://github.com/wshobson/agents/tree/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/python-development/skills/python-packaging"
+      ]
+    },
+    {
+      "id": "context7",
+      "name": "Context7",
+      "kind": "mcp",
+      "category": "documentation",
+      "description": "Retrieve library documentation and version-specific examples for coding tasks.",
+      "repository": "upstash/context7",
+      "homepage": "https://github.com/upstash/context7/tree/master/packages/mcp",
+      "license": "MIT",
+      "stars": 63759,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T14:24:32Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "npx",
+        "args": [
+          "-y",
+          "@upstash/context7-mcp@4.4.4"
+        ],
+        "requirements": [
+          "npx"
+        ],
+        "version": "4.4.4",
+        "runtime": "Node.js >=20.18.1"
+      },
+      "notes": "Node.js >=20.18.1. The upstream stdio README documents an optional API key for higher limits/private repositories; service policies and availability apply. Set credentials through your agent, never commit secrets.",
+      "evidence": [
+        "https://api.github.com/repos/upstash/context7",
+        "https://github.com/upstash/context7/tree/master/packages/mcp",
+        "https://registry.npmjs.org/@upstash%2fcontext7-mcp/4.4.4"
+      ]
+    },
+    {
+      "id": "playwright",
+      "name": "Playwright MCP",
+      "kind": "mcp",
+      "category": "browser",
+      "description": "Browser inspection and interactive web testing through accessibility snapshots.",
+      "repository": "microsoft/playwright-mcp",
+      "homepage": "https://github.com/microsoft/playwright-mcp",
+      "license": "Apache-2.0",
+      "stars": 38702,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-22T17:43:26Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "npx",
+        "args": [
+          "-y",
+          "@playwright/mcp@0.0.83"
+        ],
+        "requirements": [
+          "npx"
+        ],
+        "version": "0.0.83",
+        "runtime": "Node.js >=18"
+      },
+      "notes": "Node.js >=18 plus a supported browser. First browser use may require a browser installation. This entry configures the MCP server; it does not install browser binaries.",
+      "evidence": [
+        "https://api.github.com/repos/microsoft/playwright-mcp",
+        "https://github.com/microsoft/playwright-mcp",
+        "https://registry.npmjs.org/@playwright%2fmcp/0.0.83"
+      ]
+    },
+    {
+      "id": "fetch",
+      "name": "Fetch MCP",
+      "kind": "mcp",
+      "category": "documentation",
+      "description": "Retrieve web pages as text/Markdown for documentation and research.",
+      "repository": "modelcontextprotocol/servers",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/fetch",
+      "license": "Apache-2.0 / MIT; docs CC-BY-4.0",
+      "stars": 91599,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T13:43:37Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "mcp-server-fetch==2026.10.24"
+        ],
+        "requirements": [
+          "uvx"
+        ],
+        "version": "2026.10.24",
+        "runtime": "Python >=3.10"
+      },
+      "notes": "uv/uvx and Python >=3.10. This is an upstream reference server; assess URL/network access for your environment. No private-IP bypass is enabled.",
+      "evidence": [
+        "https://api.github.com/repos/modelcontextprotocol/servers",
+        "https://github.com/modelcontextprotocol/servers/tree/main/src/fetch",
+        "https://pypi.org/pypi/mcp-server-fetch/2026.10.24/json"
+      ]
+    },
+    {
+      "id": "github-mcp",
+      "name": "GitHub MCP Server",
+      "kind": "reference",
+      "category": "mcp-ecosystem",
+      "description": "Official GitHub tools for repositories, issues, and pull requests.",
+      "repository": "github/github-mcp-server",
+      "homepage": "https://github.com/github/github-mcp-server",
+      "license": "MIT",
+      "stars": 33999,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-23T21:21:33Z",
+      "archived": false,
+      "install": null,
+      "notes": "Configure authentication and allowed toolsets with the official installer. No credentials or remote OAuth flow is provisioned by this CLI.",
+      "evidence": [
+        "https://api.github.com/repos/github/github-mcp-server",
+        "https://github.com/github/github-mcp-server"
+      ]
+    },
+    {
+      "id": "serena",
+      "name": "Serena",
+      "kind": "reference",
+      "category": "mcp-ecosystem",
+      "description": "Semantic code navigation and editing backed by language servers.",
+      "repository": "oraios/serena",
+      "homepage": "https://github.com/oraios/serena",
+      "license": "GPL-3.0-or-later (application); MIT (SolidLSP)",
+      "stars": 30759,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T14:37:49Z",
+      "archived": false,
+      "install": null,
+      "notes": "Project activation and language-server dependencies need a dedicated integration.",
+      "evidence": [
+        "https://api.github.com/repos/oraios/serena",
+        "https://github.com/oraios/serena"
+      ]
+    },
+    {
+      "id": "chrome-devtools",
+      "name": "Chrome DevTools MCP",
+      "kind": "reference",
+      "category": "mcp-ecosystem",
+      "description": "Inspect browser performance, network activity, and runtime behavior.",
+      "repository": "ChromeDevTools/chrome-devtools-mcp",
+      "homepage": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "license": "Apache-2.0",
+      "stars": 54261,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T14:22:41Z",
+      "archived": false,
+      "install": null,
+      "notes": "Browser lifecycle and environment requirements are configured upstream.",
+      "evidence": [
+        "https://api.github.com/repos/ChromeDevTools/chrome-devtools-mcp",
+        "https://github.com/ChromeDevTools/chrome-devtools-mcp"
+      ]
+    },
+    {
+      "id": "sequential-thinking",
+      "name": "Sequential Thinking MCP",
+      "kind": "reference",
+      "category": "mcp-ecosystem",
+      "description": "A reference server for structured problem-solving tool calls.",
+      "repository": "modelcontextprotocol/servers",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking",
+      "license": "Apache-2.0 / MIT; docs CC-BY-4.0",
+      "stars": 91599,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T13:43:37Z",
+      "archived": false,
+      "install": null,
+      "notes": "Current npm release 2.0.0 requires Node.js >=24. Kept out of the starter runtime and installer until separately tested.",
+      "evidence": [
+        "https://api.github.com/repos/modelcontextprotocol/servers",
+        "https://github.com/modelcontextprotocol/servers",
+        "https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking"
+      ]
+    },
+    {
+      "id": "openspec",
+      "name": "OpenSpec",
+      "kind": "reference",
+      "category": "spec-driven-development",
+      "description": "Spec-driven change workflows with per-agent skills and initialization.",
+      "repository": "Fission-AI/OpenSpec",
+      "homepage": "https://github.com/Fission-AI/OpenSpec",
+      "license": "MIT",
+      "stars": 73139,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T10:54:47Z",
+      "archived": false,
+      "install": null,
+      "notes": "Use the upstream CLI for its coordinated workflow artifacts and update semantics.",
+      "evidence": [
+        "https://api.github.com/repos/Fission-AI/OpenSpec",
+        "https://github.com/Fission-AI/OpenSpec"
+      ]
+    },
+    {
+      "id": "spec-kit",
+      "name": "Spec Kit",
+      "kind": "reference",
+      "category": "spec-driven-development",
+      "description": "Specification, planning, and implementation templates for coding agents.",
+      "repository": "github/spec-kit",
+      "homepage": "https://github.com/github/spec-kit",
+      "license": "MIT",
+      "stars": 143181,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-26T22:23:41Z",
+      "archived": false,
+      "install": null,
+      "notes": "Use the official Specify CLI to initialize its own project structure.",
+      "evidence": [
+        "https://api.github.com/repos/github/spec-kit",
+        "https://github.com/github/spec-kit"
+      ]
+    },
+    {
+      "id": "anthropic-skills",
+      "name": "Anthropic Skills",
+      "kind": "reference",
+      "category": "skill-ecosystem",
+      "description": "Official examples of reusable agent skills and document workflows.",
+      "repository": "anthropics/skills",
+      "homepage": "https://github.com/anthropics/skills",
+      "license": "Per-skill licenses; see upstream",
+      "stars": 184157,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-09T18:45:52Z",
+      "archived": false,
+      "install": null,
+      "notes": "Licenses vary by skill, especially document skills. Review the selected directory before redistribution.",
+      "evidence": [
+        "https://api.github.com/repos/anthropics/skills",
+        "https://github.com/anthropics/skills"
+      ]
+    },
+    {
+      "id": "vercel-agent-skills",
+      "name": "Vercel Agent Skills",
+      "kind": "reference",
+      "category": "skill-ecosystem",
+      "description": "Frontend and deployment-oriented skills maintained by Vercel.",
+      "repository": "vercel-labs/agent-skills",
+      "homepage": "https://github.com/vercel-labs/agent-skills",
+      "license": "See upstream and individual skills",
+      "stars": 33096,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T04:16:22Z",
+      "archived": false,
+      "install": null,
+      "notes": "Select skills and inspect their individual licenses and runtime assumptions.",
+      "evidence": [
+        "https://api.github.com/repos/vercel-labs/agent-skills",
+        "https://github.com/vercel-labs/agent-skills"
+      ]
+    },
+    {
+      "id": "skills-cli",
+      "name": "Skills CLI",
+      "kind": "reference",
+      "category": "skill-ecosystem",
+      "description": "Discover and install Agent Skills across supported coding agents.",
+      "repository": "vercel-labs/skills",
+      "homepage": "https://github.com/vercel-labs/skills",
+      "license": "MIT",
+      "stars": 36801,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T02:03:06Z",
+      "archived": false,
+      "install": null,
+      "notes": "Useful when a skill is outside this curated catalog; upstream manages its own installation.",
+      "evidence": [
+        "https://api.github.com/repos/vercel-labs/skills",
+        "https://github.com/vercel-labs/skills"
+      ]
+    },
+    {
+      "id": "uv",
+      "name": "uv",
+      "kind": "reference",
+      "category": "python-toolchain",
+      "description": "Python environments, dependency management, and isolated tool execution.",
+      "repository": "astral-sh/uv",
+      "homepage": "https://github.com/astral-sh/uv",
+      "license": "Apache-2.0 OR MIT",
+      "stars": 91242,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T04:16:27Z",
+      "archived": false,
+      "install": null,
+      "notes": "Installed separately; provides uvx for the Fetch MCP preset.",
+      "evidence": [
+        "https://api.github.com/repos/astral-sh/uv",
+        "https://github.com/astral-sh/uv"
+      ]
+    },
+    {
+      "id": "ruff",
+      "name": "Ruff",
+      "kind": "reference",
+      "category": "python-toolchain",
+      "description": "Python linting and formatting for fast agent feedback.",
+      "repository": "astral-sh/ruff",
+      "homepage": "https://github.com/astral-sh/ruff",
+      "license": "MIT",
+      "stars": 50318,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T14:46:40Z",
+      "archived": false,
+      "install": null,
+      "notes": "Add to the target project development dependencies and CI.",
+      "evidence": [
+        "https://api.github.com/repos/astral-sh/ruff",
+        "https://github.com/astral-sh/ruff"
+      ]
+    },
+    {
+      "id": "pytest",
+      "name": "pytest",
+      "kind": "reference",
+      "category": "python-toolchain",
+      "description": "Python testing with fixtures and a broad plugin ecosystem.",
+      "repository": "pytest-dev/pytest",
+      "homepage": "https://github.com/pytest-dev/pytest",
+      "license": "MIT",
+      "stars": 14649,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T09:09:50Z",
+      "archived": false,
+      "install": null,
+      "notes": "Add to the target project development dependencies; the testing skill does not install pytest.",
+      "evidence": [
+        "https://api.github.com/repos/pytest-dev/pytest",
+        "https://github.com/pytest-dev/pytest"
+      ]
+    },
+    {
+      "id": "pre-commit",
+      "name": "pre-commit",
+      "kind": "reference",
+      "category": "python-toolchain",
+      "description": "Run configured repository checks before commits.",
+      "repository": "pre-commit/pre-commit",
+      "homepage": "https://github.com/pre-commit/pre-commit",
+      "license": "MIT",
+      "stars": 15664,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-20T17:15:55Z",
+      "archived": false,
+      "install": null,
+      "notes": "Project hooks require an explicit project configuration.",
+      "evidence": [
+        "https://api.github.com/repos/pre-commit/pre-commit",
+        "https://github.com/pre-commit/pre-commit"
+      ]
+    },
+    {
+      "id": "fastmcp",
+      "name": "FastMCP",
+      "kind": "reference",
+      "category": "build-mcp",
+      "description": "Build Python MCP servers and clients with a high-level API.",
+      "repository": "jlowin/fastmcp",
+      "homepage": "https://github.com/jlowin/fastmcp",
+      "license": "Apache-2.0",
+      "stars": 28217,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T14:54:16Z",
+      "archived": false,
+      "install": null,
+      "notes": "Development framework, not a ready-to-register MCP server.",
+      "evidence": [
+        "https://api.github.com/repos/jlowin/fastmcp",
+        "https://github.com/jlowin/fastmcp"
+      ]
+    },
+    {
+      "id": "mcp-python-sdk",
+      "name": "MCP Python SDK",
+      "kind": "reference",
+      "category": "build-mcp",
+      "description": "Official Python SDK for implementing MCP servers and clients.",
+      "repository": "modelcontextprotocol/python-sdk",
+      "homepage": "https://github.com/modelcontextprotocol/python-sdk",
+      "license": "MIT",
+      "stars": 24684,
+      "checked_at": "2026-10-27",
+      "last_pushed_at": "2026-10-27T11:15:12Z",
+      "archived": false,
+      "install": null,
+      "notes": "Development dependency; follow the protocol version supported by your clients.",
+      "evidence": [
+        "https://api.github.com/repos/modelcontextprotocol/python-sdk",
+        "https://github.com/modelcontextprotocol/python-sdk"
+      ]
+    }
+  ],
+  "profiles": {
+    "starter": [
+      "systematic-debugging",
+      "test-driven-development",
+      "verification-before-completion",
+      "context7"
+    ],
+    "python": [
+      "systematic-debugging",
+      "test-driven-development",
+      "verification-before-completion",
+      "context7",
+      "python-testing-patterns",
+      "python-packaging",
+      "fetch"
+    ],
+    "web": [
+      "systematic-debugging",
+      "test-driven-development",
+      "verification-before-completion",
+      "context7",
+      "playwright"
+    ]
+  }
+}
