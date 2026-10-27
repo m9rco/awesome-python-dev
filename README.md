@@ -5,6 +5,8 @@
 [![CI](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml)
 [![GitHub Pages](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml)
 [![GitHub release](https://img.shields.io/github/v/release/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/releases/latest)
+[![PyPI](https://img.shields.io/pypi/v/awesome-python-dev?logo=pypi)](https://pypi.org/project/awesome-python-dev/)
+[![npm shell](https://img.shields.io/npm/v/awesome-python-dev?logo=npm&label=npm%20shell)](https://www.npmjs.com/package/awesome-python-dev)
 [![GitHub stars](https://img.shields.io/github/stars/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/issues)
 
@@ -20,11 +22,12 @@ Find useful, established GitHub projects for AI assisted development, then insta
 
 The installer is written in Python, with a dedicated Python toolkit. The collection also serves web and general software development across **Claude Code, Codex, Cursor, VS Code Copilot, and OpenCode**.
 
-The v0.2.0 catalog includes **54 entries**: **30 installable resources** (20 skills, 6 rule packs, 3 MCP servers, and Serena's LSP bridge) and **24 references** (7 native language servers and 17 other tools). Choose from **11 profiles** across **5 coding agents**.
+The v0.3.0 catalog includes **54 entries**: **30 installable resources** (20 skills, 6 rule packs, 3 MCP servers, and Serena's LSP bridge) and **24 references** (7 native language servers and 17 other tools). Choose from **11 profiles** across **5 coding agents**.
 
 ## Contents
 
 - [Quick start](#quick-start)
+- [npm shell and runtime updates](#npm-shell-and-runtime-updates)
 - [Explore the collection](#explore-the-collection)
 - [Choose your toolkit](#choose-your-toolkit)
 - [Supported agents](#supported-agents)
@@ -41,22 +44,36 @@ The v0.2.0 catalog includes **54 entries**: **30 installable resources** (20 ski
 Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then run this **inside the project you want to equip**:
 
 ```sh
-uvx --from 'git+https://github.com/m9rco/awesome-python-dev.git@v0.2.0' apd init --agents codex,claude --profile starter
+uvx awesome-python-dev init --agents codex,claude --profile starter
 ```
+
+Or use npm:
+
+```sh
+npx awesome-python-dev init --agents codex,claude --profile starter
+```
+
+The Python package requires Python 3.11+. The npm launcher requires **Node.js 22.14+** and **Python 3.11+ or an existing uv installation**. When Python is unavailable, uv can provision Python 3.13. Both entry points run the same toolkit.
 
 This downloads the selected skills and common rules, then writes project-local agent configuration. Restart or reload your agent, review its MCP approval prompts, and start working. Codex loads project configuration only for a trusted project; see the [agent guide](docs/AGENTS.md).
 
 For repeated use, install the CLI once:
 
 ```sh
-uv tool install 'git+https://github.com/m9rco/awesome-python-dev.git@v0.2.0'
+uv tool install awesome-python-dev
 apd list
 apd init --agents codex,claude --profile starter --dry-run
 apd init --agents codex,claude --profile starter
 apd doctor
 ```
 
-`awesome-python-dev` is an alias for `apd`. Python 3.11+ is required. Installation from Git requires Git and access to GitHub. Releases are distributed from this repository; the commands above do not depend on a package with this name being available on PyPI.
+For a global npm installation, use `npm install --global awesome-python-dev` instead. Both distributions provide `apd` and `awesome-python-dev`; choose one global installation method. Refresh the Python installation with `uv tool upgrade awesome-python-dev`, or request a particular release with `uvx awesome-python-dev@0.3.0`.
+
+The registry commands do not require a Git checkout. A version-pinned source fallback is also available when Git is installed:
+
+```sh
+uvx --from 'git+https://github.com/m9rco/awesome-python-dev.git@v0.3.0' apd init --agents codex,claude --profile starter
+```
 
 MCP runtime prerequisites depend on your selection: npm-based servers need Node.js and `npx`; Python-based servers need `uvx`. Your coding agent starts these processes when it loads the configuration. `apd init` configures MCP servers; it does not launch them or install your coding agent.
 
@@ -72,6 +89,19 @@ codex: skill verification-before-completion -> .agents/skills/verification-befor
 codex: MCP context7 -> .codex/config.toml
 codex: rules ecc-common-rules -> native project instructions
 ```
+
+## npm shell and runtime updates
+
+The **npm shell** and **Python runtime** have independent versions. The shell is a small entry point; it downloads the bundled runtime from GitHub Releases on first use, checks its SHA-256 hash, and caches it. Normal commands check for a compatible runtime update at most once every 24 hours. Catalog and installer updates therefore ship without another npm upload.
+
+```sh
+apd --shell-version     # npm shell version
+apd --version           # selected runtime version
+apd runtime status      # inspect local selection; no network request
+apd runtime update      # check the stable runtime channel now
+```
+
+These `runtime` commands belong to the npm launcher. For reproducible use, set `APD_RUNTIME_VERSION=0.3.0`; `APD_OFFLINE=1` uses an already cached runtime. Offline mode covers the launcher, so installing uncached upstream skills can still require network access. See [runtime selection and caching](docs/NPM-RUNTIME.md) and the [release workflow](docs/RELEASING.md).
 
 ## Explore the collection
 

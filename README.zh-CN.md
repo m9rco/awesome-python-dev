@@ -5,6 +5,8 @@
 [![CI](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml)
 [![GitHub Pages](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml)
 [![GitHub release](https://img.shields.io/github/v/release/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/releases/latest)
+[![PyPI](https://img.shields.io/pypi/v/awesome-python-dev?logo=pypi)](https://pypi.org/project/awesome-python-dev/)
+[![npm shell](https://img.shields.io/npm/v/awesome-python-dev?logo=npm&label=npm%20shell)](https://www.npmjs.com/package/awesome-python-dev)
 [![GitHub stars](https://img.shields.io/github/stars/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/issues)
 
@@ -20,11 +22,12 @@
 
 安装器使用 Python 编写，并提供 Python 开发预设；整个集合也覆盖 Web 和通用软件开发。目前支持 **Claude Code、Codex、Cursor、VS Code Copilot 和 OpenCode**。
 
-v0.2.0 收录 **54 个条目**：**30 个可安装资源**（20 个 skills、6 套规则、3 个 MCP servers、1 个 Serena LSP 桥接），以及 **24 个参考条目**（7 个原生语言服务、17 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。
+v0.3.0 收录 **54 个条目**：**30 个可安装资源**（20 个 skills、6 套规则、3 个 MCP servers、1 个 Serena LSP 桥接），以及 **24 个参考条目**（7 个原生语言服务、17 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。
 
 ## 目录
 
 - [快速开始](#快速开始)
+- [npm 外壳与 runtime 更新](#npm-外壳与-runtime-更新)
 - [浏览工具集合](#浏览工具集合)
 - [选择工具包](#选择工具包)
 - [支持的 agent](#支持的-agent)
@@ -40,22 +43,36 @@ v0.2.0 收录 **54 个条目**：**30 个可安装资源**（20 个 skills、6 �
 先安装 [uv](https://docs.astral.sh/uv/getting-started/installation/)，然后在**需要配置的项目目录**中执行：
 
 ```sh
-uvx --from 'git+https://github.com/m9rco/awesome-python-dev.git@v0.2.0' apd init --agents codex,claude --profile starter
+uvx awesome-python-dev init --agents codex,claude --profile starter
 ```
+
+也可以使用 npm：
+
+```sh
+npx awesome-python-dev init --agents codex,claude --profile starter
+```
+
+Python 包需要 Python 3.11+。npm 外壳需要 **Node.js 22.14+**，以及 **Python 3.11+ 或已安装的 uv**；缺少 Python 时，uv 可以准备 Python 3.13。两种入口使用相同的工具包。
 
 命令会下载选中的 skills 和通用规则，生成项目内的 agent 配置。随后重启或重新加载 agent，处理客户端的 MCP 授权提示即可使用。Codex 需要信任该项目后才会读取项目配置，具体见 [agent 适配说明](docs/AGENTS.md)。
 
 经常使用时，可以先安装 CLI：
 
 ```sh
-uv tool install 'git+https://github.com/m9rco/awesome-python-dev.git@v0.2.0'
+uv tool install awesome-python-dev
 apd list
 apd init --agents codex,claude --profile starter --dry-run
 apd init --agents codex,claude --profile starter
 apd doctor
 ```
 
-`awesome-python-dev` 与 `apd` 是同一个命令的两个名称。需要 Python 3.11+，从 Git 安装还需要 Git 和 GitHub 网络访问。发布版本直接从本仓库安装，不依赖 PyPI 上的同名包。
+偏好 npm 时，改用 `npm install --global awesome-python-dev` 全局安装。两种发行方式都提供 `apd` 和 `awesome-python-dev`，选择一种全局安装方式即可。Python 版本通过 `uv tool upgrade awesome-python-dev` 升级，也可以用 `uvx awesome-python-dev@0.3.0` 指定版本。
+
+从包仓库安装不需要 Git checkout。已安装 Git 时，也可使用固定版本的源码入口：
+
+```sh
+uvx --from 'git+https://github.com/m9rco/awesome-python-dev.git@v0.3.0' apd init --agents codex,claude --profile starter
+```
 
 不同 MCP 的运行条件不同：npm 类型需要 Node.js 和 `npx`，Python 类型需要 `uvx`。`apd init` 负责写入 MCP 配置，agent 加载配置后才会启动相关进程；coding agent 本身仍需自行安装。
 
@@ -71,6 +88,19 @@ codex: skill verification-before-completion -> .agents/skills/verification-befor
 codex: MCP context7 -> .codex/config.toml
 codex: rules ecc-common-rules -> native project instructions
 ```
+
+## npm 外壳与 runtime 更新
+
+**npm 外壳**与 **Python runtime** 独立编号。外壳只提供稳定入口：首次运行时从 GitHub Releases 下载已打包的 runtime，验证 SHA-256 并缓存；普通命令最多每 24 小时检查一次兼容版本。工具目录、安装器与框架适配更新只需发布 runtime，无需重复上传 npm 包。
+
+```sh
+apd --shell-version     # npm 外壳版本
+apd --version           # 当前 runtime 版本
+apd runtime status      # 读取本地选择与缓存，不联网
+apd runtime update      # 立即检查稳定 runtime 通道
+```
+
+`runtime` 子命令由 npm 外壳提供。需要固定版本时设置 `APD_RUNTIME_VERSION=0.3.0`；设置 `APD_OFFLINE=1` 可使用已经缓存的 runtime。离线模式控制的是启动器，安装尚未缓存的上游 skills 仍可能需要联网。详见 [runtime 选择与缓存](docs/NPM-RUNTIME.md) 和 [发布流程](docs/RELEASING.md)。
 
 ## 浏览工具集合
 

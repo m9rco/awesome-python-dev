@@ -1,5 +1,34 @@
 # Security
 
+## npm shell and runtime trust
+
+The npm package is a launcher with a version independent of the Python toolkit.
+It downloads executable runtime code from this project's GitHub Releases on
+first use and refreshes the compatible stable selection at most once every
+24 hours. `APD_RUNTIME_VERSION` pins an exact runtime; `APD_OFFLINE=1` requires
+cached runtime files and disables launcher network access. Neither setting
+changes the network requirements of third-party tool installation commands.
+
+The launcher restricts manifests to its supported protocol, stable versions and
+the project's versioned release asset paths. HTTPS redirects and download sizes
+are bounded. Runtime size and SHA-256 are verified before caching and before
+every launch. A network failure can fall back to an already verified cached
+stable runtime; a malformed manifest or hash mismatch stops execution. Explicit
+version pins never fall back to a different version.
+
+Checksums detect altered or incomplete downloads; they are not a signature from
+an independent authority. The npm package publisher, this GitHub repository and
+its release maintainers remain trust sources. Anyone able to alter both the
+runtime and its accepted manifest can replace executable code. Protect release
+access and CI publishing configuration accordingly.
+
+The bundled runtime includes its Python dependencies and licenses. It runs with
+an existing Python 3.11+ in isolated mode, or through an existing uv installation
+that can provision Python 3.13. There are no npm installation hooks and no
+downloaded shell installer. `APD_PYTHON` accepts an exact executable path, not a
+shell command. Runtime caches should remain writable only by the local user.
+See [runtime distribution](docs/NPM-RUNTIME.md) and [publishing](docs/RELEASING.md).
+
 ## Installation boundary
 
 `apd` installs selected skills and rules, activates project instructions, and configures MCP launch commands within a project. It does not execute downloaded skill scripts during installation, install coding agent applications, or silently add credentials. Your agent may subsequently follow those instructions or start the configured MCP servers using its own permissions.

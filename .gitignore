@@ -11,3 +11,5 @@ test-results/
 .codegraph/
 .awesome-python-dev/
 _site/
+node_modules/
+*.tgz

@@ -1,0 +1,288 @@
+name: Release runtime
+
+on:
+  push:
+    tags: ['v[0-9]*']
+
+permissions:
+  contents: read
+
+# The protocol-1 channel has one writer. Older queued releases cannot downgrade it.
+concurrency:
+  group: runtime-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and verify release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out tagged runtime
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Set up locked Python environment
+        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        with:
+          python-version: '3.13'
+          enable-cache: false
+      - name: Set up npm shell build
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Validate runtime tag and main ancestry
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          import tomllib
+          from pathlib import Path
+          version = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
+          tag = os.environ["RELEASE_TAG"]
+          if not re.fullmatch(r"v\d+\.\d+\.\d+", tag) or tag != f"v{version}":
+              raise SystemExit("Tag must equal v followed by pyproject.toml version")
+          PY
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+          printf 'SOURCE_DATE_EPOCH=%s\n' "$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
+      - name: Install locked dependencies
+        run: uv sync --locked
+      - name: Test Python runtime and npm shell
+        run: |
+          uv run ruff check .
+          uv run pytest -q
+          npm --prefix npm ci --ignore-scripts
+          npm --prefix npm test
+      - name: Build Python and runtime assets
+        run: |
+          uv build --out-dir dist/release
+          uv run python scripts/build_runtime.py --output dist/runtime
+      - name: Pack npm shell for GitHub distribution
+        working-directory: npm
+        run: |
+          npm run test:package
+          npm pack --ignore-scripts --pack-destination ../dist/release
+      - name: Verify runtime and assemble release checksums
+        run: |
+          uv run python - <<'PY'
+          import hashlib
+          import json
+          import shutil
+          import subprocess
+          import sys
+          from pathlib import Path
+          source = Path("dist/runtime")
+          release = Path("dist/release")
+          manifest = json.loads((source / "runtime.json").read_text(encoding="utf-8"))
+          asset = source / manifest["asset"]["url"].rsplit("/", 1)[1]
+          data = asset.read_bytes()
+          assert hashlib.sha256(data).hexdigest() == manifest["asset"]["sha256"]
+          assert len(data) == manifest["asset"]["size"]
+          subprocess.run([sys.executable, "-I", "-S", str(asset), "--version"], check=True)
+          subprocess.run([sys.executable, "-I", "-S", str(asset), "profiles", "--json"], check=True)
+          shutil.copy2(asset, release / asset.name)
+          shutil.copy2(source / "runtime.json", release / "runtime.json")
+          lines = [f"{hashlib.sha256(path.read_bytes()).hexdigest()}  {path.name}\n"
+                   for path in sorted(release.iterdir()) if path.name != "SHA256SUMS"]
+          (release / "SHA256SUMS").write_text("".join(lines), encoding="utf-8")
+          PY
+      - name: Upload release bundle
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-bundle
+          path: dist/release/*
+          if-no-files-found: error
+          retention-days: 14
+
+  publish:
+    name: Publish immutable runtime and update channel
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Download verified release bundle
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: release-bundle
+          path: release
+      - name: Publish release without replacing existing assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import re
+          import subprocess
+          import tempfile
+          from pathlib import Path
+          tag = os.environ["RELEASE_TAG"]
+          files = sorted(Path("release").iterdir())
+          def gh(*args, check=True):
+              return subprocess.run(["gh", *args], text=True, capture_output=True, check=check)
+          result = gh("release", "view", tag, "--json", "assets,isDraft", check=False)
+          if result.returncode:
+              gh("release", "create", tag, "--verify-tag", "--draft", "--title", tag,
+                 "--generate-notes")
+              existing = set()
+          else:
+              existing = {asset["name"] for asset in json.loads(result.stdout)["assets"]}
+          expected = {path.name for path in files}
+          if existing - expected:
+              raise SystemExit(f"Release has unexpected assets; refusing mutation: {existing - expected}")
+          with tempfile.TemporaryDirectory() as directory:
+              for path in files:
+                  if path.name in existing:
+                      gh("release", "download", tag, "--pattern", path.name, "--dir", directory)
+                      remote = Path(directory, path.name).read_bytes()
+                      if hashlib.sha256(remote).digest() != hashlib.sha256(path.read_bytes()).digest():
+                          raise SystemExit(f"Immutable release asset differs: {path.name}")
+                  else:
+                      gh("release", "upload", tag, str(path))
+          latest_flag = "--latest"
+          latest = gh("release", "view", "--json", "tagName", check=False)
+          if latest.returncode == 0:
+              latest_tag = json.loads(latest.stdout)["tagName"]
+              if re.fullmatch(r"v\d+\.\d+\.\d+", latest_tag):
+                  current = tuple(map(int, latest_tag[1:].split(".")))
+                  candidate = tuple(map(int, tag[1:].split(".")))
+                  if current > candidate:
+                      latest_flag = "--latest=false"
+          gh("release", "edit", tag, "--draft=false", latest_flag)
+          print(f"Published and verified {tag} with {len(files)} assets")
+          PY
+      - name: Promote protocol-1 stable runtime channel
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+          import subprocess
+          import tempfile
+          from pathlib import Path
+          channel = "runtime-v1"
+          manifest = Path("release/runtime.json")
+          incoming = json.loads(manifest.read_text(encoding="utf-8"))
+          def gh(*args, check=True):
+              return subprocess.run(["gh", *args], text=True, capture_output=True, check=check)
+          def version(value):
+              if not re.fullmatch(r"\d+\.\d+\.\d+", value):
+                  raise SystemExit("Channel version is not a stable semantic version")
+              return tuple(map(int, value.split(".")))
+          if incoming["schema_version"] != 1 or incoming["runtime_api"] != 1:
+              raise SystemExit("Refusing to publish an incompatible manifest to runtime-v1")
+          if f"v{incoming['version']}" != os.environ["RELEASE_TAG"]:
+              raise SystemExit("Manifest version does not match released tag")
+          result = gh("release", "view", channel, "--json", "assets,isPrerelease", check=False)
+          if result.returncode:
+              gh("release", "create", channel, str(manifest), "--target", os.environ["RELEASE_SHA"],
+                 "--prerelease", "--latest=false", "--title", "Runtime protocol 1 channel",
+                 "--notes", "Stable runtime manifest for the npm shell. Versioned runtime assets remain on their immutable vX.Y.Z releases. This channel release is marked prerelease so it never replaces the normal latest release.")
+          else:
+              release = json.loads(result.stdout)
+              if not release["isPrerelease"]:
+                  raise SystemExit("runtime-v1 must be a prerelease channel, not a product release")
+              with tempfile.TemporaryDirectory() as directory:
+                  gh("release", "download", channel, "--pattern", "runtime.json", "--dir", directory)
+                  current = json.loads(Path(directory, "runtime.json").read_text(encoding="utf-8"))
+              if version(current["version"]) > version(incoming["version"]):
+                  print(f"Keep newer channel {current['version']}; skip {incoming['version']}")
+                  raise SystemExit(0)
+              if version(current["version"]) == version(incoming["version"]):
+                  if current != incoming:
+                      raise SystemExit("Refusing to change the manifest for an already promoted version")
+                  print("Channel already points to this exact runtime")
+                  raise SystemExit(0)
+              gh("release", "upload", channel, str(manifest), "--clobber")
+          print(f"Protocol-1 channel now points to {incoming['version']}")
+          PY
+
+  pypi:
+    name: Publish Python package to PyPI
+    needs: publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: pypi
+      url: https://pypi.org/project/awesome-python-dev/
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Download the same verified release bundle
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: release-bundle
+          path: release
+      - name: Select and verify Python distributions
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import re
+          import shutil
+          import urllib.error
+          import urllib.request
+          from pathlib import Path
+          tag = os.environ["RELEASE_TAG"]
+          if not re.fullmatch(r"v\d+\.\d+\.\d+", tag):
+              raise SystemExit("PyPI requires a stable runtime release tag")
+          version = tag[1:]
+          source = Path("release")
+          expected = {f"awesome_python_dev-{version}-py3-none-any.whl",
+                      f"awesome_python_dev-{version}.tar.gz"}
+          actual = {path.name for path in source.iterdir()
+                    if path.name.endswith((".whl", ".tar.gz"))}
+          if actual != expected:
+              raise SystemExit(f"Unexpected Python distribution files: {actual}")
+          checksums = dict(line.split("  ", 1)[::-1] for line in
+                           (source / "SHA256SUMS").read_text(encoding="utf-8").splitlines())
+          destination = Path("pypidist")
+          destination.mkdir()
+          digests = {}
+          for name in sorted(expected):
+              digest = hashlib.sha256((source / name).read_bytes()).hexdigest()
+              if digest != checksums.get(name):
+                  raise SystemExit(f"Release checksum mismatch: {name}")
+              digests[name] = digest
+              shutil.copy2(source / name, destination / name)
+          # Reruns may skip files only when PyPI already has these exact bytes.
+          try:
+              with urllib.request.urlopen(
+                  f"https://pypi.org/pypi/awesome-python-dev/{version}/json", timeout=30
+              ) as response:
+                  published = json.load(response)
+          except urllib.error.HTTPError as error:
+              if error.code != 404:
+                  raise
+          else:
+              for item in published["urls"]:
+                  name = item["filename"]
+                  if name in digests and item["digests"]["sha256"] != digests[name]:
+                      raise SystemExit(f"Existing PyPI file has different contents: {name}")
+          print("Verified wheel and sdist; npm tarball and runtime assets are excluded")
+          PY
+      - name: Publish with PyPI Trusted Publishing
+        # Register awesome-python-dev with m9rco / awesome-python-dev /
+        # runtime-release.yml / pypi as a pending publisher before the first run.
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
+        with:
+          packages-dir: pypidist/
+          skip-existing: true
+          attestations: true

@@ -176,10 +176,7 @@ class Website:
         return escape(self.url(path))
 
     def command(self, selection: str) -> str:
-        return (
-            f"uvx --from 'git+{REPOSITORY}.git@v{self.version}' "
-            f"apd init --agents codex,claude {selection}"
-        )
+        return f"uvx awesome-python-dev init --agents codex,claude {selection}"
 
     def code(self, command: str, identifier: str = "install-command", zh: bool = False) -> str:
         label, copied, error = (
@@ -569,9 +566,9 @@ class Website:
         )
         body = f'''<section class="section prose"><p class="eyebrow">FROM COLLECTION TO CONFIGURATION</p><h1>Equip your coding agent.</h1>
 <p class="hero-description">Choose a profile, preview the changes, and install into your project. Keep the same toolkit across your agents.</p>
-<h2>1. Check your prerequisites</h2><p>Install <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a> and Git. The CLI requires Python 3.11 or newer and access to GitHub. Install your coding agent separately.</p>
+<h2>1. Check your prerequisites</h2><p>Install <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a>. The CLI requires Python 3.11 or newer; uv can manage Python for you. The short command installs the Python package from PyPI. Toolkit downloads need GitHub access. Install your coding agent separately.</p>
 <p>MCP requirements depend on your selection. The starter profile uses Context7 and needs Node.js 20.18.1 or newer with npx. Serena uses uvx with Python 3.13 and may need additional language runtimes. Skills and rules do not require a running MCP server.</p>
-<h2>2. Preview the starter profile</h2><p>Open a terminal in the project you want to equip. A dry run downloads nothing and writes nothing.</p>
+<h2>2. Preview the starter profile</h2><p>Open a terminal in the project you want to equip. After uv has installed the CLI, a dry run does not download toolkit resources or write project configuration.</p>
 {self.code(self.command("--profile starter --dry-run"), "preview-command")}
 <h2>3. Install your toolkit</h2>{self.code(self.command("--profile starter"))}
 <p>This installs skills and rules and registers the selected MCP servers. Reload your agent and review its MCP approval prompts. Codex only loads project configuration from trusted projects.</p>
@@ -580,8 +577,15 @@ class Website:
 <h2>Choose a framework or a single tool</h2><p>Explore the <a href="{self.href("#profiles")}">profile collection</a> for Python, FastAPI, Django, TypeScript, Go, Spring Boot and security. Install a single resource with <code>--tools</code>.</p>
 {self.code(self.command("--tools serena"), "serena-command")}
 <h2>Inspect and maintain your setup</h2><p>For repeat use, install the CLI once:</p>
-{self.code(f"uv tool install 'git+{REPOSITORY}.git@v{self.version}'", "cli-command")}
+{self.code("uv tool install awesome-python-dev", "cli-command")}
 {self.code(maintenance, "maintenance-command")}
+<h2>Prefer npm?</h2><p>Use the small npm launcher with Node.js 22.14+ and Python 3.11+ or an existing uv installation:</p>
+{self.code("npx awesome-python-dev init --agents codex,claude --profile starter", "npm-command")}
+<p>The npm launcher and runtime have independent versions. The launcher downloads a verified runtime from GitHub on first use and checks for a compatible update at most once a day. Routine toolkit updates do not require a new npm package. Install it globally with <code>npm install -g awesome-python-dev</code>, then use <code>apd</code>. See <a href="{REPOSITORY}/blob/main/docs/NPM-RUNTIME.md">runtime versions, caching and offline use</a>.</p>
+<h2>Pin a version or use the source fallback</h2>
+{self.code(f"uvx awesome-python-dev@{self.version} --version", "pinned-command")}
+<p>For installation directly from a GitHub release tag, Git is required:</p>
+{self.code(f"uvx --from 'git+{REPOSITORY}.git@v{self.version}' apd --version", "source-command")}
 <p>Rules and skills retain their source provenance and licenses. Managed configuration is tracked locally, and user modifications are protected. See the <a href="{REPOSITORY}/blob/main/README.md">README</a> for command options and the <a href="{REPOSITORY}/blob/main/SECURITY.md">security model</a> for trust boundaries.</p>
 </section>'''
         self.page(

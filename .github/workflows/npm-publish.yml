@@ -1,0 +1,64 @@
+name: Publish npm shell
+
+# Runtime releases never publish npm. Bump npm/package.json only for shell changes.
+on:
+  push:
+    tags: ['npm-v[0-9]*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-shell-release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: npm
+    steps:
+      - name: Check out tagged shell
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js and npm registry
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - name: Validate shell tag, npm version, and main ancestry
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          node - <<'JS'
+          const {execFileSync} = require('node:child_process');
+          const pkg = require('./package.json');
+          const tag = process.env.RELEASE_TAG;
+          if (!/^npm-v\d+\.\d+\.\d+$/.test(tag) || tag !== `npm-v${pkg.version}`) {
+            throw new Error('Tag must equal npm-v followed by npm/package.json version');
+          }
+          const version = execFileSync('npm', ['--version'], {encoding:'utf8'}).trim();
+          const [major, minor, patch] = version.split('.').map(Number);
+          if (major < 11 || (major === 11 && (minor < 5 || (minor === 5 && patch < 1)))) {
+            throw new Error('npm >=11.5.1 is required for trusted publishing');
+          }
+          JS
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+      - name: Install without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Test and inspect shell
+        run: |
+          npm test
+          npm pack --dry-run --ignore-scripts
+      - name: Publish shell with npm trusted publishing
+        # Configure m9rco / awesome-python-dev / npm-publish.yml as the npm
+        # package's trusted publisher. No long-lived NPM_TOKEN is required.
+        run: npm publish --access public --ignore-scripts --provenance

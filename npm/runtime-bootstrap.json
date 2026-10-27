@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "runtime_api": 1,
+  "version": "0.3.0",
+  "python_requires": ">=3.11",
+  "asset": {
+    "url": "https://github.com/m9rco/awesome-python-dev/releases/download/v0.3.0/awesome-python-dev-runtime-0.3.0.pyz",
+    "sha256": "52076d80b06870f3d749e5a2172092edba81386d1db8e692ffa2ddf60b28361e",
+    "size": 361589
+  }
+}

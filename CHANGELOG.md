@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.3.0 — 2026-10-28
+
+Separate the npm command launcher from the Python toolkit runtime so routine
+catalog and installer updates can ship through GitHub Releases.
+
+- A small, dependency-free npm shell with independent versioning, command
+  forwarding, verified runtime caching, explicit version pins and offline use.
+- A self-contained Python zipapp with the locked `tomlkit` dependency, catalog,
+  source provenance and licenses. Requires Python 3.11+ or an existing `uv`.
+- Versioned runtime manifests and SHA-256 checksums, with a protocol-1 stable
+  channel and independent GitHub runtime/npm publication workflows.
+- PyPI distribution and short `uvx awesome-python-dev` / `uv tool install
+  awesome-python-dev` entry points; runtime tags publish Python packages while
+  npm shell tags publish only the launcher.
+- Static GitHub Pages catalog with English and Chinese landing pages, tool and
+  profile detail pages, metadata, sitemap and automatic deployment checks.
+
 ## 0.2.0 — 2026-10-27
 
 Expand the collection into skills, native rules, MCP, and LSP tooling for security, engineering, and framework development.
