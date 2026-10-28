@@ -2,17 +2,11 @@
 
 **Curated AI development toolkits, ready for your coding agents.**
 
+> **Awesome Python Dev** is a curated, installable collection of **AI coding agent skills, engineering rule packs, MCP servers, and an LSP bridge** for **Claude Code, Codex, Cursor, GitHub Copilot, and OpenCode**. It ships a Python installer (`uvx awesome-python-dev init`) and an npm launcher that configure project-local tooling for Python and web development: debugging workflows, test-driven development, API design, database migrations, security review, and framework best practices (FastAPI, Django, Spring Boot, Go, TypeScript, Next.js). Every entry is pinned to an upstream commit with verified license and SHA-256 evidence — no account or API key required to browse.
+
 [![CI](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml)
 [![GitHub Pages](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml)
-[![GitHub release](https://img.shields.io/github/v/release/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/releases/latest)
-[![PyPI](https://img.shields.io/pypi/v/awesome-python-dev?logo=pypi)](https://pypi.org/project/awesome-python-dev/)
-[![npm shell](https://img.shields.io/npm/v/awesome-python-dev?logo=npm&label=npm%20shell)](https://www.npmjs.com/package/awesome-python-dev)
-[![GitHub stars](https://img.shields.io/github/stars/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/issues)
 
-[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Catalog](https://img.shields.io/badge/Catalog-Skills%20%7C%20Rules%20%7C%20MCP%20%7C%20LSP-6f42c1)](docs/CATALOG.md)
 
 English · [简体中文](README.zh-CN.md)
 
@@ -37,6 +31,7 @@ The catalog includes **59 entries**: **32 installable resources** (22 skills, 6 
 - [How installation works](#how-installation-works)
 - [What makes a project a good fit](#what-makes-a-project-a-good-fit)
 - [Contribute](#contribute)
+- [FAQ](#faq)
 - [Acknowledgments](#acknowledgments)
 
 ## Quick start
@@ -236,6 +231,32 @@ Version pins make changes reviewable. They do not freeze all transitive dependen
 We prefer tools with a concrete development use case, useful documentation, an identifiable upstream, a clear license, and evidence of continued maintenance. Stars are one discovery signal; they are not a quality guarantee or a ranking system.
 
 An installable entry additionally needs a reproducible recipe, a reviewable source or package version, verified paths and runtime requirements, and a way to preserve upstream attribution. Rule packs also need explicit file selection, dependencies, and tested native activation. Projects that need credentials, manual setup, or a richer adapter can remain useful reference entries while an integration is evaluated.
+
+## FAQ
+
+**What is Awesome Python Dev?**
+A curated, installable collection of AI coding agent toolkits — skills, engineering rules, MCP servers, and an LSP bridge — for Claude Code, Codex, Cursor, GitHub Copilot, and OpenCode.
+
+**How do I install coding agent skills into my project?**
+```sh
+uvx awesome-python-dev init --agents codex,claude --profile python
+# or: npx awesome-python-dev init --agents codex,claude --profile python
+```
+
+**Which coding agents are supported?**
+Claude Code, Codex, Cursor, VS Code Copilot, and OpenCode — each with native project-local configuration (skills directory and MCP format per agent).
+
+**Does this replace my agent's built-in skills or MCP servers?**
+No. It writes project-local files only (`.claude/skills/`, `.codex/config.toml`, `.cursor/mcp.json`, etc.) and preserves unrelated configuration. No home-directory or global agent settings are changed.
+
+**Do I need an API key or account?**
+No account or API key is required to browse or install. Individual MCP servers may document their own optional keys for higher limits.
+
+**What kinds of skills and rules are included?**
+Systematic debugging, test-driven development, verification before completion, coding standards, API design, database migrations, deployment patterns, security review, and framework best practices for FastAPI, Django, Spring Boot, Go, TypeScript, React/Next.js, and Python testing/packaging.
+
+**Is every entry reviewed?**
+Yes — each installable entry is pinned to an upstream commit or exact package version, with verified license, archive SHA-256, and review date recorded in the catalog. Stars are discovery signals, not ranking.
 
 ## Contribute
 
