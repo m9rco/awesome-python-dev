@@ -182,6 +182,37 @@ test("concurrent launches produce complete verified cache files", async (t) => {
   assert.equal((await fs.readdir(path.dirname(results[0].file))).filter((name) => name.endsWith(".tmp")).length, 0);
 });
 
+test("Windows sharing violations reuse an identical completed cache file", async (t) => {
+  const env = await environment(t);
+  const file = path.join(env.cache, "shared.json");
+  const bytes = Buffer.from("complete verified content");
+  await fs.writeFile(file, bytes);
+  let attempts = 0;
+  await runtime.atomicWrite(file, bytes, {...fs, rename: async () => {
+    attempts += 1;
+    throw Object.assign(new Error("Windows sharing violation"), {code: "EPERM"});
+  }});
+  assert.equal(attempts, 1);
+  assert.deepEqual(await fs.readFile(file), bytes);
+  assert.deepEqual(await fs.readdir(env.cache), ["shared.json"]);
+});
+
+test("Windows sharing violations retry replacement without removing the old complete file", async (t) => {
+  const env = await environment(t);
+  const file = path.join(env.cache, "channel.json");
+  await fs.writeFile(file, "old complete record");
+  let attempts = 0;
+  await runtime.atomicWrite(file, "new complete record", {...fs, rename: async (source, target) => {
+    attempts += 1;
+    assert.equal(await fs.readFile(target, "utf8"), "old complete record");
+    if (attempts < 3) throw Object.assign(new Error("Windows sharing violation"), {code: "EBUSY"});
+    return fs.rename(source, target);
+  }});
+  assert.equal(attempts, 3);
+  assert.equal(await fs.readFile(file, "utf8"), "new complete record");
+  assert.deepEqual(await fs.readdir(env.cache), ["channel.json"]);
+});
+
 test("Python discovery honors executable override and uses uv only when needed", () => {
   const seen = [];
   const direct = findPython({APD_PYTHON: "/custom/python"}, "linux", (command, args, options) => {

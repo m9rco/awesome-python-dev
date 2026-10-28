@@ -4,6 +4,7 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const os = require("node:os");
 const crypto = require("node:crypto");
+const {setTimeout: delay} = require("node:timers/promises");
 
 const RELEASES = "https://github.com/m9rco/awesome-python-dev/releases/download/";
 const CHANNEL_URL = `${RELEASES}runtime-v1/runtime.json`;
@@ -143,13 +144,33 @@ async function readOptional(file) {
   catch (error) { if (error.code === "ENOENT") return null; throw error; }
 }
 
-async function atomicWrite(file, bytes) {
-  await fs.mkdir(path.dirname(file), {recursive: true, mode: 0o700});
+async function atomicWrite(file, bytes, fileSystem = fs) {
+  await fileSystem.mkdir(path.dirname(file), {recursive: true, mode: 0o700});
+  const desired = Buffer.isBuffer(bytes) ? bytes : Buffer.from(bytes);
   const temporary = `${file}.${process.pid}.${crypto.randomBytes(8).toString("hex")}.tmp`;
   try {
-    await fs.writeFile(temporary, bytes, {flag: "wx", mode: 0o600});
-    await fs.rename(temporary, file);
-  } finally { await fs.rm(temporary, {force: true}); }
+    await fileSystem.writeFile(temporary, desired, {flag: "wx", mode: 0o600});
+    for (let attempt = 0; ; attempt += 1) {
+      try {
+        await fileSystem.rename(temporary, file);
+        return;
+      } catch (error) {
+        // Windows may refuse replacement while another launcher or antivirus
+        // briefly has the destination open. Never unlink it: readers must only
+        // observe complete files, including while a channel record is updated.
+        if (!["EPERM", "EACCES", "EBUSY", "EEXIST"].includes(error.code)) throw error;
+        let existing;
+        try { existing = await fileSystem.readFile(file); }
+        catch (readError) {
+          if (!["ENOENT", "EPERM", "EACCES", "EBUSY"].includes(readError.code)) throw readError;
+        }
+        // Another launcher already committed the exact same verified content.
+        if (existing && existing.equals(desired)) return;
+        if (attempt >= 7) throw error;
+        await delay(Math.min(10 * (2 ** attempt), 250));
+      }
+    }
+  } finally { await fileSystem.rm(temporary, {force: true}); }
 }
 
 async function readManifest(cache, selectedVersion) {
