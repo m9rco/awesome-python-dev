@@ -18,7 +18,7 @@ jobs:
     environment: npm
     timeout-minutes: 25
     env:
-      NPM_PACK_MANIFEST: ${{ runner.temp }}/npm-shell-package.json
+      NPM_PACK_MANIFEST: npm-shell-package.json
     permissions:
       contents: read
       id-token: write
