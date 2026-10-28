@@ -4,17 +4,7 @@
 
 > **Awesome Python Dev** 是面向 AI 编程助手的精选可安装工具集：**Coding Agent Skills（技能）、工程规则包（Rules）、MCP 服务器（MCP）与 LSP 桥接**，适配 **Claude Code、Codex、Cursor、GitHub Copilot 和 OpenCode**。提供 Python 安装器（`uvx awesome-python-dev init`）与 npm 启动器，为 Python 与 Web 项目一键配置本地工具链：调试流程、测试驱动开发、API 设计、数据库迁移、安全评审与框架最佳实践（FastAPI、Django、Spring Boot、Go、TypeScript、Next.js）。每个条目均锁定上游 commit，并记录许可证与 SHA-256 校验证据——浏览与安装均无需账号或 API key。
 
-[![CI](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml)
-[![GitHub Pages](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml)
-
-[![GitHub release](https://img.shields.io/github/v/release/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/releases/latest)
-[![PyPI](https://img.shields.io/pypi/v/awesome-python-dev?logo=pypi&color=3775A9)](https://pypi.org/project/awesome-python-dev/)
-[![npm shell](https://img.shields.io/npm/v/awesome-python-dev?logo=npm&label=npm%20shell)](https://www.npmjs.com/package/awesome-python-dev)
-[![GitHub stars](https://img.shields.io/github/stars/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/issues)
-[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Catalog](https://img.shields.io/badge/Catalog-Skills%20%7C%20Rules%20%7C%20MCP%20%7C%20LSP-6f42c1)](docs/CATALOG.md)
+[![CI](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml) [![GitHub Pages](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml) [![GitHub release](https://img.shields.io/github/v/release/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/releases/latest) [![PyPI](https://img.shields.io/pypi/v/awesome-python-dev?logo=pypi&color=3775A9)](https://pypi.org/project/awesome-python-dev/) [![npm shell](https://img.shields.io/npm/v/awesome-python-dev?logo=npm&label=npm%20shell)](https://www.npmjs.com/package/awesome-python-dev) [![GitHub stars](https://img.shields.io/github/stars/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/stargazers) [![GitHub issues](https://img.shields.io/github/issues/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/issues) [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Catalog](https://img.shields.io/badge/Catalog-Skills%20%7C%20Rules%20%7C%20MCP%20%7C%20LSP-6f42c1)](docs/CATALOG.md)
 
 
 [English](README.md) · 简体中文
