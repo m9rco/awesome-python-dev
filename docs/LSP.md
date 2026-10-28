@@ -56,6 +56,7 @@ These catalog entries are references (`install: null`). An LSP client must start
 | Server | Role | Native launch command | Official setup |
 | --- | --- | --- | --- |
 | [Pyright](https://github.com/microsoft/pyright) | Python types, navigation, diagnostics | `pyright-langserver --stdio` | [Installation](https://github.com/microsoft/pyright/blob/main/docs/installation.md) |
+| [ty](https://docs.astral.sh/ty/) | Python type checks and diagnostics from a Rust-based server; beta | `ty server` | [Editor integration](https://docs.astral.sh/ty/editors/) |
 | [Python LSP Server](https://github.com/python-lsp/python-lsp-server) | Python navigation/completion with optional lint and formatting plugins | `pylsp` | [Install and configure](https://github.com/python-lsp/python-lsp-server#installation) |
 | [Ruff](https://github.com/astral-sh/ruff) | Python lint diagnostics, fixes, formatting | `ruff server` | [Editor integration](https://docs.astral.sh/ruff/editors/) |
 | [TypeScript Language Server](https://github.com/typescript-language-server/typescript-language-server) | JavaScript/TypeScript language services | `typescript-language-server --stdio` | [Installation and compatible TypeScript version](https://github.com/typescript-language-server/typescript-language-server#installing) |
@@ -66,6 +67,12 @@ These catalog entries are references (`install: null`). An LSP client must start
 For example, upstream documents `python -m pip install python-lsp-server` inside the environment you want to use, followed by configuring `pylsp` in your editor. Rust's toolchain method is `rustup component add rust-analyzer`, followed by client configuration. Choose versions and environment scope appropriate to your project; these commands are not run by `apd`.
 
 Ruff supplies lint and formatting capabilities. Pair it with a navigation/type server when that functionality is needed; it does not replace every Python language-server feature. Its built-in `ruff server` supersedes the older `ruff-lsp` wrapper. See the [Ruff language-server description](https://docs.astral.sh/ruff/editors/).
+
+## Another bridge: agent-lsp
+
+[agent-lsp](https://github.com/blackwell-systems/agent-lsp) is catalogued as a reference-only bridge. It starts and manages external language servers such as `gopls`, `pyright`, and `rust-analyzer` in one session and exposes batch, refactor, and speculative-edit workflows over MCP.
+
+It is a Go binary installed by the upstream script, a release archive, or a container image. The project publishes no registry package or dependency revision for this catalog to pin, and it needs the underlying language servers installed separately, so `apd` keeps writing only the Serena recipe. Configuring a second bridge would also duplicate Serena's role in the `lsp` profile. Review its tool surface and install path upstream if that workflow fits your project.
 
 ## OpenCode's native LSP support
 
@@ -95,7 +102,7 @@ Select the intended scan scope and reviewed rule sets, pin dependencies in the p
 
 ## Verification recorded for this recipe
 
-On 2026-10-27, the exact pinned Serena command completed MCP `initialize` and `tools/list` on macOS with Python 3.13 in a temporary Python project, using an isolated `SERENA_HOME`. Startup and tool discovery took about 35 seconds. It exposed 22 tools, including `find_symbol`, `find_referencing_symbols`, and `get_diagnostics_for_file`.
+On 2026-10-28, `ty` and `agent-lsp` were added from repository metadata, upstream documentation, and license files only: no language-server startup, editor configuration, or MCP session was run for either entry. On 2026-10-27, the exact pinned Serena command completed MCP `initialize` and `tools/list` on macOS with Python 3.13 in a temporary Python project, using an isolated `SERENA_HOME`. Startup and tool discovery took about 35 seconds. It exposed 22 tools, including `find_symbol`, `find_referencing_symbols`, and `get_diagnostics_for_file`.
 
 The check made no `tools/call` requests and ended before language-server initialization completed. It verifies the package launch and MCP discovery path, not symbol correctness, every programming language, every operating system, or integration inside all five agent applications.
 

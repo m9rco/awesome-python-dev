@@ -22,7 +22,7 @@
 
 安装器使用 Python 编写，并提供 Python 开发预设；整个集合也覆盖 Web 和通用软件开发。目前支持 **Claude Code、Codex、Cursor、VS Code Copilot 和 OpenCode**。
 
-v0.3.0 收录 **54 个条目**：**30 个可安装资源**（20 个 skills、6 套规则、3 个 MCP servers、1 个 Serena LSP 桥接），以及 **24 个参考条目**（7 个原生语言服务、17 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。
+收录 **59 个条目**：**32 个可安装资源**（22 个 skills、6 套规则、3 个 MCP servers、1 个 Serena LSP 桥接），以及 **27 个参考条目**（agent-lsp、8 个原生语言服务、18 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。
 
 ## 目录
 

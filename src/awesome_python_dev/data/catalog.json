@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-10-27",
+  "reviewed_at": "2026-10-28",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -1427,6 +1427,127 @@
       "evidence": [
         "https://api.github.com/repos/gitleaks/gitleaks",
         "https://github.com/gitleaks/gitleaks"
+      ]
+    },
+    {
+      "id": "code-review-and-quality",
+      "name": "Code Review and Quality",
+      "kind": "skill",
+      "category": "engineering-skills",
+      "description": "Multi-axis review of a diff or pull request across correctness, readability, architecture, security, and performance before merge.",
+      "repository": "addyosmani/agent-skills",
+      "homepage": "https://github.com/addyosmani/agent-skills/tree/aeac41d4d005999432bb7312f7ff06383a91d59d/skills/code-review-and-quality",
+      "license": "MIT",
+      "stars": 111131,
+      "checked_at": "2026-10-28",
+      "last_pushed_at": "2026-10-13T20:24:07Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/addyosmani/agent-skills/tar.gz/aeac41d4d005999432bb7312f7ff06383a91d59d",
+        "sha256": "0211a580aab7d45c73886d6f96d2f0679416119b4f9add08b6ceea5c0c15fbf1",
+        "ref": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+        "type": "skill",
+        "subdir": "skills/code-review-and-quality",
+        "license_path": "LICENSE"
+      },
+      "notes": "Single-file skill from a 25-skill engineering collection; the pinned directory contains only SKILL.md, so no supporting files are copied. It reviews any diff, including agent-authored work, and overlaps security-review on one axis only. Collection plugin manifests, hooks, and the other skills are not installed.",
+      "evidence": [
+        "https://api.github.com/repos/addyosmani/agent-skills",
+        "https://github.com/addyosmani/agent-skills/tree/aeac41d4d005999432bb7312f7ff06383a91d59d/skills/code-review-and-quality",
+        "https://github.com/addyosmani/agent-skills/blob/aeac41d4d005999432bb7312f7ff06383a91d59d/LICENSE"
+      ]
+    },
+    {
+      "id": "observability-and-instrumentation",
+      "name": "Observability and Instrumentation",
+      "kind": "skill",
+      "category": "delivery-workflows",
+      "description": "Instrument features with logging, metrics, tracing, and alerting so production behavior is visible and diagnosable.",
+      "repository": "addyosmani/agent-skills",
+      "homepage": "https://github.com/addyosmani/agent-skills/tree/aeac41d4d005999432bb7312f7ff06383a91d59d/skills/observability-and-instrumentation",
+      "license": "MIT",
+      "stars": 111131,
+      "checked_at": "2026-10-28",
+      "last_pushed_at": "2026-10-13T20:24:07Z",
+      "archived": false,
+      "install": {
+        "url": "https://codeload.github.com/addyosmani/agent-skills/tar.gz/aeac41d4d005999432bb7312f7ff06383a91d59d",
+        "sha256": "0211a580aab7d45c73886d6f96d2f0679416119b4f9add08b6ceea5c0c15fbf1",
+        "ref": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+        "type": "skill",
+        "subdir": "skills/observability-and-instrumentation",
+        "license_path": "LICENSE"
+      },
+      "notes": "Same pinned archive as code-review-and-quality; the selected directory contains only SKILL.md. Covers production readiness after deployment-patterns but does not choose a telemetry vendor or configure collectors.",
+      "evidence": [
+        "https://api.github.com/repos/addyosmani/agent-skills",
+        "https://github.com/addyosmani/agent-skills/tree/aeac41d4d005999432bb7312f7ff06383a91d59d/skills/observability-and-instrumentation",
+        "https://github.com/addyosmani/agent-skills/blob/aeac41d4d005999432bb7312f7ff06383a91d59d/LICENSE"
+      ]
+    },
+    {
+      "id": "hypothesis",
+      "name": "Hypothesis",
+      "kind": "reference",
+      "category": "python-toolchain",
+      "description": "Property-based testing for Python that generates inputs and shrinks failing examples.",
+      "repository": "HypothesisWorks/hypothesis",
+      "homepage": "https://hypothesis.readthedocs.io/",
+      "license": "MPL-2.0",
+      "stars": 9113,
+      "checked_at": "2026-10-28",
+      "last_pushed_at": "2026-10-26T17:23:29Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: a project test dependency rather than an agent skill or MCP server. Adds generated-case coverage next to the pytest entry; recording it does not run or configure any test suite.",
+      "evidence": [
+        "https://api.github.com/repos/HypothesisWorks/hypothesis",
+        "https://hypothesis.readthedocs.io/",
+        "https://github.com/HypothesisWorks/hypothesis/blob/master/LICENSE.txt"
+      ]
+    },
+    {
+      "id": "ty",
+      "name": "ty",
+      "kind": "lsp",
+      "category": "language-servers",
+      "description": "Fast Rust-based Python type checker and language server with editor integrations.",
+      "repository": "astral-sh/ty",
+      "homepage": "https://docs.astral.sh/ty/",
+      "license": "MIT",
+      "stars": 19973,
+      "checked_at": "2026-10-28",
+      "last_pushed_at": "2026-10-27T16:21:19Z",
+      "archived": false,
+      "install": null,
+      "notes": "Standalone LSP reference for the Astral toolchain alongside uv and Ruff; upstream labels it beta. Distributed as a PyPI binary (uvx ty check, ty server) and configured through the editor integration guide. Overlaps pyright on Python typing; configure one type checker per project. Not an MCP server, so no launch recipe is recorded.",
+      "evidence": [
+        "https://api.github.com/repos/astral-sh/ty",
+        "https://docs.astral.sh/ty/features/language-server/",
+        "https://docs.astral.sh/ty/editors/",
+        "https://github.com/astral-sh/ty/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "agent-lsp",
+      "name": "agent-lsp",
+      "kind": "lsp",
+      "category": "lsp-bridge",
+      "description": "MCP server that orchestrates native language servers into batch, refactor, and speculative-edit workflows for coding agents.",
+      "repository": "blackwell-systems/agent-lsp",
+      "homepage": "https://www.agent-lsp.com/",
+      "license": "MIT",
+      "stars": 166,
+      "checked_at": "2026-10-28",
+      "last_pushed_at": "2026-10-27T17:39:10Z",
+      "archived": false,
+      "install": null,
+      "notes": "LSP bridge distributed as a single Go binary through an upstream install script, release archive, or container image; no pinned npx/uvx package exists, so no installer recipe is recorded. Unlike Serena it ships no symbol server of its own: it manages external servers (gopls, pyright, rust-analyzer) in one session and targets batch or preview workflows. Requires the underlying language servers to be installed separately.",
+      "evidence": [
+        "https://api.github.com/repos/blackwell-systems/agent-lsp",
+        "https://github.com/blackwell-systems/agent-lsp",
+        "https://github.com/blackwell-systems/agent-lsp/blob/main/docs/guide/speculative-execution.md",
+        "https://github.com/blackwell-systems/agent-lsp/blob/main/LICENSE"
       ]
     }
   ],

@@ -22,7 +22,7 @@ Find useful, established GitHub projects for AI assisted development, then insta
 
 The installer is written in Python, with a dedicated Python toolkit. The collection also serves web and general software development across **Claude Code, Codex, Cursor, VS Code Copilot, and OpenCode**.
 
-The v0.3.0 catalog includes **54 entries**: **30 installable resources** (20 skills, 6 rule packs, 3 MCP servers, and Serena's LSP bridge) and **24 references** (7 native language servers and 17 other tools). Choose from **11 profiles** across **5 coding agents**.
+The catalog includes **59 entries**: **32 installable resources** (22 skills, 6 rule packs, 3 MCP servers, and Serena's LSP bridge) and **27 references** (agent-lsp, 8 native language servers, and 18 other tools). Choose from **11 profiles** across **5 coding agents**.
 
 ## Contents
 

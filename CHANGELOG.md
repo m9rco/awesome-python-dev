@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+Catalogue additions from the daily candidate review.
+
+- Two pinned skills from `addyosmani/agent-skills` (`code-review-and-quality`,
+  `observability-and-instrumentation`) with their archive SHA-256, and three
+  reference-only entries: `ty` (Python type checker and language server),
+  `agent-lsp` (agent-facing LSP bridge), and `HypothesisWorks/hypothesis`.
+- The catalog now has 59 entries: 32 installable resources (22 skills, 6 rule
+  packs, 3 MCP servers, and Serena's bridge) and 27 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
+  updated in the same change.
+
 ## 0.3.0 — 2026-10-28
 
 Separate the npm command launcher from the Python toolkit runtime so routine
