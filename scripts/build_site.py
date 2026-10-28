@@ -579,7 +579,7 @@ class Website:
 <h2>Inspect and maintain your setup</h2><p>For repeat use, install the CLI once:</p>
 {self.code("uv tool install awesome-python-dev", "cli-command")}
 {self.code(maintenance, "maintenance-command")}
-<h2>Prefer npm?</h2><p>Use the small npm launcher with Node.js 22.14+ and Python 3.11+ or an existing uv installation:</p>
+<h2>Prefer npm?</h2><p>Use the small npm launcher with Node.js 22.21+ (22.x) or 24.5+, and Python 3.11+ or an existing uv installation:</p>
 {self.code("npx awesome-python-dev init --agents codex,claude --profile starter", "npm-command")}
 <p>The npm launcher and runtime have independent versions. The launcher downloads a verified runtime from GitHub on first use and checks for a compatible update at most once a day. Routine toolkit updates do not require a new npm package. Install it globally with <code>npm install -g awesome-python-dev</code>, then use <code>apd</code>. See <a href="{REPOSITORY}/blob/main/docs/NPM-RUNTIME.md">runtime versions, caching and offline use</a>.</p>
 <h2>Pin a version or use the source fallback</h2>

@@ -16,7 +16,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     environment: npm
-    timeout-minutes: 10
+    timeout-minutes: 25
+    env:
+      NPM_PACK_MANIFEST: ${{ runner.temp }}/npm-shell-package.json
     permissions:
       contents: read
       id-token: write
@@ -54,11 +56,106 @@ jobs:
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main
       - name: Install without lifecycle scripts
         run: npm ci --ignore-scripts
-      - name: Test and inspect shell
+      - name: Test shell
+        run: npm test
+      - name: Pack the exact shell archive to publish
         run: |
-          npm test
-          npm pack --dry-run --ignore-scripts
+          node - <<'JS'
+          const {execFileSync} = require('node:child_process');
+          const {createHash} = require('node:crypto');
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const pkg = require('./package.json');
+          const [packed] = JSON.parse(execFileSync('npm', ['pack', '--json', '--ignore-scripts'], {encoding:'utf8'}));
+          if (packed.name !== pkg.name || packed.version !== pkg.version ||
+              path.basename(packed.filename) !== packed.filename) {
+            throw new Error('npm pack returned unexpected package metadata');
+          }
+          const bytes = fs.readFileSync(packed.filename);
+          const integrity = `sha512-${createHash('sha512').update(bytes).digest('base64')}`;
+          const shasum = createHash('sha1').update(bytes).digest('hex');
+          if (packed.integrity !== integrity || packed.shasum !== shasum) {
+            throw new Error('Packed tarball does not match npm pack checksums');
+          }
+          fs.writeFileSync(process.env.NPM_PACK_MANIFEST, JSON.stringify({
+            name: pkg.name, version: pkg.version, filename: packed.filename,
+            size: bytes.length, integrity, shasum,
+          }));
+          console.log(`Packed ${pkg.name}@${pkg.version}: ${bytes.length} bytes, ${integrity}`);
+          JS
       - name: Publish shell with npm trusted publishing
         # Configure m9rco / awesome-python-dev / npm-publish.yml as the npm
         # package's trusted publisher. No long-lived NPM_TOKEN is required.
-        run: npm publish --access public --ignore-scripts --provenance
+        run: |
+          node - <<'JS'
+          const {execFileSync} = require('node:child_process');
+          const fs = require('node:fs');
+          const packed = JSON.parse(fs.readFileSync(process.env.NPM_PACK_MANIFEST, 'utf8'));
+          execFileSync('npm', ['publish', packed.filename, '--access', 'public', '--ignore-scripts',
+            '--provenance', '--registry=https://registry.npmjs.org'], {stdio:'inherit'});
+          JS
+      - name: Verify exact version and archive on the public npm registry
+        timeout-minutes: 12
+        run: |
+          node - <<'JS'
+          const {createHash} = require('node:crypto');
+          const fs = require('node:fs');
+          const {setTimeout: sleep} = require('node:timers/promises');
+          const packed = JSON.parse(fs.readFileSync(process.env.NPM_PACK_MANIFEST, 'utf8'));
+          const endpoint = `https://registry.npmjs.org/${encodeURIComponent(packed.name)}/${packed.version}`;
+          const deadline = Date.now() + 10 * 60 * 1000;
+          class IntegrityError extends Error {}
+          async function download(url, limit) {
+            const response = await fetch(url, {
+              redirect: 'error',
+              headers: {'cache-control': 'no-cache', 'user-agent': 'awesome-python-dev-release-verification'},
+              signal: AbortSignal.timeout(Math.max(1, Math.min(30000, deadline - Date.now()))),
+            });
+            if (!response.ok) {
+              await response.body?.cancel();
+              throw new Error(`Public registry returned HTTP ${response.status}`);
+            }
+            const chunks = [];
+            let size = 0;
+            for await (const chunk of response.body) {
+              size += chunk.length;
+              if (size > limit) throw new IntegrityError('Registry response exceeded its expected size');
+              chunks.push(chunk);
+            }
+            return Buffer.concat(chunks);
+          }
+          (async () => {
+            let last = 'Version has not appeared';
+            while (Date.now() < deadline) {
+              try {
+                const metadata = JSON.parse((await download(endpoint, 2 * 1024 * 1024)).toString('utf8'));
+                // A staged placeholder such as 0.0.0-stage does not prove publication.
+                if (metadata.name !== packed.name || metadata.version !== packed.version || !metadata.dist) {
+                  throw new Error(`Exact version is not public yet (reported ${metadata.version || 'missing'})`);
+                }
+                if (metadata.dist.integrity !== packed.integrity || metadata.dist.shasum !== packed.shasum) {
+                  throw new IntegrityError('Public version metadata does not match the packed archive');
+                }
+                const tarball = new URL(metadata.dist.tarball);
+                if (tarball.protocol !== 'https:' || tarball.hostname !== 'registry.npmjs.org' ||
+                    tarball.username || tarball.password || tarball.port) {
+                  throw new IntegrityError('Public tarball URL is outside the official npm registry');
+                }
+                const bytes = await download(tarball, packed.size + 1);
+                const integrity = `sha512-${createHash('sha512').update(bytes).digest('base64')}`;
+                const shasum = createHash('sha1').update(bytes).digest('hex');
+                if (bytes.length !== packed.size || integrity !== packed.integrity || shasum !== packed.shasum) {
+                  throw new IntegrityError('Downloaded public tarball differs from the archive that was published');
+                }
+                console.log(`Verified public ${packed.name}@${packed.version}: ${bytes.length} bytes, ${integrity}`);
+                return;
+              } catch (error) {
+                if (error instanceof IntegrityError) throw error;
+                last = error.message;
+                console.log(`Waiting for public npm propagation: ${last}`);
+              }
+              await sleep(Math.min(15000, Math.max(0, deadline - Date.now())));
+            }
+            throw new Error(`Public npm verification timed out after 10 minutes: ${last}`);
+          })().catch(error => { console.error(error.message); process.exitCode = 1; });
+          JS

@@ -2,12 +2,25 @@
 "use strict";
 
 const {resolveRuntime, runtimeStatus, RuntimeError} = require("../lib/runtime.cjs");
-const {runRuntime} = require("../lib/launch.cjs");
+const {runRuntime, runCommand} = require("../lib/launch.cjs");
+const {proxyRestartEnvironment} = require("../lib/proxy.cjs");
+
+function exitWith(result) {
+  if (result.signal && process.platform !== "win32") process.kill(process.pid, result.signal);
+  else process.exitCode = result.code;
+}
 
 async function main(args = process.argv.slice(2)) {
   if (args.length === 1 && args[0] === "--shell-version") {
     console.log(require("../package.json").version);
     return;
+  }
+  if (!(args[0] === "runtime" && args[1] === "status" && args.length === 2)) {
+    const proxyEnv = proxyRestartEnvironment();
+    if (proxyEnv) {
+      exitWith(await runCommand(process.execPath, [...process.execArgv, __filename, ...args], {env: proxyEnv}));
+      return;
+    }
   }
   if (args[0] === "runtime") {
     if (args[1] === "status" && args.length === 2) {
@@ -25,8 +38,7 @@ async function main(args = process.argv.slice(2)) {
   }
   const runtime = await resolveRuntime();
   const result = await runRuntime(runtime.file, args);
-  if (result.signal && process.platform !== "win32") process.kill(process.pid, result.signal);
-  else process.exitCode = result.code;
+  exitWith(result);
 }
 
 if (require.main === module) {

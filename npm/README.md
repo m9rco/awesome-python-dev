@@ -6,7 +6,7 @@ The npm package contains the **launcher only**. The Python **runtime** and tool 
 
 ## Install and use
 
-Requires **Node.js 22.14+**, plus **Python 3.11+ or uv**. If Python is unavailable but uv is installed, uv can provision Python 3.13. The launcher does not install uv or run a downloaded shell installer.
+Requires **Node.js 22.21+ (22.x) or 24.5+**, plus **Python 3.11+ or uv**. If Python is unavailable but uv is installed, uv can provision Python 3.13. The launcher does not install uv or run a downloaded shell installer.
 
 ```sh
 npm install --global awesome-python-dev
@@ -34,6 +34,8 @@ apd runtime update    # fetch the latest compatible stable runtime now
 On normal commands the launcher checks the protocol-1 channel at most once every 24 hours. A verified runtime is cached in your user cache directory and SHA-256 checked again before every launch. A failed network refresh can use the previously verified cached stable runtime; invalid manifests and checksums fail closed. First use requires GitHub access.
 
 The bootstrap manifest in the npm package supplies a known runtime when the channel cannot be reached. Runtime files are downloaded on first **use**, never during `npm install`; there is no `postinstall` hook and no npm runtime dependency.
+
+If `HTTP_PROXY` or `HTTPS_PROXY` (including lowercase variants) is set, the launcher enables Node's built-in environment proxy support in a one-time child process. Node also honors `NO_PROXY`/`no_proxy`. An explicit `NODE_USE_ENV_PROXY=0` or Node proxy flag is preserved. This does not modify your system proxy or shell settings.
 
 ## Pinning and offline use
 

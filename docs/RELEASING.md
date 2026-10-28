@@ -126,10 +126,14 @@ npm --prefix npm test
 npm --prefix npm run test:package
 ```
 
-The npm workflow validates the tag, tests the shell, inspects its file list and
-publishes using the configured trusted publisher. It does not create a new
-runtime release. A shell can therefore remain at `0.1.0` while compatible
-runtime versions continue to advance.
+The npm workflow validates the tag, tests the shell, packs it once and publishes
+that exact tarball using the configured trusted publisher. It then waits up to
+ten minutes for the exact version to become publicly downloadable and verifies
+the metadata and downloaded bytes against the packed tarball. A temporary
+`0.0.0-stage` placeholder is not a successful publication.
+
+The shell workflow does not create a new runtime release. A shell can therefore
+remain at `0.1.1` while compatible runtime versions continue to advance.
 
 ## Protocol and reproducibility
 

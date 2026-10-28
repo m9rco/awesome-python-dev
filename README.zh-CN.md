@@ -52,7 +52,7 @@ uvx awesome-python-dev init --agents codex,claude --profile starter
 npx awesome-python-dev init --agents codex,claude --profile starter
 ```
 
-Python 包需要 Python 3.11+。npm 外壳需要 **Node.js 22.14+**，以及 **Python 3.11+ 或已安装的 uv**；缺少 Python 时，uv 可以准备 Python 3.13。两种入口使用相同的工具包。
+Python 包需要 Python 3.11+。npm 外壳需要 **Node.js 22.21+（22.x）或 24.5+**，以及 **Python 3.11+ 或已安装的 uv**；缺少 Python 时，uv 可以准备 Python 3.13。两种入口使用相同的工具包。
 
 命令会下载选中的 skills 和通用规则，生成项目内的 agent 配置。随后重启或重新加载 agent，处理客户端的 MCP 授权提示即可使用。Codex 需要信任该项目后才会读取项目配置，具体见 [agent 适配说明](docs/AGENTS.md)。
 

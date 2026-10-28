@@ -13,6 +13,15 @@ Catalogue additions from the daily candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
   updated in the same change.
 
+## npm shell 0.1.1 — 2026-10-28
+
+- Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
+  with `NO_PROXY` bypass rules and an explicit opt-out. Requires Node.js 22.21+
+  (22.x) or 24.5+ for native proxy support; no npm dependencies were added.
+- Publish the inspected npm tarball through GitHub OIDC and verify the exact
+  version becomes publicly available with matching integrity.
+- The Python package and runtime remain at **0.3.0**.
+
 ## 0.3.0 — 2026-10-28
 
 Separate the npm command launcher from the Python toolkit runtime so routine

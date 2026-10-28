@@ -1,6 +1,6 @@
 {
   "name": "awesome-python-dev",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A stable launcher for curated AI development skills, rules, MCP and LSP toolkits.",
   "license": "MIT",
   "author": "awesome-python-dev contributors",
@@ -12,13 +12,13 @@
   },
   "bugs": "https://github.com/m9rco/awesome-python-dev/issues",
   "keywords": ["ai", "coding-agent", "skills", "rules", "mcp", "lsp", "developer-tools"],
-  "engines": {"node": ">=22.14.0"},
+  "engines": {"node": "^22.21.0 || >=24.5.0"},
   "bin": {"apd": "bin/apd.cjs", "awesome-python-dev": "bin/apd.cjs"},
   "files": ["bin/", "lib/", "runtime-bootstrap.json", "LICENSE", "README.md"],
   "scripts": {
     "test": "node --test test/*.test.cjs",
     "test:package": "node ../scripts/check_npm_package.cjs",
-    "check": "node --check bin/apd.cjs && node --check lib/runtime.cjs && node --check lib/launch.cjs"
+    "check": "node --check bin/apd.cjs && node --check lib/runtime.cjs && node --check lib/launch.cjs && node --check lib/proxy.cjs"
   },
   "publishConfig": {"access": "public"}
 }

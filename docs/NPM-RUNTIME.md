@@ -3,7 +3,7 @@
 `awesome-python-dev` has two independently versioned layers. The npm shell
 provides the command entry point and runtime loader. The Python runtime contains
 the installer, agent adapters, catalog, rules support and locked dependencies.
-The initial shell is **0.1.0** and the runtime is **0.3.0**. Runtime updates do not
+The current shell is **0.1.1** and the runtime is **0.3.0**. Runtime updates do not
 require a new npm version.
 
 | Layer | Distribution | Update trigger |
@@ -18,7 +18,7 @@ the Python interpreter or download upstream skills in advance.
 
 ## Install
 
-The npm entry point requires **Node.js 22.14+** and **Python 3.11+ or uv**:
+The npm entry point requires **Node.js 22.21+ (22.x) or 24.5+** and **Python 3.11+ or uv**:
 
 ```sh
 npx awesome-python-dev init --agents codex,claude --profile starter
@@ -81,6 +81,23 @@ is unreachable; first use still needs access to that runtime asset.
 Runtime code downloads happen on first **use**, not during `npm install`. The
 package has no `postinstall` hook or npm runtime dependencies. Arguments and
 working directory pass through to the Python CLI.
+
+## Proxies
+
+The launcher honors `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY`, including their
+lowercase forms, using Node's built-in proxy support. This applies to both
+manifest and runtime asset downloads. Set `NODE_USE_ENV_PROXY=0` to explicitly
+disable this behavior. The launcher does not change system or shell settings.
+
+For a local HTTP proxy, export its actual address before invoking the CLI:
+
+```sh
+export HTTPS_PROXY=http://127.0.0.1:7897
+npx awesome-python-dev --version
+```
+
+Use the HTTP endpoint provided by your proxy. A macOS system proxy setting or
+`ALL_PROXY` alone does not configure Node's built-in HTTP proxy support.
 
 ## Pin a runtime
 

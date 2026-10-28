@@ -53,7 +53,7 @@ Or use npm:
 npx awesome-python-dev init --agents codex,claude --profile starter
 ```
 
-The Python package requires Python 3.11+. The npm launcher requires **Node.js 22.14+** and **Python 3.11+ or an existing uv installation**. When Python is unavailable, uv can provision Python 3.13. Both entry points run the same toolkit.
+The Python package requires Python 3.11+. The npm launcher requires **Node.js 22.21+ (22.x) or 24.5+** and **Python 3.11+ or an existing uv installation**. When Python is unavailable, uv can provision Python 3.13. Both entry points run the same toolkit.
 
 This downloads the selected skills and common rules, then writes project-local agent configuration. Restart or reload your agent, review its MCP approval prompts, and start working. Codex loads project configuration only for a trusted project; see the [agent guide](docs/AGENTS.md).
 

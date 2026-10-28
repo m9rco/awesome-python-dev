@@ -31,10 +31,15 @@ function findPython(env = process.env, platform = process.platform, probe = spaw
 function runRuntime(file, args, options = {}) {
   const env = options.env || process.env;
   const python = options.python || findPython(env);
+  return runCommand(python.command, [...python.prefix, file, ...args], {...options, env});
+}
+
+function runCommand(command, args, options = {}) {
+  const env = options.env || process.env;
   const spawnImpl = options.spawn || spawn;
   const signals = options.signals || process;
   return new Promise((resolve, reject) => {
-    const child = spawnImpl(python.command, [...python.prefix, file, ...args], {
+    const child = spawnImpl(command, args, {
       cwd: options.cwd || process.cwd(), env, stdio: "inherit", shell: false,
     });
     const forward = (signal) => { if (!child.killed) child.kill(signal); };
@@ -44,9 +49,9 @@ function runRuntime(file, args, options = {}) {
       return [signal, handler];
     }));
     const cleanup = () => { for (const [signal, handler] of listeners) signals.removeListener(signal, handler); };
-    child.once("error", (error) => { cleanup(); reject(new RuntimeError(`Cannot start Python runtime: ${error.message}`)); });
+    child.once("error", (error) => { cleanup(); reject(new RuntimeError(`Cannot start ${command}: ${error.message}`)); });
     child.once("exit", (code, signal) => { cleanup(); resolve({code: code ?? 1, signal}); });
   });
 }
 
-module.exports = {findPython, runRuntime};
+module.exports = {findPython, runRuntime, runCommand};
