@@ -2,20 +2,22 @@
 
 **Curated AI development toolkits, ready for your coding agents.**
 
-> **Awesome Python Dev** is a curated, installable collection of **AI coding agent skills, engineering rule packs, MCP servers, and an LSP bridge** for **Claude Code, Codex, Cursor, GitHub Copilot, and OpenCode**. It ships a Python installer (`uvx awesome-python-dev init`) and an npm launcher that configure project-local tooling for Python and web development: debugging workflows, test-driven development, API design, database migrations, security review, and framework best practices (FastAPI, Django, Spring Boot, Go, TypeScript, Next.js). Every entry is pinned to an upstream commit with verified license and SHA-256 evidence — no account or API key required to browse.
+> **Awesome Python Dev** (`awesome-python-dev`, CLI: `apd`) is a curated collection and project-local installer for **AI coding agent skills, engineering rules, MCP servers, and LSP tooling**. It supports **Claude Code, Codex, Cursor, GitHub Copilot in VS Code, and OpenCode**. Run `uvx awesome-python-dev init` to select a toolkit for debugging, testing, security review, or framework development. Installable recipes use exact commits or package versions; skill and rule archives are SHA-256 verified. Reference-only entries link to their upstream projects.
 
 [![CI](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml) [![GitHub Pages](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml) [![GitHub release](https://img.shields.io/github/v/release/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/releases/latest) [![PyPI](https://img.shields.io/pypi/v/awesome-python-dev?logo=pypi&color=3775A9)](https://pypi.org/project/awesome-python-dev/) [![npm shell](https://img.shields.io/npm/v/awesome-python-dev?logo=npm&label=npm%20shell)](https://www.npmjs.com/package/awesome-python-dev) [![GitHub stars](https://img.shields.io/github/stars/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/stargazers) [![GitHub issues](https://img.shields.io/github/issues/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/issues) [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Catalog](https://img.shields.io/badge/Catalog-Skills%20%7C%20Rules%20%7C%20MCP%20%7C%20LSP-6f42c1)](docs/CATALOG.md)
 
 
 English · [简体中文](README.zh-CN.md)
 
-**[Browse the website](https://m9rco.github.io/awesome-python-dev/) · [Getting started](https://m9rco.github.io/awesome-python-dev/getting-started/) · [Website maintenance](docs/WEBSITE.md)**
+**[Browse the website](https://m9rco.github.io/awesome-python-dev/) · [Getting started](https://m9rco.github.io/awesome-python-dev/getting-started/) · [Documentation index](docs/index.md) · [Website maintenance](docs/WEBSITE.md)**
+
+**For agents:** [Integration guide](https://m9rco.github.io/awesome-python-dev/agents/) · [Text index (`llms.txt`)](https://m9rco.github.io/awesome-python-dev/llms.txt) · [Catalog JSON](https://m9rco.github.io/awesome-python-dev/catalog.json)
 
 Find useful, established GitHub projects for AI assisted development, then install a selected toolkit into your project with one command. **Skills** supply reusable workflows, **rules** activate engineering and security guidance, **MCP servers** connect tools and context, and an **LSP bridge** exposes code intelligence to your agent.
 
 The installer is written in Python, with a dedicated Python toolkit. The collection also serves web and general software development across **Claude Code, Codex, Cursor, VS Code Copilot, and OpenCode**.
 
-The catalog includes **59 entries**: **32 installable resources** (22 skills, 6 rule packs, 3 MCP servers, and Serena's LSP bridge) and **27 references** (agent-lsp, 8 native language servers, and 18 other tools). Choose from **11 profiles** across **5 coding agents**.
+The repository catalog includes **59 entries**: **32 installable resources** (22 skills, 6 rule packs, 3 MCP servers, and Serena's LSP bridge) and **27 references** (agent-lsp, 8 native language servers, and 18 other tools). Choose from **11 profiles** across **5 coding agents**. Repository `main` may include unreleased additions; `apd list --json` reports the catalog in your installed runtime.
 
 ## Contents
 
@@ -29,8 +31,9 @@ The catalog includes **59 entries**: **32 installable resources** (22 skills, 6 
 - [Everyday commands](#everyday-commands)
 - [How installation works](#how-installation-works)
 - [What makes a project a good fit](#what-makes-a-project-a-good-fit)
-- [Contribute](#contribute)
+- [Project structure](#project-structure)
 - [FAQ](#faq)
+- [Contribute](#contribute)
 - [Acknowledgments](#acknowledgments)
 
 ## Quick start
@@ -231,31 +234,92 @@ We prefer tools with a concrete development use case, useful documentation, an i
 
 An installable entry additionally needs a reproducible recipe, a reviewable source or package version, verified paths and runtime requirements, and a way to preserve upstream attribution. Rule packs also need explicit file selection, dependencies, and tested native activation. Projects that need credentials, manual setup, or a richer adapter can remain useful reference entries while an integration is evaluated.
 
+## Project structure
+
+| Path | Responsibility |
+| --- | --- |
+| [`src/awesome_python_dev/`](src/awesome_python_dev/) | Python CLI, installation plans, downloads, agent adapters, and native rule activation. |
+| [`src/awesome_python_dev/data/catalog.json`](src/awesome_python_dev/data/catalog.json) | Canonical tool descriptions, installation recipes, source pins, review metadata, and profiles. |
+| [`npm/`](npm/) | Independently versioned Node launcher, verified runtime cache, and launcher tests. |
+| [`scripts/`](scripts/) | Build and validation entry points for the website, distributions, and runtime. |
+| [`scripts/sitegen/`](scripts/sitegen/) | Website configuration, page rendering, and generated Agent discovery documents. |
+| [`site/assets/`](site/assets/) | Website styles, browser enhancements, and shared static assets. |
+| [`tests/`](tests/) | Python behavior, packaging, and website tests using temporary projects. |
+| [`docs/`](docs/index.md) | User guides, compatibility evidence, source attribution, and maintainer workflows. |
+| [`.github/workflows/`](.github/workflows/) | Cross-platform CI, Pages deployment, and separate runtime/npm releases. |
+
+`_site/` and `dist/` are generated output. Update the catalog and build sources,
+then regenerate; do not maintain a second catalog in generated HTML. See the
+[documentation index](docs/index.md) for the right source to change, the
+[architecture guide](docs/ARCHITECTURE.md) for module boundaries, and
+[repository agent instructions](AGENTS.md) when contributing with an agent.
+
 ## FAQ
 
-**What is Awesome Python Dev?**
-A curated, installable collection of AI coding agent toolkits — skills, engineering rules, MCP servers, and an LSP bridge — for Claude Code, Codex, Cursor, GitHub Copilot, and OpenCode.
+### What is the difference between skills, rules, MCP, and LSP here?
 
-**How do I install coding agent skills into my project?**
-```sh
-uvx awesome-python-dev init --agents codex,claude --profile python
-# or: npx awesome-python-dev init --agents codex,claude --profile python
-```
+Skills describe reusable development workflows. Rules supply engineering and
+framework instructions through each agent's native rule format. MCP recipes
+configure tool servers that the agent can start. The installable LSP integration
+is Serena's MCP bridge; standalone language servers are references. Check
+[the catalog](docs/CATALOG.md) for each entry's installation support.
 
-**Which coding agents are supported?**
-Claude Code, Codex, Cursor, VS Code Copilot, and OpenCode — each with native project-local configuration (skills directory and MCP format per agent).
+### Which coding agents can I configure?
 
-**Does this replace my agent's built-in skills or MCP servers?**
-No. It writes project-local files only (`.claude/skills/`, `.codex/config.toml`, `.cursor/mcp.json`, etc.) and preserves unrelated configuration. No home-directory or global agent settings are changed.
+Claude Code (`claude`), Codex (`codex`), Cursor (`cursor`), GitHub Copilot in VS Code
+(`vscode`), and OpenCode (`opencode`). Use `--agents codex,claude` to select targets
+or `--agents all` for all five. The VS Code adapter does not target the separate
+Copilot CLI. See [agent paths and compatibility limits](docs/AGENTS.md).
 
-**Do I need an API key or account?**
-No account or API key is required to browse or install. Individual MCP servers may document their own optional keys for higher limits.
+### What is the shortest installation command?
 
-**What kinds of skills and rules are included?**
-Systematic debugging, test-driven development, verification before completion, coding standards, API design, database migrations, deployment patterns, security review, and framework best practices for FastAPI, Django, Spring Boot, Go, TypeScript, React/Next.js, and Python testing/packaging.
+Run `uvx awesome-python-dev init` inside the target project. Use
+`uvx awesome-python-dev init --agents codex --profile python --dry-run` for an
+explicit preview without downloads or writes. For repeated use, install once
+with `uv tool install awesome-python-dev`, then run `apd init`. The npm alternative
+is `npx awesome-python-dev init`; see [runtime prerequisites](#quick-start).
 
-**Is every entry reviewed?**
-Yes — each installable entry is pinned to an upstream commit or exact package version, with verified license, archive SHA-256, and review date recorded in the catalog. Stars are discovery signals, not ranking.
+### Why do npm and Python have different versions or catalog contents?
+
+The npm package is a small launcher that selects a verified Python runtime from
+GitHub Releases. PyPI distributes that Python toolkit directly. Catalog and
+installer updates use runtime releases; launcher changes use npm releases.
+Repository `main` and its website can include unreleased catalog additions.
+Use `apd --version` and `apd list --json` to identify what your installed release
+contains, and read [release and cache behavior](docs/NPM-RUNTIME.md).
+
+### How are projects selected and versions pinned?
+
+Selection considers the development use case, documentation, license,
+maintenance evidence, and integration requirements. Stars help discover
+candidates; they do not certify quality. Installable skills and rules use full
+Git commits and verified archive hashes. MCP recipes use exact package versions
+or full commits. Reference entries have no installer recipe. Review evidence
+and dates are recorded in [the research notes](docs/RESEARCH.md) and
+[canonical catalog](src/awesome_python_dev/data/catalog.json).
+
+### Does installation execute tools or overwrite my agent settings?
+
+`init` downloads selected skill/rule files and writes project-local configuration.
+It preserves unrelated settings and rejects conflicting managed changes. It does
+not execute downloaded skill scripts or start MCP servers; your agent may do so
+later under its own permissions. The npm launcher executes its verified toolkit
+runtime. Review a dry run and the [security model](SECURITY.md) before installing.
+
+### Do I need an account or API key?
+
+Browsing the catalog and using the installer require no Awesome Python Dev
+account. Selected services can have their own authentication, rate limits,
+runtime dependencies, or charges. Follow the linked upstream documentation;
+never put credentials into catalog recipes or committed project configuration.
+
+### How can I suggest a missing tool or agent adapter?
+
+Open a [tool suggestion](https://github.com/m9rco/awesome-python-dev/issues/new?template=tool-suggestion.yml)
+with its official repository, license, concrete use case, maintenance evidence,
+and what you tested. An entry may first be reference-only while its integration
+is evaluated. For adapter contributions, include official configuration
+documentation and merge/removal tests; see [contributing](CONTRIBUTING.md).
 
 ## Contribute
 

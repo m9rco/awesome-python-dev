@@ -41,6 +41,13 @@ State what you tested: serialization and merge tests, MCP protocol startup, or a
 
 ## Develop locally
 
+Use the [documentation index](docs/index.md) and
+[architecture map](docs/ARCHITECTURE.md) to locate the relevant boundary. Agent
+contributors should also read the repository [AGENTS.md](AGENTS.md).
+Website and discovery implementation lives in `scripts/sitegen/`; keep the
+`scripts/build_site.py` entry point compatible and generate `_site/` rather than
+editing output files. Preserve both README languages and existing badges.
+
 ```sh
 git clone https://github.com/m9rco/awesome-python-dev.git
 cd awesome-python-dev

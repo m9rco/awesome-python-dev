@@ -2,20 +2,22 @@
 
 **精选 AI 开发工具包，一条命令装进你的 coding agent。**
 
-> **Awesome Python Dev** 是面向 AI 编程助手的精选可安装工具集：**Coding Agent Skills（技能）、工程规则包（Rules）、MCP 服务器（MCP）与 LSP 桥接**，适配 **Claude Code、Codex、Cursor、GitHub Copilot 和 OpenCode**。提供 Python 安装器（`uvx awesome-python-dev init`）与 npm 启动器，为 Python 与 Web 项目一键配置本地工具链：调试流程、测试驱动开发、API 设计、数据库迁移、安全评审与框架最佳实践（FastAPI、Django、Spring Boot、Go、TypeScript、Next.js）。每个条目均锁定上游 commit，并记录许可证与 SHA-256 校验证据——浏览与安装均无需账号或 API key。
+> **Awesome Python Dev**（包名 `awesome-python-dev`，命令 `apd`）是 **AI 编程助手的 Skills、工程规则、MCP 服务器和 LSP 工具精选集合与项目内安装器**，适配 **Claude Code、Codex、Cursor、VS Code 内的 GitHub Copilot 和 OpenCode**。运行 `uvx awesome-python-dev init`，即可选择调试、测试、安全复核或框架开发工具包。可安装配方固定 commit 或包版本，skill 与规则归档经过 SHA-256 校验；参考条目提供上游项目链接。
 
 [![CI](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/ci.yml) [![GitHub Pages](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/m9rco/awesome-python-dev/actions/workflows/pages.yml) [![GitHub release](https://img.shields.io/github/v/release/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/releases/latest) [![PyPI](https://img.shields.io/pypi/v/awesome-python-dev?logo=pypi&color=3775A9)](https://pypi.org/project/awesome-python-dev/) [![npm shell](https://img.shields.io/npm/v/awesome-python-dev?logo=npm&label=npm%20shell)](https://www.npmjs.com/package/awesome-python-dev) [![GitHub stars](https://img.shields.io/github/stars/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/stargazers) [![GitHub issues](https://img.shields.io/github/issues/m9rco/awesome-python-dev?logo=github)](https://github.com/m9rco/awesome-python-dev/issues) [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Catalog](https://img.shields.io/badge/Catalog-Skills%20%7C%20Rules%20%7C%20MCP%20%7C%20LSP-6f42c1)](docs/CATALOG.md)
 
 
 [English](README.md) · 简体中文
 
-**[浏览项目网站](https://m9rco.github.io/awesome-python-dev/zh/) · [安装指南](https://m9rco.github.io/awesome-python-dev/getting-started/) · [网站自动发布说明](docs/WEBSITE.md)**
+**[浏览项目网站](https://m9rco.github.io/awesome-python-dev/zh/) · [安装指南](https://m9rco.github.io/awesome-python-dev/getting-started/) · [文档索引](docs/index.md) · [网站自动发布说明](docs/WEBSITE.md)**
+
+**Agent 检索入口：**[集成指南](https://m9rco.github.io/awesome-python-dev/agents/) · [文本索引（`llms.txt`）](https://m9rco.github.io/awesome-python-dev/llms.txt) · [JSON 工具目录](https://m9rco.github.io/awesome-python-dev/catalog.json)
 
 收集 GitHub 上实用、成熟、有明确来源的 AI 开发工具，并将经过适配的工具组合成可安装的工具包。**Skill** 提供开发流程，**规则** 激活工程规范与安全指导，**MCP** 连接工具和上下文，**LSP 桥接** 提供符号导航和代码诊断。
 
 安装器使用 Python 编写，并提供 Python 开发预设；整个集合也覆盖 Web 和通用软件开发。目前支持 **Claude Code、Codex、Cursor、VS Code Copilot 和 OpenCode**。
 
-收录 **59 个条目**：**32 个可安装资源**（22 个 skills、6 套规则、3 个 MCP servers、1 个 Serena LSP 桥接），以及 **27 个参考条目**（agent-lsp、8 个原生语言服务、18 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。
+仓库目录收录 **59 个条目**：**32 个可安装资源**（22 个 skills、6 套规则、3 个 MCP servers、1 个 Serena LSP 桥接），以及 **27 个参考条目**（agent-lsp、8 个原生语言服务、18 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。`main` 可能包含尚未发版的新增项，`apd list --json` 显示已安装 runtime 实际包含的工具目录。
 
 ## 目录
 
@@ -29,6 +31,8 @@
 - [常用命令](#常用命令)
 - [安装机制](#安装机制)
 - [收录标准](#收录标准)
+- [项目结构](#项目结构)
+- [常见问题](#常见问题)
 - [参与贡献](#参与贡献)
 
 ## 快速开始
@@ -228,6 +232,56 @@ apd remove --path ../my-project
 优先选择用途明确、文档可用、来源可信、许可证清晰，并具有持续维护证据的项目。Star 数用于发现候选项目，同时结合实际场景与集成成本判断。
 
 进入可安装集合，还需要可复现的安装配方、可核验的源码或包版本、明确的目录和运行要求，以及完整的上游归属信息。规则包还需要文件白名单、依赖声明和原生激活测试。需要凭据、手动配置或额外适配的工具，可以先作为参考项目收录。
+
+## 项目结构
+
+| 路径 | 职责 |
+| --- | --- |
+| [`src/awesome_python_dev/`](src/awesome_python_dev/) | Python CLI、安装计划、下载、agent 适配与原生规则激活。 |
+| [`src/awesome_python_dev/data/catalog.json`](src/awesome_python_dev/data/catalog.json) | 工具描述、安装配方、来源版本、核验记录与预设的权威数据源。 |
+| [`npm/`](npm/) | 独立发版的 Node 启动器、runtime 校验缓存与外壳测试。 |
+| [`scripts/`](scripts/) | 网站、发行包与 runtime 的构建和校验入口。 |
+| [`scripts/sitegen/`](scripts/sitegen/) | 网站配置、页面渲染与 Agent 检索文档生成。 |
+| [`site/assets/`](site/assets/) | 网站样式、浏览器交互增强与共享静态资源。 |
+| [`tests/`](tests/) | 使用临时项目的 Python 行为、打包与网站测试。 |
+| [`docs/`](docs/index.md) | 用户指南、兼容性证据、来源归属与维护流程。 |
+| [`.github/workflows/`](.github/workflows/) | 跨平台 CI、Pages 部署以及独立的 runtime/npm 发布。 |
+
+`_site/` 与 `dist/` 是生成产物。更新目录数据和构建源码后重新生成，不在生成的 HTML 中维护第二份工具目录。修改前可通过 [文档索引](docs/index.md) 找到数据源，通过 [架构说明](docs/ARCHITECTURE.md) 了解模块职责；使用 agent 参与贡献时先阅读 [仓库指令](AGENTS.md)。
+
+## 常见问题
+
+### Skills、Rules、MCP 和 LSP 分别提供什么？
+
+Skills 描述可复用的开发流程；Rules 通过 agent 的原生规则格式提供工程与框架指令；MCP 配方配置由 agent 后续启动的工具服务器。可安装的 LSP 集成是 Serena 的 MCP 桥接，独立语言服务作为参考条目收录。每项是否支持安装，以 [精选目录](docs/CATALOG.md) 的说明为准。
+
+### 可以配置哪些 coding agent？
+
+支持 Claude Code（`claude`）、Codex（`codex`）、Cursor（`cursor`）、VS Code 内的 GitHub Copilot（`vscode`）和 OpenCode（`opencode`）。用 `--agents codex,claude` 选择目标，或用 `--agents all` 配置全部五种适配器。VS Code 适配器不对应独立的 Copilot CLI。路径和兼容性边界见 [agent 说明](docs/AGENTS.md)。
+
+### 最短的安装命令是什么？
+
+在目标项目中运行 `uvx awesome-python-dev init`。需要明确目标并先预览时，运行 `uvx awesome-python-dev init --agents codex --profile python --dry-run`，不会下载或写入。经常使用可以先执行 `uv tool install awesome-python-dev`，以后直接运行 `apd init`。npm 入口是 `npx awesome-python-dev init`，运行条件见 [快速开始](#快速开始)。
+
+### 为什么 npm 和 Python 的版本号或工具目录不一样？
+
+npm 包是小型启动器，从 GitHub Releases 选择并校验 Python runtime；PyPI 直接发行 Python 工具包。工具目录和安装器变更走 runtime 发布，启动器变更才走 npm 发布。仓库 `main` 和网站可能包含尚未发版的目录新增项。通过 `apd --version` 与 `apd list --json` 判断已安装版本实际包含的内容，详见 [版本与缓存机制](docs/NPM-RUNTIME.md)。
+
+### 如何筛选项目并固定版本？
+
+筛选依据包括开发场景、文档、许可证、维护证据与集成条件。Star 用于发现候选，不代表质量认证。可安装的 skills 和规则使用完整 Git commit 与校验过的归档哈希；MCP 配方固定包版本或完整 commit；参考条目没有安装配方。[调研记录](docs/RESEARCH.md) 和 [目录数据源](src/awesome_python_dev/data/catalog.json) 记录核验依据与日期。
+
+### 安装时会执行工具或覆盖 agent 配置吗？
+
+`init` 下载所选 skill/规则文件并写入项目配置，保留无关设置，遇到受管理内容的修改冲突会停止。它不会执行下载的 skill 脚本或启动 MCP 服务器；agent 后续可能按自身权限运行这些内容。npm 启动器会执行经过校验的工具包 runtime。安装前可查看预览与 [安全模型](SECURITY.md)。
+
+### 需要账号或 API key 吗？
+
+浏览目录和使用安装器不需要 Awesome Python Dev 账号。选中的外部服务可能有自身认证、限流、运行依赖或费用，具体以上游文档为准。不要把凭据写入目录配方或提交到项目配置中。
+
+### 如何推荐未收录的工具或新的 agent 适配？
+
+提交 [工具建议](https://github.com/m9rco/awesome-python-dev/issues/new?template=tool-suggestion.yml)，提供官方仓库、许可证、具体用途、维护证据和测试结果。适配尚未验证的工具可以先作为参考条目收录。新增 agent 适配需要官方配置文档以及合并、卸载测试，详见 [贡献指南](CONTRIBUTING.md)。
 
 ## 参与贡献
 

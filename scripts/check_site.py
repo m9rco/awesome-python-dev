@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from collections import Counter
@@ -11,7 +12,10 @@ from pathlib import Path
 from urllib.parse import unquote, urljoin, urlsplit
 from xml.etree import ElementTree
 
+from awesome_python_dev.catalog import load_catalog
+
 DEFAULT_BASE_URL = "https://m9rco.github.io/awesome-python-dev"
+FILESYSTEM_PATH = re.compile(r"file://|(?<![\w:/])/(?:Users|home|private|tmp)/|[A-Za-z]:\\Users\\")
 
 
 class Page(HTMLParser):
@@ -24,6 +28,8 @@ class Page(HTMLParser):
         self.meta: dict[str, list[str]] = {}
         self.canonicals: list[str] = []
         self.alternates: dict[str, str] = {}
+        self.markdown_alternates: list[str] = []
+        self.describedby: list[str] = []
         self.ids: list[str] = []
         self.links: list[str] = []
         self.json_ld: list[str] = []
@@ -54,6 +60,10 @@ class Page(HTMLParser):
                 self.canonicals.append(values.get("href") or "")
             if "alternate" in rel and values.get("hreflang"):
                 self.alternates[values["hreflang"]] = values.get("href") or ""
+            if "alternate" in rel and values.get("type") == "text/markdown":
+                self.markdown_alternates.append(values.get("href") or "")
+            if "describedby" in rel:
+                self.describedby.append(values.get("href") or "")
         for attribute in ("href", "src"):
             if values.get(attribute):
                 self.links.append(values[attribute])
@@ -87,6 +97,100 @@ def page_url(base_url: str, relative: Path) -> str:
     elif path.endswith("/index.html"):
         path = path[: -len("index.html")]
     return base_url.rstrip("/") + "/" + path
+
+
+def check_discovery(site: Path, base_url: str) -> list[str]:
+    """Audit the machine-readable routes using the same catalog as the CLI."""
+    errors: list[str] = []
+    parsed_base = urlsplit(base_url)
+    prefix = parsed_base.path.rstrip("/") + "/"
+    llms = site / "llms.txt"
+    if not llms.is_file():
+        errors.append("missing llms.txt discovery index")
+    documents = sorted(site.rglob("*.md")) + ([llms] if llms.is_file() else [])
+    for document in documents:
+        name = document.relative_to(site).as_posix()
+        text = document.read_text(encoding="utf-8")
+        if not text.startswith("# "):
+            errors.append(f"{name}: Markdown discovery document must begin with a project/page heading")
+        if str(site) in text or FILESYSTEM_PATH.search(text):
+            errors.append(f"{name}: discovery output contains an absolute filesystem path")
+        links = re.findall(r"\[[^\]\n]+\]\(([^\s)]+)\)", text)
+        if document == llms and not links:
+            errors.append("llms.txt: discovery index has no links")
+        for href in links:
+            target = urlsplit(href)
+            if target.scheme not in {"http", "https"} or not target.netloc:
+                errors.append(f"{name}: discovery link must be absolute HTTP(S): {href}")
+                continue
+            if target.netloc != parsed_base.netloc:
+                continue
+            decoded = unquote(target.path)
+            if not decoded.startswith(prefix):
+                errors.append(f"{name}: discovery link escapes site base path: {href}")
+                continue
+            local = (site / decoded[len(prefix):]).resolve()
+            if not local.is_relative_to(site):
+                errors.append(f"{name}: discovery link escapes site directory: {href}")
+            elif not local.is_file() and not (local / "index.html").is_file():
+                errors.append(f"{name}: broken discovery link: {href}")
+
+    try:
+        catalog_text = (site / "catalog.json").read_text(encoding="utf-8")
+        if str(site) in catalog_text or FILESYSTEM_PATH.search(catalog_text):
+            errors.append("catalog.json: discovery output contains an absolute filesystem path")
+        exported = json.loads(catalog_text)
+        canonical = load_catalog()
+        tools = {tool["id"]: tool for tool in exported["tools"]}
+        expected = {tool["id"]: tool for tool in canonical["tools"]}
+        if len(tools) != len(exported["tools"]) or tools.keys() != expected.keys():
+            errors.append("catalog.json: tool IDs must match the CLI catalog without duplicates")
+        if exported["profiles"] != canonical["profiles"]:
+            errors.append("catalog.json: profiles must match the CLI catalog")
+        discovery = exported["discovery"]
+        if discovery.get("catalog_scope") != "source-snapshot" or not discovery.get("release_note"):
+            errors.append("catalog.json: source snapshot must be distinguished from published runtime releases")
+        if discovery.get("llms_url") != base_url + "/llms.txt":
+            errors.append("catalog.json: llms_url must use the site base URL")
+        if discovery.get("guide_url") != base_url + "/agents/index.md":
+            errors.append("catalog.json: guide_url must use the site base URL")
+        for tool_id, tool in tools.items():
+            original = expected.get(tool_id)
+            if original is None:
+                continue
+            if tool.get("kind") != original["kind"] or tool.get("installable") is not bool(original.get("install")):
+                errors.append(f"catalog.json: kind/installability differs from CLI for {tool_id}")
+            if tool.get("url") != f"{base_url}/tools/{tool_id}/" or tool.get("markdown_url") != f"{base_url}/tools/{tool_id}/index.md":
+                errors.append(f"catalog.json: tool URLs must use canonical site paths for {tool_id}")
+            preview = tool.get("preview_command", "")
+            if original.get("install"):
+                if f"--tools {tool_id}" not in preview or "--dry-run" not in preview:
+                    errors.append(f"catalog.json: missing preview command for {tool_id}")
+            elif preview:
+                errors.append(f"catalog.json: reference-only tool {tool_id} must not have an install command")
+        original_export = {key: value for key, value in exported.items() if key != "discovery"}
+        derived = {"installable", "url", "markdown_url", "preview_command"}
+        original_export["tools"] = [
+            {key: value for key, value in tool.items() if key not in derived}
+            for tool in exported["tools"]
+        ]
+        if original_export != canonical:
+            errors.append("catalog.json: exported source data must exactly match the CLI catalog")
+        payload = json.dumps(original_export, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        if discovery.get("catalog_sha256") != hashlib.sha256(payload.encode("utf-8")).hexdigest():
+            errors.append("catalog.json: source catalog checksum does not match exported data")
+        for document in documents:
+            text = document.read_text(encoding="utf-8")
+            for ids in re.findall(r"--tools\s+([a-z0-9][a-z0-9,-]*)", text):
+                for tool_id in ids.split(","):
+                    if tool_id not in expected or not expected[tool_id].get("install"):
+                        errors.append(f"{document.relative_to(site)}: invalid installable tool in command: {tool_id}")
+            for profile in re.findall(r"--profile\s+([a-z0-9][a-z0-9-]*)", text):
+                if profile not in canonical["profiles"]:
+                    errors.append(f"{document.relative_to(site)}: unknown profile in command: {profile}")
+    except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
+        errors.append(f"catalog.json: cannot validate discovery export: {exc}")
+    return errors
 
 
 def check_site(site: Path, base_url: str = DEFAULT_BASE_URL) -> list[str]:
@@ -132,6 +236,11 @@ def check_site(site: Path, base_url: str = DEFAULT_BASE_URL) -> list[str]:
         expected.add(url)
         if page.canonicals != [url]:
             errors.append(f"{name}: canonical must be exactly {url}")
+        markdown_url = base_url + "/" + relative.with_suffix(".md").as_posix()
+        if page.markdown_alternates != [markdown_url]:
+            errors.append(f"{name}: Markdown alternate must be exactly {markdown_url}")
+        if page.describedby != [base_url + "/llms.txt"]:
+            errors.append(f"{name}: describedby must point to the site's llms.txt")
         if len(page.titles) != 1 or not page.titles[0]:
             errors.append(f"{name}: expected one nonempty title")
         else:
@@ -235,6 +344,7 @@ def check_site(site: Path, base_url: str = DEFAULT_BASE_URL) -> list[str]:
             errors.append("social-card.png: not a valid PNG")
         elif (int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")) != (1200, 630):
             errors.append("social-card.png: expected 1200 × 630 pixels")
+    errors.extend(check_discovery(site, base_url))
     return errors
 
 

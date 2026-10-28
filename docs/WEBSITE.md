@@ -5,18 +5,52 @@ with a [Chinese introduction](https://m9rco.github.io/awesome-python-dev/zh/).
 
 ## Content sources
 
-`scripts/build_site.py` creates a static website from the repository's catalog and
-release metadata. Tool names, descriptions, installation support, provenance,
+`scripts/build_site.py` is the stable command entry point. Its implementation in
+`scripts/sitegen/` separates shared configuration, HTML rendering and Agent
+discovery exports. It creates a static website from the repository's catalog and
+package metadata. Tool names, descriptions, installation support, provenance,
 profile membership and counts come from
 `src/awesome_python_dev/data/catalog.json`; the CLI version comes from
 `pyproject.toml`. Edit those sources to update the collection. Website presentation
-and navigation live in the generator and `site/assets/`.
+and navigation live in `scripts/sitegen/renderer.py` and `site/assets/`.
 
-Generated HTML in `_site/` is ignored by Git. The site includes a home page,
+Generated HTML, Markdown and JSON in `_site/` are ignored by Git. The site includes a home page,
 getting-started guide, category pages, individual tool pages and profile pages.
 Each tool page distinguishes an installable recipe from an upstream reference.
 Catalog content is present in the HTML, so browsing and crawling do not depend on
 JavaScript. Search and command copying add optional browser conveniences.
+
+The website is a `main` source snapshot. Its package version is not proof that
+every displayed tool has shipped in that runtime release. Discovery metadata
+identifies the catalog snapshot; installed clients should check `apd list --json`
+and `apd profiles --json` before using a new ID.
+
+## Agent discovery and GEO
+
+| Entry | Purpose |
+| --- | --- |
+| [`llms.txt`](https://m9rco.github.io/awesome-python-dev/llms.txt) | Compact project overview and links to Markdown details |
+| [`agents/`](https://m9rco.github.io/awesome-python-dev/agents/) | How an agent can identify tools, verify availability and preview installation |
+| [`catalog.json`](https://m9rco.github.io/awesome-python-dev/catalog.json) | Catalog records plus discovery metadata and source provenance |
+| `index.md` beside a page | Plain-text counterpart for landing, getting-started, category, tool and profile pages |
+
+HTML link metadata advertises the covering `llms.txt` (`rel="describedby"`) and
+the page's Markdown counterpart (`rel="alternate" type="text/markdown"`). Links
+include the configured base path, including on GitHub project sites. Tool pages
+and machine exports distinguish reference-only resources from installable
+recipes; reference-only entries must not advertise an installation command.
+
+These files help agents retrieve focused information without parsing the full
+visual layout. `llms.txt` is a [community proposal](https://llmstxt.org/), not a
+ranking requirement. Google states that [its AI search features use normal SEO
+requirements](https://developers.google.com/search/docs/appearance/ai-features)
+and do not require special AI files. Crawlability, useful visible text, accurate
+structured metadata and source evidence remain the foundation; ranking or
+citations are not guaranteed.
+
+`scripts/check_site.py` and the website tests validate discovery files and link
+targets along with HTML metadata and the sitemap. Content is generated from the
+same catalog rather than maintained as a second tool database.
 
 ## Automatic updates
 

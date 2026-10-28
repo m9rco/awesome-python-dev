@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- Agent discovery: generated `llms.txt`, per-page Markdown counterparts, a
+  source-attributed JSON catalog and an Agent integration guide. Discovery links
+  preserve custom domains and project subpaths; source snapshots are explicitly
+  distinguished from the catalog bundled in published runtimes.
+- Website build implementation is organized into `scripts/sitegen/` modules,
+  retaining the existing build entry point. Added a documentation index,
+  architecture map and repository instructions for contributing agents.
+- Bilingual README FAQs and GitHub metadata describe actual installation support;
+  existing badges are preserved. CI validates discovery links, catalog parity,
+  installable/reference boundaries and generated command IDs.
+
 Catalogue additions from the daily candidate review.
 
 - Two pinned skills from `addyosmani/agent-skills` (`code-review-and-quality`,
