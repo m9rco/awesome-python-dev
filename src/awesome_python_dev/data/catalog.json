@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-10-28",
+  "reviewed_at": "2026-10-29",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -1548,6 +1548,131 @@
         "https://github.com/blackwell-systems/agent-lsp",
         "https://github.com/blackwell-systems/agent-lsp/blob/main/docs/guide/speculative-execution.md",
         "https://github.com/blackwell-systems/agent-lsp/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "code-review-graph",
+      "name": "code-review-graph",
+      "kind": "mcp",
+      "category": "mcp-ecosystem",
+      "description": "Local Tree-sitter code graph served over MCP for review context, change impact, and affected-test hints.",
+      "repository": "tirth8205/code-review-graph",
+      "homepage": "https://github.com/tirth8205/code-review-graph",
+      "license": "MIT",
+      "stars": 32459,
+      "checked_at": "2026-10-29",
+      "last_pushed_at": "2026-10-16T11:20:26Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "--from",
+          "code-review-graph==2.3.9",
+          "code-review-graph",
+          "serve",
+          "--repo",
+          "{project}"
+        ],
+        "requirements": [
+          "uvx"
+        ],
+        "version": "2.3.9",
+        "runtime": "uv/uvx; Python >=3.10 selected by uvx"
+      },
+      "notes": "Pins the latest published PyPI release 2.3.9 (upstream tag v2.3.9). The upstream .mcp.json launches `uvx code-review-graph serve`; the recipe adds the documented --repo flag so the server always indexes the project apd configures. Graph data lives in the project directory (.code-review-graph) and is created by the CLI's own build/update commands, not by this recipe; upstream `install` additionally writes hooks, skills, and rules files, which apd does not do. Smoke-checked on macOS: `uvx --from code-review-graph==2.3.9 code-review-graph build` parsed a one-file temporary Python project (5 nodes, 5 edges), `status` reported the same graph, and the pinned launch command completed MCP initialize and listed 30 tools. No real repository indexing, agent session, or benchmark was run.",
+      "evidence": [
+        "https://api.github.com/repos/tirth8205/code-review-graph",
+        "https://github.com/tirth8205/code-review-graph/blob/main/.mcp.json",
+        "https://github.com/tirth8205/code-review-graph/blob/main/docs/USAGE.md",
+        "https://pypi.org/project/code-review-graph/2.3.9/",
+        "https://github.com/tirth8205/code-review-graph/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "mcp-tools-py",
+      "name": "MCP Tools Py",
+      "kind": "mcp",
+      "category": "mcp-ecosystem",
+      "description": "Run pylint, pytest, mypy, Ruff, Bandit, formatting, and symbol refactors on one Python project through a scoped MCP server.",
+      "repository": "MarcusJellinghaus/mcp-tools-py",
+      "homepage": "https://github.com/MarcusJellinghaus/mcp-tools-py",
+      "license": "MIT",
+      "stars": 20,
+      "checked_at": "2026-10-29",
+      "last_pushed_at": "2026-10-23T12:39:42Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "--from",
+          "mcp-tools-py==0.1.10",
+          "--with",
+          "mcp<2",
+          "mcp-tools-py",
+          "--project-dir",
+          "{project}"
+        ],
+        "requirements": [
+          "uvx"
+        ],
+        "version": "0.1.10",
+        "runtime": "uv/uvx; Python >=3.11 selected by uvx"
+      },
+      "notes": "Python-specific companion to the reference-only pytest, Ruff, and Bandit entries: one server exposes the checks, formats, and symbol refactorings for a single project directory. The extra `--with mcp<2` pin is required because published 0.1.10 imports mcp.server.fastmcp without capping the mcp dependency, so the default resolution to mcp 2.x fails at startup; with the pin the server starts normally. The server runs the project's checks with its own environment by default and exposes --python-executable/--venv-path when pylint, pytest, and mypy live elsewhere; apd writes only the launch configuration. Smoke-checked on macOS: the pinned command completed MCP initialize (service 1.30.0) and listed 17 tools, including run_pylint_check, run_pytest_check, run_mypy_check, run_ruff_check, and rename_symbol. No check was executed against a real test suite.",
+      "evidence": [
+        "https://api.github.com/repos/MarcusJellinghaus/mcp-tools-py",
+        "https://github.com/MarcusJellinghaus/mcp-tools-py#mcp-client-configuration",
+        "https://pypi.org/project/mcp-tools-py/0.1.10/",
+        "https://github.com/MarcusJellinghaus/mcp-tools-py/blob/main/INSTALL.md",
+        "https://github.com/MarcusJellinghaus/mcp-tools-py/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "codebase-memory-mcp",
+      "name": "Codebase Memory MCP",
+      "kind": "reference",
+      "category": "mcp-ecosystem",
+      "description": "Local knowledge graph MCP server linking code, documentation, configuration, and infrastructure for navigation and change impact.",
+      "repository": "DeusData/codebase-memory-mcp",
+      "homepage": "https://deusdata.github.io/codebase-memory-mcp/",
+      "license": "MIT",
+      "stars": 47734,
+      "checked_at": "2026-10-29",
+      "last_pushed_at": "2026-10-28T17:16:38Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: releases ship a native pure-C binary plus install.sh/install.ps1, an upstream Homebrew formula, and a Nix flake, and the documented MCP configuration points at the installed executable rather than a registry launch command. The npm, PyPI, and Go packages of the same name only verify and cache that native runtime for the host, and the upstream installer also writes agent configuration, rules, skills, and hooks, so this catalog records no launch command for it and does not run the installer. Upstream reports 17 MCP tools, 162 parsed languages and formats, Hybrid LSP type resolution, an optional daemon plus UI, and 45 client integrations; indexing persists to a shared cache directory. Installation, indexing, and any MCP session were not run in this pass.",
+      "evidence": [
+        "https://api.github.com/repos/DeusData/codebase-memory-mcp",
+        "https://github.com/DeusData/codebase-memory-mcp#mcp-tools",
+        "https://github.com/DeusData/codebase-memory-mcp/blob/main/server.json",
+        "https://deusdata.github.io/codebase-memory-mcp/",
+        "https://github.com/DeusData/codebase-memory-mcp/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "mcpls",
+      "name": "mcpls",
+      "kind": "lsp",
+      "category": "lsp-bridge",
+      "description": "MCP-to-LSP bridge that runs rust-analyzer, pyright, gopls, and other language servers and exposes 31 code tools to agents.",
+      "repository": "bug-ops/mcpls",
+      "homepage": "https://bug-ops.github.io/mcpls/",
+      "license": "MIT OR Apache-2.0",
+      "stars": 80,
+      "checked_at": "2026-10-29",
+      "last_pushed_at": "2026-10-28T21:48:33Z",
+      "archived": false,
+      "install": null,
+      "notes": "Second reference-only LSP bridge next to agent-lsp, and the third bridge entry overall: it is distributed as a Rust binary through cargo install mcpls, an upstream install script, release archives, or a container image, so there is no registry package revision for the installer to pin. It manages several language servers in one session and exposes hover, references, diagnostics, and rename as 31 MCP tools, with stdio and optional HTTP transport; it needs at least one language server installed separately (pyright for Python). Repository metadata, the documentation book, license files, and release v0.8.0 were checked; no server startup or MCP session was run in this pass.",
+      "evidence": [
+        "https://api.github.com/repos/bug-ops/mcpls",
+        "https://bug-ops.github.io/mcpls/getting-started/installation.html",
+        "https://bug-ops.github.io/mcpls/tools/overview.html",
+        "https://github.com/bug-ops/mcpls/releases/tag/v0.8.0",
+        "https://github.com/bug-ops/mcpls/blob/main/LICENSE-MIT"
       ]
     }
   ],

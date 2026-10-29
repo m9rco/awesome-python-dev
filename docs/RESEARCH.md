@@ -1,6 +1,6 @@
 # Research and provenance
 
-Research date: **2026-10-28**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 22 skill entries come from four upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
+Research date: **2026-10-29**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 22 skill entries come from four upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
 
 ## Patterns adopted
 
@@ -14,7 +14,7 @@ Research date: **2026-10-28**. Repository metadata was fetched with `gh api repo
 
 ## Version 0.2 catalog expansion
 
-Catalog schema 2 contains **59 entries** and **11 profiles**. Thirty-two entries have an installation recipe: **22 skills, 6 rule packs, 3 MCP servers, and the Serena MCP-to-LSP bridge**. The remaining 27 are references, including a second LSP bridge, eight native language servers, and four security scanners.
+Catalog schema 2 contains **63 entries** and **11 profiles**. Thirty-four entries have an installation recipe: **22 skills, 6 rule packs, 5 MCP servers, and the Serena MCP-to-LSP bridge**. The remaining 29 are references, including two further LSP bridges, eight native language servers, and four security scanners.
 
 The expansion adds a reviewed subset of ECC for engineering standards, security review, Python/FastAPI/Django, TypeScript/React/Next.js, Spring Boot, Go, API design, migrations, and deployment guidance. Rule packs use explicit source-file allowlists, native language scopes, and shared-rule dependencies. They preserve upstream originals while activating a disclosed portable adaptation. See [ECC source selection and migration boundaries](ECC-MIGRATION.md).
 
@@ -28,6 +28,16 @@ A search pass over GitHub for recently active coding-agent skills, MCP servers, 
 
 Both new skills are single-directory skills whose `SKILL.md` is self-contained; the collection's plugin manifests, hooks, and commands are not installed, and the two entries share one archive digest. The three new references record repository metadata, upstream documentation, and license files only. No package install, language-server startup, client configuration, or MCP session was run for `ty`, `agent-lsp`, or `hypothesis` in this pass, so they stay reference-only until verified.
 
+## Candidate review on 2026-10-29
+
+A second search pass over recently active coding-agent skills, MCP servers, LSP bridges, and Python development tooling added four entries after de-duplication against the previous 59: two installable MCP servers (`tirth8205/code-review-graph`, `MarcusJellinghaus/mcp-tools-py`) and two reference-only entries (`DeusData/codebase-memory-mcp`, `bug-ops/mcpls`).
+
+`code-review-graph` serves a Tree-sitter graph of the configured project for review context and change impact, and `mcp-tools-py` exposes Python checks (pylint, pytest, mypy, Ruff, Bandit, import/vulture/tach checks, formatting) and symbol refactors behind an explicit project directory. Both are published on PyPI, so they could be pinned as stdio services and launched with the repository's smoke script; both recipes were verified that way before admission. `codebase-memory-mcp` and `mcpls` remain references because they ship native binaries through their own installers rather than a pinnable registry launch command.
+
+Rejected candidates in this pass were either duplicative (further Python type checkers, additional Python LSP bridges next to Serena's backends, and a second generic Cypher-backed code-graph server of the same shape as `codebase-memory-mcp`) or insufficiently specific: skill collections without a stable pin, clear license, or Python relevance to this catalog.
+
+Only the two new MCP servers were executed. Their startup commands were run from this repository's smoke script with a temporary one-file project, so no user repository was indexed and no project check was executed.
+
 ## Installable upstream evidence
 
 | Item | Evidence checked | Result |
@@ -40,6 +50,8 @@ Both new skills are single-directory skills whose `SKILL.md` is self-contained; 
 | Context7 | [MCP package README](https://github.com/upstash/context7/blob/master/packages/mcp/README.md), [client configuration](https://context7.com/docs/resources/all-clients), [npm version metadata](https://registry.npmjs.org/@upstash%2fcontext7-mcp/4.4.4) | Published stdio package `4.4.4`; Node.js `>=20.18.1`. The package README describes optional API keys for higher limits/private repositories. Hosted service behavior can change independently of the package pin. |
 | Playwright MCP | [Official README](https://github.com/microsoft/playwright-mcp), [npm version metadata](https://registry.npmjs.org/@playwright%2fmcp/0.0.83) | Published stdio package `0.0.83`; Node.js `>=18`. Browser installation is a separate prerequisite. |
 | Fetch MCP | [Official README](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch), [PyPI version metadata](https://pypi.org/pypi/mcp-server-fetch/2026.10.24/json), [licensing](https://github.com/modelcontextprotocol/servers/blob/main/LICENSE) | Published `2026.10.24`; Python `>=3.10`; supports `uvx`. The repository is transitioning from MIT to Apache-2.0, with separate documentation licensing. |
+| code-review-graph MCP | [Upstream `.mcp.json`](https://github.com/tirth8205/code-review-graph/blob/main/.mcp.json), [usage documentation](https://github.com/tirth8205/code-review-graph/blob/main/docs/USAGE.md), [PyPI version metadata](https://pypi.org/pypi/code-review-graph/2.3.9/json), [license](https://github.com/tirth8205/code-review-graph/blob/main/LICENSE) | Published `2.3.9`; Python `>=3.10`; the graph is stored inside the project. Upstream launches `uvx code-review-graph serve`; the recipe adds the documented `--repo` flag so the configured project is always indexed. A one-file temporary project built a 5-node/5-edge graph before the protocol check. |
+| MCP Tools Py | [Client configuration](https://github.com/MarcusJellinghaus/mcp-tools-py#mcp-client-configuration), [installation guide](https://github.com/MarcusJellinghaus/mcp-tools-py/blob/main/INSTALL.md), [PyPI version metadata](https://pypi.org/pypi/mcp-tools-py/0.1.10/json), [license](https://github.com/MarcusJellinghaus/mcp-tools-py/blob/main/LICENSE) | Published `0.1.10`; Python `>=3.11`. The server needs pylint, pytest, and mypy in its own environment. The package does not cap `mcp`, so the pin adds `--with mcp<2`; without it the default mcp 2.x resolution fails at import. |
 
 The three skill/rule source archives were downloaded from `codeload.github.com` at full 40-character commits. Their SHA-256 values in the manifest were computed from the downloaded bytes. Serena instead uses an explicit Git source revision through uvx. Skill and original rule contents are upstream third-party material; catalog descriptions, selection notes, and disclosed rule adaptations are authored for this project. No upstream archive is vendored into this repository.
 
@@ -52,6 +64,8 @@ The three skill/rule source archives were downloaded from `codeload.github.com` 
 - [uv](https://github.com/astral-sh/uv), [pytest](https://github.com/pytest-dev/pytest), [hypothesis](https://github.com/HypothesisWorks/hypothesis), and [pre-commit](https://github.com/pre-commit/pre-commit) belong in a project's development toolchain. They are not ready-to-register MCP servers.
 - The eight native LSP references — [Pyright](https://github.com/microsoft/pyright), [Python LSP Server](https://github.com/python-lsp/python-lsp-server), [Ruff](https://docs.astral.sh/ruff/editors/), [ty](https://docs.astral.sh/ty/), [TypeScript Language Server](https://github.com/typescript-language-server/typescript-language-server), [gopls](https://go.dev/gopls/), [rust-analyzer](https://rust-analyzer.github.io/), and [clangd](https://clangd.llvm.org/) — require compatible toolchains and an LSP client. Their raw launch commands do not speak MCP. Ruff also remains useful as a Python lint/format CLI, and `ty` overlaps Pyright on Python type checking.
 - [agent-lsp](https://github.com/blackwell-systems/agent-lsp) does speak MCP, but it is distributed as a Go binary built by its own install script or release archive. There is no registry version or dependency revision to pin here, and it needs the individual language servers installed separately, so it stays a reference next to Serena rather than a configured bridge.
+- [mcpls](https://bug-ops.github.io/mcpls/) speaks MCP over LSP in the same way, with `rust-analyzer`, `pyright`, `gopls`, and other servers in one session. It is distributed as a Rust binary through cargo, its install script, release archives, or a container image, and needs those servers separately, so it stays reference-only as well.
+- [codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp) ships a native pure-C binary through its own install script, a Homebrew formula, and a Nix flake, with npm, PyPI, and Go packages that only verify and cache that runtime for the host. The documented MCP entry points at the installed executable, so no registry launch command is recorded and the wrapper path was not exercised as a launcher. Its installer also writes rules, skills, hooks, and agent configuration, which is a broader change than writing one launch configuration.
 - [Semgrep](https://github.com/semgrep/semgrep), [Bandit](https://github.com/PyCQA/bandit), [pip-audit](https://github.com/pypa/pip-audit), and [Gitleaks](https://github.com/gitleaks/gitleaks) need project-specific inputs, scan scope, reviewed policies/rules, and CI decisions. Their official metadata, licensing, and setup links are recorded in the manifest. Installing security guidance does not execute a scanner or imply a clean result.
 - [FastMCP](https://github.com/jlowin/fastmcp) and the [MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk) help build integrations; they are not preconfigured MCP services.
 
@@ -70,6 +84,15 @@ On 2026-10-27, the three exact manifest launch commands passed `initialize` and 
 | `mcp-server-fetch==2026.10.24` | `2026.10.24` | 1 | Passed |
 
 The Playwright server reports its underlying implementation version, which differs from the published MCP wrapper version. No browser was opened, no MCP tool was invoked, and no Context7 query or Fetch request was made. These results establish process startup and tool discovery; they do not establish browser availability, API access, or end-to-end application behavior.
+
+On **2026-10-29**, the same script checked the two MCP servers added that day with the same command line and Python/SDK versions on the same host. Both negotiated protocol **2025-11-25**.
+
+| Package pin | Reported server version | Tools discovered | Result |
+| --- | --- | ---: | --- |
+| `code-review-graph==2.3.9` | `2.3.9` | 30 | Passed |
+| `mcp-tools-py==0.1.10` with `mcp<2` | `1.30.0` | 17 | Passed |
+
+The `mcp-tools-py` pin carries an extra `--with mcp<2` requirement because published `0.1.10` imports `mcp.server.fastmcp` without capping `mcp`; its reported version is the service version inside the package. For both servers no MCP tool was invoked, no lint/test/mypy/rename operation was executed, and no repository beyond the temporary sample project was indexed.
 
 Reproduce with `uv run --no-project --python 3.12 --with mcp==2.3.0 python scripts/smoke_mcp.py`. The optional script uses a 90-second timeout per server and a temporary npm cache. It forwards only network proxy/CA settings in addition to the SDK's default subprocess environment. Initial attempts on this host exposed missing proxy forwarding and SDK 2.x field-name changes in the smoke helper; the recorded results are from clean reruns after fixing both.
 
