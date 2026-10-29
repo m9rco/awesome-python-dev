@@ -1,6 +1,6 @@
 # Curated catalog / 精选目录
 
-Reviewed **2026-10-28**, catalog schema **2**. **59 entries**, with **32 installable/configurable integrations** and **27 reference-only tools**. The installable set contains 22 skills, 6 rule packs, 3 MCP servers, and 1 MCP-to-LSP bridge. The 10 LSP entries comprise Serena, the reference-only agent-lsp bridge, and 8 standalone language-server references.
+Reviewed **2026-10-29**, catalog schema **2**. **63 entries**, with **34 installable/configurable integrations** and **29 reference-only tools**. The installable set contains 22 skills, 6 rule packs, 5 MCP servers, and 1 MCP-to-LSP bridge. The 11 LSP entries comprise Serena, the two reference-only bridges (agent-lsp, mcpls), and 8 standalone language-server references.
 
 Stars are dated repository-level snapshots, not scores for individual skills or rules. Multiple entries from ECC, Superpowers, agent-skills, or another monorepo share the same repository evidence. The executable source of truth is [`catalog.json`](../src/awesome_python_dev/data/catalog.json); every entry records its source, license, review date, and installation status.
 
@@ -94,9 +94,12 @@ Profiles select relevant tools instead of loading every available rule and frame
 | [`context7`](https://github.com/upstash/context7/tree/master/packages/mcp) | Retrieve library documentation and version-specific examples for coding tasks. | Configure MCP | 63,759 | MIT |
 | [`playwright`](https://github.com/microsoft/playwright-mcp) | Browser inspection and interactive web testing through accessibility snapshots. | Configure MCP | 38,702 | Apache-2.0 |
 | [`fetch`](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch) | Retrieve web pages as text/Markdown for documentation and research. | Configure MCP | 91,599 | Apache-2.0 / MIT; docs CC-BY-4.0 |
+| [`code-review-graph`](https://github.com/tirth8205/code-review-graph) | Serve a Tree-sitter code graph over MCP for review context, change impact, and affected-test hints. | Configure MCP | 32,459 | MIT |
+| [`mcp-tools-py`](https://github.com/MarcusJellinghaus/mcp-tools-py) | Run pylint, pytest, mypy, Ruff, Bandit, formatting, and symbol refactors on a Python project through one scoped MCP server. | Configure MCP | 20 | MIT |
 | [`github-mcp`](https://github.com/github/github-mcp-server) | Official GitHub tools for repositories, issues, and pull requests. | Reference only | 33,999 | MIT |
 | [`chrome-devtools`](https://github.com/ChromeDevTools/chrome-devtools-mcp) | Inspect browser performance, network activity, and runtime behavior. | Reference only | 54,261 | Apache-2.0 |
 | [`sequential-thinking`](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking) | A reference server for structured problem-solving tool calls. | Reference only | 91,599 | Apache-2.0 / MIT; docs CC-BY-4.0 |
+| [`codebase-memory-mcp`](https://github.com/DeusData/codebase-memory-mcp) | Local knowledge graph over code, documentation, configuration, and infrastructure for navigation and change impact. | Reference only | 47,734 | MIT |
 
 ## Language intelligence and LSP
 
@@ -104,6 +107,7 @@ Profiles select relevant tools instead of loading every available rule and frame
 | --- | --- | --- | ---: | --- |
 | [`serena`](https://github.com/oraios/serena) | Expose semantic code navigation, references, diagnostics, and edits to coding agents through an MCP-to-LSP bridge. | Configure LSP bridge | 30,759 | GPL-3.0-or-later (application); MIT (SolidLSP) |
 | [`agent-lsp`](https://github.com/blackwell-systems/agent-lsp) | Orchestrate native language servers into batch, refactor, and speculative-edit workflows for coding agents. | Reference only | 166 | MIT |
+| [`mcpls`](https://bug-ops.github.io/mcpls/) | Bridge MCP to rust-analyzer, pyright, gopls, and other language servers and expose 31 code tools to agents. | Reference only | 80 | MIT OR Apache-2.0 |
 | [`ruff`](https://docs.astral.sh/ruff/editors/) | Python linting, formatting, and the built-in Ruff language server for diagnostics and code actions. | Reference only | 50,317 | MIT |
 | [`pyright`](https://github.com/microsoft/pyright) | Python type checking and language-server support for navigation and diagnostics. | Reference only | 15,707 | MIT |
 | [`ty`](https://docs.astral.sh/ty/) | Rust-based Python type checker and language server with editor integrations; upstream labels it beta. | Reference only | 19,973 | MIT |
@@ -161,13 +165,19 @@ Skill and rule archives are pinned to full commits and verified against a record
 | `playwright` | `npx -y @playwright/mcp@0.0.83` | Node.js >=18 |
 | `fetch` | `uvx mcp-server-fetch==2026.10.24` | Python >=3.10 |
 | `serena` | See [exact Serena command](LSP.md#install-the-lsp-bridge); v2.1.0 at `5e4f5cd173c7ff3eed37ee3f1de6c266b937c5dc` | uv/uvx + Git; Python 3.13 selected by uvx; language-specific dependencies |
+| `code-review-graph` | `uvx --from code-review-graph==2.3.9 code-review-graph serve --repo {project}` | uv/uvx; Python >=3.10 selected by uvx |
+| `mcp-tools-py` | `uvx --from mcp-tools-py==0.1.10 --with mcp<2 mcp-tools-py --project-dir {project}` | uv/uvx; Python >=3.11 selected by uvx; pylint/pytest/mypy for the checks |
 
 - **Context7:** API keys are optional in the pinned stdio package guidance for higher limits/private repositories. Service access and policy can change independently of the package version. Configure credentials through the chosen agent; do not commit secrets.
 - **Playwright:** A supported browser is needed for browser operations. Configuring the server does not install browser binaries.
 - **Fetch:** Requires uv/uvx and a compatible Python. No private-IP bypass is enabled by this recipe.
 - **Serena:** The project path is resolved into the MCP configuration. First startup may download language-server dependencies and create Serena-owned state. The installer does not manage or uninstall those upstream caches. See [language intelligence and setup](LSP.md).
 - **Native language servers:** Pyright, Python LSP Server, Ruff, TypeScript Language Server, gopls, rust-analyzer, and clangd remain reference-only. Their native LSP commands need an LSP client; they are not interchangeable with MCP servers.
-- **agent-lsp:** A second, reference-only LSP bridge. It ships as a Go binary from an upstream install script, release archive, or container image, and requires the underlying language servers separately; there is no registry package or dependency version for this catalog to pin, so `apd` writes only the Serena recipe.
+- **agent-lsp:** One of two reference-only LSP bridges besides Serena. It ships as a Go binary from an upstream install script, release archive, or container image, and requires the underlying language servers separately; there is no registry package or dependency version for this catalog to pin, so `apd` writes only the Serena recipe.
+- **mcpls:** The other reference-only bridge. It is distributed as a Rust binary through `cargo install mcpls`, an upstream install script, release archives, or a container image, and needs at least one language server (for example pyright) installed separately. Enabling it next to Serena would give the same project two bridges over the same servers.
+- **code-review-graph:** The project path is resolved into the MCP configuration and the server indexes it with Tree-sitter; graph data stays in a `.code-review-graph` directory inside the project. Building or refreshing the graph is an explicit CLI or tool step, and upstream `install` also writes hooks, skills, and rules files that this recipe does not touch.
+- **mcp-tools-py:** A Python-only companion to the reference-only pytest, Ruff, and Bandit entries. Its `--with mcp<2` pin is deliberate: published `0.1.10` imports `mcp.server.fastmcp` without capping `mcp`, so the default mcp 2.x resolution fails at startup. The checks run through the server's own interpreter unless `--python-executable`/`--venv-path` is configured, so pylint, pytest, and mypy must exist in that environment.
+- **Two code-graph servers overlap:** `code-review-graph` and `codebase-memory-mcp` both index a repository into a local graph for review and impact questions, with different runtimes and scope. Enable one per project rather than both.
 - **Conflict to resolve yourself:** `pyright` and `ty` are alternative Python type-checking servers, and `ruff server` covers lint/format diagnostics. Pick the servers your editor should run instead of enabling all of them.
 - **Test dependencies:** `hypothesis` is a project dependency next to `pytest`, not an MCP server or agent skill. Recording it neither adds nor runs tests and does not configure CI.
 - **agent-skills collection:** The two selected skills come from a larger, mostly single-file skill collection with its own plugin manifests and hooks. Only the pinned skill directories are copied; hooks, commands, and agent definitions stay upstream.

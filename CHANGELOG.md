@@ -24,6 +24,21 @@ Catalogue additions from the daily candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
   updated in the same change.
 
+Catalogue additions from the 2026-10-29 candidate review.
+
+- Two installable MCP servers, both smoke-checked through
+  `scripts/smoke_mcp.py`: `code-review-graph` (pinned
+  `uvx --from code-review-graph==2.3.9`, 30 tools discovered) and `mcp-tools-py`
+  (pinned `uvx --from mcp-tools-py==0.1.10 --with mcp<2`, 17 tools discovered;
+  Python lint, test, type, and refactor operations behind one project scope).
+- Two reference-only entries: `codebase-memory-mcp`, a native code knowledge
+  graph whose npm/PyPI packages are installer wrappers, and `mcpls`, a Rust
+  MCP-to-LSP bridge over `rust-analyzer`, `pyright`, and `gopls`.
+- The catalog now has 63 entries: 34 installable resources (22 skills, 6 rule
+  packs, 5 MCP servers, and Serena's bridge) and 29 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
+  updated in the same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
