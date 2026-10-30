@@ -1,6 +1,6 @@
 # Curated catalog / 精选目录
 
-Reviewed **2026-10-29**, catalog schema **2**. **63 entries**, with **34 installable/configurable integrations** and **29 reference-only tools**. The installable set contains 22 skills, 6 rule packs, 5 MCP servers, and 1 MCP-to-LSP bridge. The 11 LSP entries comprise Serena, the two reference-only bridges (agent-lsp, mcpls), and 8 standalone language-server references.
+Reviewed **2026-10-30**, catalog schema **2**. **67 entries**, with **35 installable/configurable integrations** and **32 reference-only tools**. The installable set contains 22 skills, 6 rule packs, 6 MCP servers, and 1 MCP-to-LSP bridge. The 11 LSP entries comprise Serena, the two reference-only bridges (agent-lsp, mcpls), and 8 standalone language-server references.
 
 Stars are dated repository-level snapshots, not scores for individual skills or rules. Multiple entries from ECC, Superpowers, agent-skills, or another monorepo share the same repository evidence. The executable source of truth is [`catalog.json`](../src/awesome_python_dev/data/catalog.json); every entry records its source, license, review date, and installation status.
 
@@ -96,10 +96,12 @@ Profiles select relevant tools instead of loading every available rule and frame
 | [`fetch`](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch) | Retrieve web pages as text/Markdown for documentation and research. | Configure MCP | 91,599 | Apache-2.0 / MIT; docs CC-BY-4.0 |
 | [`code-review-graph`](https://github.com/tirth8205/code-review-graph) | Serve a Tree-sitter code graph over MCP for review context, change impact, and affected-test hints. | Configure MCP | 32,459 | MIT |
 | [`mcp-tools-py`](https://github.com/MarcusJellinghaus/mcp-tools-py) | Run pylint, pytest, mypy, Ruff, Bandit, formatting, and symbol refactors on a Python project through one scoped MCP server. | Configure MCP | 20 | MIT |
+| [`fallow`](https://github.com/fallow-rs/fallow) | Report TypeScript and JavaScript complexity, duplication, architecture, styling, and dead-code findings over MCP. | Configure MCP | 5,273 | MIT |
 | [`github-mcp`](https://github.com/github/github-mcp-server) | Official GitHub tools for repositories, issues, and pull requests. | Reference only | 33,999 | MIT |
 | [`chrome-devtools`](https://github.com/ChromeDevTools/chrome-devtools-mcp) | Inspect browser performance, network activity, and runtime behavior. | Reference only | 54,261 | Apache-2.0 |
 | [`sequential-thinking`](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking) | A reference server for structured problem-solving tool calls. | Reference only | 91,599 | Apache-2.0 / MIT; docs CC-BY-4.0 |
 | [`codebase-memory-mcp`](https://github.com/DeusData/codebase-memory-mcp) | Local knowledge graph over code, documentation, configuration, and infrastructure for navigation and change impact. | Reference only | 47,734 | MIT |
+| [`chunkhound`](https://github.com/chunkhound/chunkhound) | Index a codebase locally and answer code questions over MCP with citations from current code, git history, and docs. | Reference only | 1,455 | MIT |
 
 ## Language intelligence and LSP
 
@@ -131,6 +133,8 @@ Profiles select relevant tools instead of loading every available rule and frame
 | [`anthropic-skills`](https://github.com/anthropics/skills) | Official examples of reusable agent skills and document workflows. | Reference only | 184,157 | Per-skill licenses; see upstream |
 | [`vercel-agent-skills`](https://github.com/vercel-labs/agent-skills) | Frontend and deployment-oriented skills maintained by Vercel. | Reference only | 33,096 | See upstream and individual skills |
 | [`skills-cli`](https://github.com/vercel-labs/skills) | Discover and install Agent Skills across supported coding agents. | Reference only | 36,801 | MIT |
+| [`awesome-copilot`](https://github.com/github/awesome-copilot) | Community-contributed GitHub Copilot instructions, custom agents, skills, and prompts for Python and web projects. | Reference only | 40,570 | MIT |
+| [`skillevaluator`](https://github.com/NVIDIA/SkillEvaluator) | Score agent skill quality, detect overlap between skills, and measure a skill's effect on live agent runs. | Reference only | 612 | Apache-2.0 |
 
 ## Python project toolchain
 
@@ -167,6 +171,7 @@ Skill and rule archives are pinned to full commits and verified against a record
 | `serena` | See [exact Serena command](LSP.md#install-the-lsp-bridge); v2.1.0 at `5e4f5cd173c7ff3eed37ee3f1de6c266b937c5dc` | uv/uvx + Git; Python 3.13 selected by uvx; language-specific dependencies |
 | `code-review-graph` | `uvx --from code-review-graph==2.3.9 code-review-graph serve --repo {project}` | uv/uvx; Python >=3.10 selected by uvx |
 | `mcp-tools-py` | `uvx --from mcp-tools-py==0.1.10 --with mcp<2 mcp-tools-py --project-dir {project}` | uv/uvx; Python >=3.11 selected by uvx; pylint/pytest/mypy for the checks |
+| `fallow` | `npx --yes --package fallow@3.37.0 fallow-mcp` | Node.js >=22; the server analyses the directory it starts in |
 
 - **Context7:** API keys are optional in the pinned stdio package guidance for higher limits/private repositories. Service access and policy can change independently of the package version. Configure credentials through the chosen agent; do not commit secrets.
 - **Playwright:** A supported browser is needed for browser operations. Configuring the server does not install browser binaries.
@@ -177,6 +182,10 @@ Skill and rule archives are pinned to full commits and verified against a record
 - **mcpls:** The other reference-only bridge. It is distributed as a Rust binary through `cargo install mcpls`, an upstream install script, release archives, or a container image, and needs at least one language server (for example pyright) installed separately. Enabling it next to Serena would give the same project two bridges over the same servers.
 - **code-review-graph:** The project path is resolved into the MCP configuration and the server indexes it with Tree-sitter; graph data stays in a `.code-review-graph` directory inside the project. Building or refreshing the graph is an explicit CLI or tool step, and upstream `install` also writes hooks, skills, and rules files that this recipe does not touch.
 - **mcp-tools-py:** A Python-only companion to the reference-only pytest, Ruff, and Bandit entries. Its `--with mcp<2` pin is deliberate: published `0.1.10` imports `mcp.server.fastmcp` without capping `mcp`, so the default mcp 2.x resolution fails at startup. The checks run through the server's own interpreter unless `--python-executable`/`--venv-path` is configured, so pylint, pytest, and mypy must exist in that environment.
+- **fallow:** TypeScript and JavaScript health analysis over MCP — complexity, duplication, architecture boundaries, styling drift, and dead code. The server analyses the directory it is launched in and takes no project argument. Upstream `fallow agent install` additionally writes an `AGENTS.md` task map, installs skills, registers itself, and adds git commit and push gates; this recipe writes only the launch configuration. The npm package pins a per-platform binary and needs Node.js 22 or newer.
+- **awesome-copilot:** A large community collection of Copilot instructions, chat modes, custom agents, skills, and prompts, contributed file by file rather than shipped as one pinnable artifact, so it is recorded without a selection being copied. Pick and review the files a project needs; nothing here activates an instruction file.
+- **skillevaluator:** Framework for scoring skill quality, detecting overlap, and measuring a skill's effect on live agent runs. It is reference-only because the PyPI name is a zero-version placeholder and the documented quickstart runs from a source checkout. Installing the catalog's skills does not evaluate them; the static path needs no key, while rubric scoring and security coverage need external services or scanners.
+- **chunkhound:** Reference only because the pinned launch check did not pass: the server never answered `initialize` in a fresh project within a 300-second window, first failing before connecting (uvx picked Python 3.10, whose scipy build does not load on arm64 macOS) and then stalling on an outbound HTTPS request at startup even with Python 3.12 pinned, with and without `--no-daemon` and `--no-embeddings`. `--read-only` avoids that path but requires an index built beforehand. Indexing is an explicit step, the database is created inside the project at `.chunkhound/db`, and semantic search or deep research needs an embedding or LLM provider that is not configured here.
 - **codebase-memory-mcp:** The documented MCP entry points at an installed native executable, and the npm, PyPI, and Go packages of the same name only verify and cache that runtime for the host, so there is no registry launch command to pin. Its installer also writes agent configuration, rules, skills, and hooks and its indexing persists to a shared cache directory with an optional daemon, which is a broader change than writing one launch configuration.
 - **Two code-graph servers overlap:** `code-review-graph` and `codebase-memory-mcp` both index a repository into a local graph for review and impact questions, with different runtimes and scope. Enable one per project rather than both.
 - **Conflict to resolve yourself:** `pyright` and `ty` are alternative Python type-checking servers, and `ruff server` covers lint/format diagnostics. Pick the servers your editor should run instead of enabling all of them.
