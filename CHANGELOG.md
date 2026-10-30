@@ -39,6 +39,24 @@ Catalogue additions from the 2026-10-29 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
   updated in the same change.
 
+Catalogue additions from the 2026-10-30 candidate review.
+
+- One installable MCP server, smoke-checked through `scripts/smoke_mcp.py`:
+  `fallow` (pinned `npx --yes --package fallow@3.37.0 fallow-mcp`, 43 tools
+  discovered; TypeScript and JavaScript complexity, duplication, architecture,
+  styling, and dead-code findings).
+- Two reference-only entries: `github/awesome-copilot`, a large community
+  Copilot instruction/agent/skill collection contributed file by file, and
+  `NVIDIA/SkillEvaluator`, a skill-quality and live-impact evaluator whose PyPI
+  name is a zero-version placeholder.
+- `chunkhound` was reviewed and recorded as a reference: its pinned stdio
+  command never completed `initialize` in a fresh project inside the smoke
+  window on this host, so no recipe was admitted.
+- The catalog now has 67 entries: 35 installable resources (22 skills, 6 rule
+  packs, 6 MCP servers, and Serena's bridge) and 32 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
+  updated in the same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,

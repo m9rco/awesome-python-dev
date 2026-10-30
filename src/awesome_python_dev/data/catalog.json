@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-10-29",
+  "reviewed_at": "2026-10-30",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -1673,6 +1673,111 @@
         "https://bug-ops.github.io/mcpls/tools/overview.html",
         "https://github.com/bug-ops/mcpls/releases/tag/v0.8.0",
         "https://github.com/bug-ops/mcpls/blob/main/LICENSE-MIT"
+      ]
+    },
+    {
+      "id": "awesome-copilot",
+      "name": "Awesome Copilot",
+      "kind": "reference",
+      "category": "skill-ecosystem",
+      "description": "Community-contributed GitHub Copilot instructions, custom agents, skills, and prompts for Python and web projects.",
+      "repository": "github/awesome-copilot",
+      "homepage": "https://awesome-copilot.github.com/",
+      "license": "MIT",
+      "stars": 40570,
+      "checked_at": "2026-10-30",
+      "last_pushed_at": "2026-10-29T23:35:41Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: a very large community collection of instructions, chat modes, custom agent definitions, skills, prompts and per-language configuration for GitHub Copilot, contributed file by file rather than shipped as one pinnable artifact. This catalog records the collection and its setup documentation instead of copying a reviewed selection, so nothing here installs or activates any instruction file. Pick the files a project needs, review them as you would any third-party prompt, and follow the upstream contribution and license notes.",
+      "evidence": [
+        "https://api.github.com/repos/github/awesome-copilot",
+        "https://github.com/github/awesome-copilot",
+        "https://awesome-copilot.github.com/",
+        "https://github.com/github/awesome-copilot/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "chunkhound",
+      "name": "ChunkHound",
+      "kind": "reference",
+      "category": "mcp-ecosystem",
+      "description": "Local-first codebase index served over MCP for cited code research across current code, git history, and web sources.",
+      "repository": "chunkhound/chunkhound",
+      "homepage": "https://chunkhound.ai/docs/getting-started/",
+      "license": "MIT",
+      "stars": 1455,
+      "checked_at": "2026-10-30",
+      "last_pushed_at": "2026-10-29T13:34:05Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only, after a launch check that did not pass: this is a recording boundary, not a judgement on the project, which is current, MIT-licensed and documented. Upstream documents `chunkhound mcp [path]` as the stdio server, but the server never answered an MCP `initialize` request inside a fresh project within a 300-second window on this host. It failed in two different ways: left to itself uvx resolved Python 3.10, whose scipy build does not load on arm64 macOS, so the process died before accepting a connection; with Python 3.12 pinned it started but then stalled for minutes on an outbound HTTPS request with idle CPU, with and without `--no-daemon` and `--no-embeddings`, so `tools/list` was never reached. `--read-only` avoids that startup path and fails fast instead, because it needs an index that a fresh project does not have. Indexing is a separate explicit step (`chunkhound index .`), the database is created inside the project at `.chunkhound/db`, and semantic search or deep research also needs an embedding or LLM provider and credentials. Nothing here configures the tool, indexes a repository, or calls one of its tools.",
+      "evidence": [
+        "https://api.github.com/repos/chunkhound/chunkhound",
+        "https://github.com/chunkhound/chunkhound/blob/main/site/src/pages/docs/cli-reference.md",
+        "https://pypi.org/project/chunkhound/6.1.0/",
+        "https://chunkhound.ai/docs/getting-started/",
+        "https://github.com/chunkhound/chunkhound/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "fallow",
+      "name": "Fallow",
+      "kind": "mcp",
+      "category": "mcp-ecosystem",
+      "description": "TypeScript and JavaScript codebase health over MCP: complexity, duplication, architecture boundaries, styling drift, and dead code.",
+      "repository": "fallow-rs/fallow",
+      "homepage": "https://fallow.tools/docs/integrations/mcp/",
+      "license": "MIT",
+      "stars": 5273,
+      "checked_at": "2026-10-30",
+      "last_pushed_at": "2026-10-29T20:23:46Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "npx",
+        "args": [
+          "--yes",
+          "--package",
+          "fallow@3.37.0",
+          "fallow-mcp"
+        ],
+        "requirements": [
+          "npx",
+          "Node.js >=22"
+        ],
+        "version": "3.37.0",
+        "runtime": "Node.js >=22 (npm package vendors a pinned per-platform binary)"
+      },
+      "notes": "Pins the current npm release 3.37.0 of the launcher package; upstream documents exactly this `npx --yes --package fallow fallow-mcp` stdio launch and notes that a `node_modules/.bin` copy is not on PATH, which is why the npx form is recorded here. The server analyses the directory it is launched in and has no documented project argument, so no {project} placeholder is used. `fallow agent install` additionally writes an AGENTS.md task map, installs two skills, registers the server, and adds git commit/push gates; apd performs none of that and writes only the launch configuration. The analysis targets TypeScript and JavaScript projects; CLI-backed calls expect a resolvable `fallow` binary unless FALLOW_BIN is set. Smoke-checked on macOS: the pinned launch command completed MCP initialize and listed its tools; no project was analysed.",
+      "evidence": [
+        "https://api.github.com/repos/fallow-rs/fallow",
+        "https://fallow.tools/docs/integrations/mcp/",
+        "https://www.npmjs.com/package/fallow/v/3.37.0",
+        "https://github.com/fallow-rs/fallow#with-coding-agents",
+        "https://github.com/fallow-rs/fallow/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "skillevaluator",
+      "name": "SkillEvaluator",
+      "kind": "reference",
+      "category": "skill-ecosystem",
+      "description": "NVIDIA framework that scores agent skill quality, detects overlap, and measures a skill's effect on live agent runs.",
+      "repository": "NVIDIA/SkillEvaluator",
+      "homepage": "https://docs.nvidia.com/skills/skillevaluator/",
+      "license": "Apache-2.0",
+      "stars": 612,
+      "checked_at": "2026-10-30",
+      "last_pushed_at": "2026-10-30T00:00:41Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: the PyPI name `skillevaluator` is a zero-version placeholder and the documented quickstart runs `uv run --python 3.13 skillevaluator ...` from a source checkout, so there is no published package version for this catalog to pin. Skill directories are checked against the Agent Skills layout used by the other entries here. The static quality path needs no API key, scanner, GPU or container; model-backed rubric scoring needs an NVIDIA Build key and the security coverage needs separate scanners, so installing the catalog's skills does not evaluate them. Part of NVIDIA's Verified Skills pipeline.",
+      "evidence": [
+        "https://api.github.com/repos/NVIDIA/SkillEvaluator",
+        "https://github.com/NVIDIA/SkillEvaluator",
+        "https://docs.nvidia.com/skills/skillevaluator/",
+        "https://github.com/NVIDIA/SkillEvaluator/blob/main/LICENSE"
       ]
     }
   ],

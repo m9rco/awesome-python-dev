@@ -17,7 +17,7 @@
 
 安装器使用 Python 编写，并提供 Python 开发预设；整个集合也覆盖 Web 和通用软件开发。目前支持 **Claude Code、Codex、Cursor、VS Code Copilot 和 OpenCode**。
 
-仓库目录收录 **63 个条目**：**34 个可安装资源**（22 个 skills、6 套规则、5 个 MCP servers、1 个 Serena LSP 桥接），以及 **29 个参考条目**（agent-lsp、mcpls、8 个原生语言服务、19 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。`main` 可能包含尚未发版的新增项，`apd list --json` 显示已安装 runtime 实际包含的工具目录。
+仓库目录收录 **67 个条目**：**35 个可安装资源**（22 个 skills、6 套规则、6 个 MCP servers、1 个 Serena LSP 桥接），以及 **32 个参考条目**（agent-lsp、mcpls、8 个原生语言服务、22 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。`main` 可能包含尚未发版的新增项，`apd list --json` 显示已安装 runtime 实际包含的工具目录。
 
 ## 目录
 
