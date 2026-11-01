@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-10-30",
+  "reviewed_at": "2026-11-01",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -1778,6 +1778,108 @@
         "https://github.com/NVIDIA/SkillEvaluator",
         "https://docs.nvidia.com/skills/skillevaluator/",
         "https://github.com/NVIDIA/SkillEvaluator/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "deptry",
+      "name": "deptry",
+      "kind": "reference",
+      "category": "python-toolchain",
+      "description": "Detects unused, missing, and transitive dependency issues in a Python project.",
+      "repository": "osprey-oss/deptry",
+      "homepage": "https://deptry.com/",
+      "license": "MIT",
+      "stars": 1498,
+      "checked_at": "2026-11-01",
+      "last_pushed_at": "2026-10-31T21:04:08Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: deptry is a CLI that must run inside the project's own environment, because it reads the metadata of installed distributions and the declared dependencies to compare them against the modules the source actually imports. It supports uv, Poetry, PDM, pip and any PEP 621 project, so it complements the packaging and dependency guidance the catalog already ships without being a skill, rule pack or MCP server for apd to configure. Upstream ships no MCP entry point and no launch command to pin. The repository moved from fpgmaas/deptry to osprey-oss/deptry and the GitHub API resolves the old path to the new name. Recording this tool neither adds it to a project nor runs the check; installing it in a project requires a dev-dependency install in that project's virtual environment.",
+      "evidence": [
+        "https://api.github.com/repos/osprey-oss/deptry",
+        "https://github.com/osprey-oss/deptry/blob/main/LICENSE",
+        "https://deptry.com/",
+        "https://pypi.org/project/deptry/"
+      ]
+    },
+    {
+      "id": "osv-scanner",
+      "name": "OSV-Scanner",
+      "kind": "reference",
+      "category": "security-tooling",
+      "description": "Scans lockfiles, SBOMs, source trees and container images against the OSV vulnerability database.",
+      "repository": "google/osv-scanner",
+      "homepage": "https://google.github.io/osv-scanner/",
+      "license": "Apache-2.0",
+      "stars": 11342,
+      "checked_at": "2026-11-01",
+      "last_pushed_at": "2026-10-31T20:56:42Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: OSV-Scanner is a Go binary distributed through upstream release archives, a container image and a GitHub Action, so there is no registry package or dependency version for this catalog to pin, and no MCP entry point to configure. Its scope is wider than the Python-only pip-audit entry: it reads lockfiles and SBOMs across many ecosystems and can scan container images and Linux packages. Scanning needs network access to the OSV.dev API (a local database and offline mode exist for air-gapped runs), and results are advisory matches against a database that changes continuously. Recording it neither installs a scanner, runs a scan, nor establishes an audit result, and it does not replace reviewing the advisories it reports.",
+      "evidence": [
+        "https://api.github.com/repos/google/osv-scanner",
+        "https://github.com/google/osv-scanner/blob/main/LICENSE",
+        "https://google.github.io/osv-scanner/",
+        "https://osv.dev/"
+      ]
+    },
+    {
+      "id": "pyrefly",
+      "name": "Pyrefly",
+      "kind": "lsp",
+      "category": "language-servers",
+      "description": "Rust-written Python type checker with a full language server for navigation, completion and inlay hints.",
+      "repository": "meta/pyrefly",
+      "homepage": "https://pyrefly.org/",
+      "license": "MIT",
+      "stars": 7172,
+      "checked_at": "2026-11-01",
+      "last_pushed_at": "2026-10-31T23:55:56Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: Pyrefly is a raw Python language server, not an MCP bridge, so it keeps kind lsp with install null like pyright, ty and Python LSP Server. It is installed as an editor extension or as the `pyrefly` package, and the language server is the `pyrefly lsp` subcommand: upstream's own VSCode extension defaults `pyrefly.lspArguments` to `[\"lsp\"]`, and neovim/nvim-lspconfig registers the same command as `cmd = { 'pyrefly', 'lsp' }`. It is the third Python type-checking server in this catalog alongside pyright and ty, and upstream's installation notes tell you to disable other Python language servers, so a project should enable one of the three. Upstream does not follow strict semantic versioning: minor releases may introduce new type errors, and `pyrefly init` plus `pyrefly suppress` are the documented adoption path. No language-server handshake, editor session or MCP session was run for this entry; the metadata, the documented launch command and the client registration were verified against upstream files only.",
+      "evidence": [
+        "https://api.github.com/repos/meta/pyrefly",
+        "https://github.com/meta/pyrefly/blob/main/LICENSE",
+        "https://pyrefly.org/en/docs/IDE/",
+        "https://github.com/neovim/nvim-lspconfig/blob/master/lsp/pyrefly.lua"
+      ]
+    },
+    {
+      "id": "repomix",
+      "name": "Repomix",
+      "kind": "mcp",
+      "category": "mcp-ecosystem",
+      "description": "Packs a repository into a single AI-friendly file and serves packing, searching and reading over MCP.",
+      "repository": "yamadashy/repomix",
+      "homepage": "https://repomix.com",
+      "license": "MIT",
+      "stars": 29100,
+      "checked_at": "2026-11-01",
+      "last_pushed_at": "2026-10-31T22:00:10Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "npx",
+        "args": [
+          "-y",
+          "repomix@1.18.1",
+          "--mcp"
+        ],
+        "requirements": [
+          "npx",
+          "Node.js >=22"
+        ],
+        "version": "1.18.1",
+        "runtime": "Node.js >=22 selected by npx"
+      },
+      "notes": "Pins the current npm release 1.18.1; upstream documents `repomix --mcp` as the stdio server and the npx form as the client configuration, and the package declares Node.js >=22. Without `--sandbox` the server may read any path the host user can and trusts the `repomix.config.*` of whatever directory it packs, which upstream describes as running code; `repomix --mcp --sandbox path/to/project` confines the file tools to one workspace and drops the config loading, remote packing and skill generation paths. This recipe records the documented default and does not enable sandbox mode, so point the server at projects you trust. Upstream also ships a Claude Code plugin, agent-skill generation and a GitHub Action, none of which apd configures. Smoke-checked on macOS with the pinned launch command: MCP initialize succeeded and the server reported `repomix-mcp-server` 1.18.1 with six tools. No repository was packed and no MCP tool was invoked.",
+      "evidence": [
+        "https://api.github.com/repos/yamadashy/repomix",
+        "https://github.com/yamadashy/repomix/blob/main/website/client/src/en/guide/mcp-server.md",
+        "https://repomix.com/guide/mcp-server",
+        "https://github.com/yamadashy/repomix/blob/main/LICENSE"
       ]
     }
   ],
