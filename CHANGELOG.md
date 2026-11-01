@@ -57,6 +57,22 @@ Catalogue additions from the 2026-10-30 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
   updated in the same change.
 
+Catalogue additions from the 2026-11-01 candidate review.
+
+- One installable MCP server, smoke-checked through `scripts/smoke_mcp.py`:
+  `repomix` (pinned `npx -y repomix@1.18.1 --mcp`, 6 tools discovered;
+  repository packing and pack read/grep for agent context, with the documented
+  non-sandbox boundary recorded in the notes).
+- Three reference-only entries: `meta/pyrefly` (Rust-based Python type checker
+  and language server next to Pyright and ty), `google/osv-scanner`
+  (dependency, SBOM, and container vulnerability scanning against the OSV
+  database), and `osprey-oss/deptry` (declared-versus-used dependency checks,
+  previously published under `fpgmaas/deptry`).
+- The catalog now has 71 entries: 36 installable resources (22 skills, 6 rule
+  packs, 7 MCP servers, and Serena's bridge) and 35 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
+  updated in the same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
