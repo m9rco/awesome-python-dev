@@ -256,7 +256,7 @@ class Website:
             "skill": ("Skills / 工作流", "复用调试、测试、安全审查与框架开发流程。"),
             "rules": ("Rules / 开发规范", "将工程、安全和语言规范适配为 agent 原生规则。"),
             "mcp": ("MCP / 工具连接", "连接文档、浏览器与网页内容，提供更多开发上下文。"),
-            "lsp": ("LSP / 代码智能", "通过 Serena 桥接代码智能，也可探索原生语言服务器。"),
+            "lsp": ("LSP / 代码智能", "通过 Serena 或 lsp-mcp-server 桥接代码智能，也可探索原生语言服务器。"),
             "reference": ("参考项目", "探索规范驱动开发、安全扫描与工具生态。"),
         }
         for kind, (label, _, desc) in KINDS.items():
@@ -327,10 +327,18 @@ class Website:
                     "server after reload and approval; installation does not run server tools.</p>"
                 )
             if kind == "lsp":
-                body += (
-                    "<p>Serena uses Python 3.13 via uvx. Language-specific runtimes may also be "
-                    "needed. Its project path is absolute: run init again after moving a project.</p>"
-                )
+                if recipe["command"] == "npx":
+                    body += (
+                        "<p>This bridge launches through npx and drives the language server a "
+                        "project configures, so that language server and its runtime are installed "
+                        "separately. A project can add <code>.lsp-mcp.json</code> to choose the "
+                        "server and language.</p>"
+                    )
+                else:
+                    body += (
+                        "<p>Serena uses Python 3.13 via uvx. Language-specific runtimes may also be "
+                        "needed. Its project path is absolute: run init again after moving a project.</p>"
+                    )
             if kind == "rules":
                 body += (
                     "<p>Rule packs are adapted to native agent instructions. Required common "
@@ -357,7 +365,8 @@ class Website:
                 body += (
                     f"<p>A native language server is not an MCP server. To add an installable "
                     f"LSP bridge to your coding agent, explore "
-                    f'<a href="{self.href("tools/serena/")}">Serena</a>.</p>'
+                    f'<a href="{self.href("tools/serena/")}">Serena</a> or '
+                    f'<a href="{self.href("tools/lsp-mcp-server/")}">lsp-mcp-server</a>.</p>'
                 )
         if tool.get("notes"):
             body += f"<h2>Integration notes</h2><p>{escape(tool['notes'])}</p>"
@@ -438,7 +447,7 @@ class Website:
         body = f'''<section class="section prose"><p class="eyebrow">FROM COLLECTION TO CONFIGURATION</p><h1>Equip your coding agent.</h1>
 <p class="hero-description">Choose a profile, preview the changes, and install into your project. Keep the same toolkit across your agents.</p>
 <h2>1. Check your prerequisites</h2><p>Install <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a>. The CLI requires Python 3.11 or newer; uv can manage Python for you. The short command installs the Python package from PyPI. Toolkit downloads need GitHub access. Install your coding agent separately.</p>
-<p>MCP requirements depend on your selection. The starter profile uses Context7 and needs Node.js 20.18.1 or newer with npx. Serena uses uvx with Python 3.13 and may need additional language runtimes. Skills and rules do not require a running MCP server.</p>
+<p>MCP requirements depend on your selection. The starter profile uses Context7 and needs Node.js 20.18.1 or newer with npx. Serena uses uvx with Python 3.13 and may need additional language runtimes. The <a href="{self.href("tools/lsp-mcp-server/")}">lsp-mcp-server</a> bridge uses npx with Node.js 18 or newer and needs the language server you configure. Skills and rules do not require a running MCP server.</p>
 <h2>2. Preview the starter profile</h2><p>Open a terminal in the project you want to equip. After uv has installed the CLI, a dry run does not download toolkit resources or write project configuration.</p>
 {self.code(self.command("--profile starter --dry-run"), "preview-command")}
 <h2>3. Install your toolkit</h2>{self.code(self.command("--profile starter"))}

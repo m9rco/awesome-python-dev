@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-01",
+  "reviewed_at": "2026-11-02",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -1880,6 +1880,142 @@
         "https://github.com/yamadashy/repomix/blob/main/website/client/src/en/guide/mcp-server.md",
         "https://repomix.com/guide/mcp-server",
         "https://github.com/yamadashy/repomix/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "roam-code",
+      "name": "roam-code",
+      "kind": "mcp",
+      "category": "mcp-ecosystem",
+      "description": "Serve a reusable local codebase index over MCP for symbol search, dependency and coupling maps, dead-code, taint and change-impact questions.",
+      "repository": "Cranot/roam-code",
+      "homepage": "https://roam-code.com/",
+      "license": "Apache-2.0",
+      "stars": 516,
+      "checked_at": "2026-11-02",
+      "last_pushed_at": "2026-10-31T03:59:35Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "--python",
+          "3.12",
+          "--from",
+          "roam-code[mcp]==14.1.0",
+          "roam",
+          "mcp"
+        ],
+        "requirements": [
+          "uvx"
+        ],
+        "version": "14.1.0",
+        "runtime": "uv/uvx; Python 3.12 pinned for the launcher (package requires >=3.10)"
+      },
+      "notes": "Pins the published PyPI release 14.1.0 with its `mcp` extra, matching upstream tag v14.1.0-r1. The launcher pins `--python 3.12` because the package requires Python >=3.10 while an unpinned `uvx` resolution on the smoke host selected Python 3.9 and exited before the MCP handshake; without the pin the entry fails on any machine whose default `python3` is older than 3.10. `roam mcp` analyses the directory the server starts in and keeps an SQLite index plus lock/state sidecars in `.roam/`; upstream documents `roam init` (index plus project configuration) and `roam index` (index only), `ROAM_DB_DIR` to relocate the store, and `ROAM_NO_AUTO_INDEX=1` to refuse implicit builds. The CLI and MCP server are Apache-2.0 and need no account or API key for local analysis; upstream's paid layers (PR Replay reports and a planned Roam Cloud) are not used by this recipe, and its README states that ordinary local analysis does not upload source code, indexes, findings or telemetry. Smoke-checked on macOS: the pinned command completed MCP initialize (server roam-code 14.1.0, protocol 2025-11-25) and listed 17 tools, including roam_search_symbol, roam_deps, roam_uses, roam_dead_code, roam_coupling, roam_taint, roam_grep, roam_file_info and roam_metrics. No tool was called when the check ran, so index quality, language coverage and answer correctness are unverified.",
+      "evidence": [
+        "https://api.github.com/repos/Cranot/roam-code",
+        "https://github.com/Cranot/roam-code/blob/main/README.md",
+        "https://github.com/Cranot/roam-code/blob/main/docs/mcp-tools.md",
+        "https://pypi.org/project/roam-code/14.1.0/",
+        "https://github.com/Cranot/roam-code/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "orm-lens",
+      "name": "orm-lens",
+      "kind": "mcp",
+      "category": "python-toolchain",
+      "description": "Answer Django model questions over MCP from static parsing — relations, ER diagrams, migration risk, N+1 candidates and schema drift — with SQLAlchemy and Alembic preview support.",
+      "repository": "FROWNINGdev/orm-lens",
+      "homepage": "https://frowningdev.github.io/orm-lens/",
+      "license": "MIT",
+      "stars": 96,
+      "checked_at": "2026-11-02",
+      "last_pushed_at": "2026-10-31T09:36:12Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "--python",
+          "3.12",
+          "--from",
+          "orm-lens[mcp]==1.16.0",
+          "orm-lens-mcp"
+        ],
+        "requirements": [
+          "uvx"
+        ],
+        "version": "1.16.0",
+        "runtime": "uv/uvx; Python 3.12 pinned for the launcher (the `mcp` extra requires >=3.10)"
+      },
+      "notes": "Pins the published PyPI release 1.16.0 (renamed from django-orm-lens; the old name still resolves to the same distribution). The base package accepts Python >=3.9 but the `mcp` extra needs >=3.10, so the launcher pins `--python 3.12` for a deterministic resolution. The server parses model and migration files statically: upstream states it needs no database, no `runserver` and no working virtualenv, and that it still reports every app and model from a cold clone with a broken environment. Django models and migrations are the main target; SQLAlchemy models, Alembic revisions and FastAPI/Flask projects are documented as preview support. Everything this recipe uses ships under MIT and needs no account or subscription; upstream's comparison table marks only a competing IDE as paid. The same repository also ships a VS Code/Open VSX extension, an `orm-lens` CLI, a pre-commit hook shim and an agent skill directory; this recipe writes only the MCP launch configuration and installs none of those. Smoke-checked on macOS: the pinned command completed MCP initialize (server orm-lens 1.16.0, protocol 2025-11-25) and listed 13 tools, including list_models, find_relations, er_diagram, cascade_preview, nplusone_scan, drift and impact. The temporary project held a one-model `models.py`; no real Django or SQLAlchemy project was analysed and no tool was called.",
+      "evidence": [
+        "https://api.github.com/repos/FROWNINGdev/orm-lens",
+        "https://github.com/FROWNINGdev/orm-lens/blob/main/README.md",
+        "https://github.com/FROWNINGdev/orm-lens/blob/main/cli/pyproject.toml",
+        "https://pypi.org/project/orm-lens/1.16.0/",
+        "https://github.com/FROWNINGdev/orm-lens/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "lsp-mcp-server",
+      "name": "lsp-mcp-server",
+      "kind": "lsp",
+      "category": "lsp-bridge",
+      "description": "Bridge MCP clients to whichever language server a project configures, exposing navigation, references, diagnostics, completion and edits as 29 tools.",
+      "repository": "ProfessioneIT/lsp-mcp-server",
+      "homepage": "https://www.professioneit.com/en/blog/lsp-mcp-server/",
+      "license": "MIT",
+      "stars": 24,
+      "checked_at": "2026-11-02",
+      "last_pushed_at": "2026-10-22T16:14:06Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "npx",
+        "args": [
+          "-y",
+          "lsp-mcp-server@1.1.27"
+        ],
+        "requirements": [
+          "npx",
+          "Node.js >=18"
+        ],
+        "version": "1.1.27",
+        "runtime": "npx; Node.js >=18; language-server executables must be installed and on the agent's PATH"
+      },
+      "notes": "The second installable bridge next to Serena, and a TypeScript one rather than a Python one: it drives whatever language server the project configures, so Python coverage depends on pyright, python-lsp-server or another LSP binary installed separately. Pins npm release 1.1.27, which is upstream tag v1.1.27 (commit 2b9005387fbf5ebd101ec84cfc34a8196bf9d347). Custom server settings live in a project `.lsp-mcp.json`; upstream's Codex and Claude Code guides add the MCP entry and recommend a longer tool timeout because the first call starts a language server and its initial analysis. The npm package also ships a SKILL.md that teaches tool selection and warns that it should be re-copied when the server version changes; the catalog installs only the MCP launch configuration. Smoke-checked on macOS: the pinned command completed MCP initialize (server lsp-mcp-server 1.1.27) and listed 29 tools including lsp_goto_definition, lsp_find_references, lsp_hover, lsp_diagnostics, lsp_rename and lsp_format_document. No language server was started through it, no project file was read by a tool call and no agent client was configured, so the LSP round trip itself is unverified; Serena remains the bridge exercised through a profile.",
+      "evidence": [
+        "https://api.github.com/repos/ProfessioneIT/lsp-mcp-server",
+        "https://github.com/ProfessioneIT/lsp-mcp-server/blob/main/README.md",
+        "https://github.com/ProfessioneIT/lsp-mcp-server/blob/main/SKILL.md",
+        "https://www.npmjs.com/package/lsp-mcp-server/v/1.1.27",
+        "https://github.com/ProfessioneIT/lsp-mcp-server/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "ai-rulez",
+      "name": "ai-rulez",
+      "kind": "reference",
+      "category": "engineering-rules",
+      "description": "Compile one rules, skills and MCP source into native instruction files for dozens of coding agents, with lock files, signing and policy enforcement.",
+      "repository": "Goldziher/ai-rulez",
+      "homepage": "https://goldziher.github.io/ai-rulez/",
+      "license": "MIT",
+      "stars": 166,
+      "checked_at": "2026-11-02",
+      "last_pushed_at": "2026-11-01T09:37:42Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: the npm and PyPI packages of the same name are Go installer wrappers that download a native release binary, so there is no registry launch command this catalog can pin. On the smoke host the wrapper's own fetch of the v5.10.0 darwin/arm64 archive timed out and retried before any MCP handshake, which matches the codebase-memory-mcp pattern of a wrapper rather than a pinnable server. Upstream also publishes the binary as release archives, through Homebrew and as a Go module. It is an authoring and governance layer for agent knowledge - one `.ai-rulez/` source generates native files for the harnesses a team uses, with `ai-rulez.lock` pins, Sigstore signing, SBOM output, reviewer approvals, an organization policy layer and its own read-only MCP server for configuration reports and skill serving. The catalog's skill and rule-pack recipes model copied files, not generated output across dozens of targets, so nothing is copied or activated here; it overlaps `skills-cli` and `awesome-copilot` as discovery and authoring tooling. Recorded so a project can evaluate the folder layout and lock model before adopting it.",
+      "evidence": [
+        "https://api.github.com/repos/Goldziher/ai-rulez",
+        "https://github.com/Goldziher/ai-rulez/blob/main/README.md",
+        "https://github.com/Goldziher/ai-rulez/blob/main/docs/cli-reference.md",
+        "https://github.com/Goldziher/ai-rulez/blob/main/docs/lockfile.md",
+        "https://github.com/Goldziher/ai-rulez/blob/main/LICENSE"
       ]
     }
   ],

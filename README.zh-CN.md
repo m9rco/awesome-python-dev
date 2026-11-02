@@ -17,7 +17,7 @@
 
 安装器使用 Python 编写，并提供 Python 开发预设；整个集合也覆盖 Web 和通用软件开发。目前支持 **Claude Code、Codex、Cursor、VS Code Copilot 和 OpenCode**。
 
-仓库目录收录 **71 个条目**：**36 个可安装资源**（22 个 skills、6 套规则、7 个 MCP servers、1 个 Serena LSP 桥接），以及 **35 个参考条目**（agent-lsp、mcpls、9 个原生语言服务、24 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。`main` 可能包含尚未发版的新增项，`apd list --json` 显示已安装 runtime 实际包含的工具目录。
+仓库目录收录 **75 个条目**：**39 个可安装资源**（22 个 skills、6 套规则、9 个 MCP servers、2 个 LSP 桥接），以及 **36 个参考条目**（agent-lsp、mcpls、9 个原生语言服务、25 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。`main` 可能包含尚未发版的新增项，`apd list --json` 显示已安装 runtime 实际包含的工具目录。
 
 ## 目录
 
@@ -112,10 +112,13 @@ apd runtime update      # 立即检查稳定 runtime 通道
 | [Playwright MCP](https://github.com/microsoft/playwright-mcp) | 浏览器检查与交互式 Web 测试。 |
 | [Fetch MCP](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch) | 将网页获取为文本或 Markdown，用于文档查阅和调研。 |
 | [Serena](https://github.com/oraios/serena) | 固定 commit 的 MCP-to-LSP 桥接，提供符号导航、引用和诊断。 |
+| [lsp-mcp-server](https://github.com/ProfessioneIT/lsp-mcp-server) | 第二个 MCP-to-LSP 桥接，驱动项目已有的语言服务。 |
+| [roam-code](https://github.com/Cranot/roam-code) | 通过 MCP 访问本地代码索引，回答符号、依赖与改动影响问题。 |
+| [ORM Lens](https://github.com/FROWNINGdev/orm-lens) | 无需启动应用即可通过 MCP 了解 Django/SQLAlchemy 模型、迁移与 N+1 风险。 |
 
 [完整参考集合](docs/CATALOG.md) 还收录了 [OpenSpec](https://github.com/Fission-AI/OpenSpec)、[Spec Kit](https://github.com/github/spec-kit)、[GitHub MCP](https://github.com/github/github-mcp-server)、[uv](https://github.com/astral-sh/uv)、[Ruff](https://github.com/astral-sh/ruff) 和安全扫描工具。
 
-标记为 **installable** 的条目已提供安装配方；没有安装配方的条目作为参考，由上游项目负责安装。`lsp` 分类同时包含可安装的 Serena 桥接和独立语言服务参考。
+标记为 **installable** 的条目已提供安装配方；没有安装配方的条目作为参考，由上游项目负责安装。`lsp` 分类同时包含可安装的 Serena 与 lsp-mcp-server 桥接，以及独立语言服务参考。
 
 ```sh
 apd list --kind skill
@@ -140,7 +143,7 @@ apd list --json
 | `springboot` | Spring Boot 模式与安全、Java 规则、API 设计和数据库迁移。 |
 | `typescript` | 前后端模式、Next.js/Turbopack 指导、安全复核与 TypeScript 规则。 |
 | `golang` | Go 模式与规则、API 设计、安全复核。 |
-| `lsp` | 将 Serena LSP 桥接配置为 MCP server。 |
+| `lsp` | 将 LSP 桥接（Serena 或 lsp-mcp-server）配置为 MCP server。 |
 
 `apd profiles` 列出每个预设的具体条目。规则依赖会自动加入：语言规则依赖通用规则，FastAPI 规则还依赖 Python 规则。也可以通过 ID 选择单项工具：
 
@@ -185,7 +188,7 @@ apd init --agents all --profile starter --dry-run
 
 ## LSP 与安全工具
 
-`apd init --agents codex --tools serena` 会写入固定版本的 Serena MCP 启动配置，选择 Python 3.13 和 LSP 后端，由 agent 后续启动。在临时 Python 项目中已验证 MCP 握手和 22 项工具发现，但没有执行符号操作或逐个验证 agent 界面。运行条件、独立语言服务、OpenCode 原生 LSP 和兼容边界见 [LSP 指南](docs/LSP.md)。
+`apd init --agents codex --tools serena` 会写入固定版本的 Serena MCP 启动配置，选择 Python 3.13 和 LSP 后端，由 agent 后续启动。在临时 Python 项目中已验证 MCP 握手和 22 项工具发现，但没有执行符号操作或逐个验证 agent 界面。`--tools lsp-mcp-server` 写入第二个桥接：固定 npm 版本，通过 `.lsp-mcp.json` 驱动项目配置的语言服务，已验证握手和 29 项工具发现，同样没有执行符号操作。运行条件、独立语言服务、OpenCode 原生 LSP 和兼容边界见 [LSP 指南](docs/LSP.md)。
 
 `security` 预设安装安全复核指导与规则。[Semgrep](https://github.com/semgrep/semgrep)、[Bandit](https://github.com/PyCQA/bandit)、[pip-audit](https://github.com/pypa/pip-audit) 和 [Gitleaks](https://github.com/gitleaks/gitleaks) 作为项目检查、CI 的参考工具收录。安装指导不会自动安装扫描器，也不代表项目已经通过安全审计。
 
