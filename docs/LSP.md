@@ -1,14 +1,15 @@
 # Language intelligence and security tools
 
-The `lsp` profile configures **Serena**, an MCP bridge to language servers, for the coding agent you select. The catalog also lists standalone language servers and security scanners with their upstream setup guides. These categories solve different parts of a development workflow.
+The `lsp` profile configures **Serena**, an MCP bridge to language servers, for the coding agent you select. The catalog also lists a second installable bridge, [`lsp-mcp-server`](https://github.com/ProfessioneIT/lsp-mcp-server), standal...[truncated]
 
 ```text
 Coding agent → MCP → Serena → language server → project symbols and diagnostics
+Coding agent → MCP → lsp-mcp-server → configured language server → project symbols and diagnostics
 Editor or native LSP client → language server → editor features and diagnostics
 Project checks / CI → security scanner → findings to review and fix
 ```
 
-`apd` writes an MCP launch configuration for Serena. It does not invent a shared native LSP configuration for all agents, install editor extensions, or automatically run security scans.
+`apd` writes an MCP launch configuration for Serena or `lsp-mcp-server`. It does not invent a shared native LSP configuration for all agents, install editor extensions, install the language servers a bridge drives, or automatically run security scans.
 
 ## Install the LSP bridge
 
@@ -71,17 +72,29 @@ Ruff supplies lint and formatting capabilities. Pair it with a navigation/type s
 
 Pyrefly is a third Rust-based Python type checker with an editor-facing server, next to Pyright and ty. Upstream's own extensions cover VSCode and OpenVSX-based editors, and the `lsp` argument recorded above is the one their default `pyrefly.lspArguments` value passes to the binary; for other editors upstream points at community setups. Its release notes describe monthly minor releases that can report new errors, so a first run over an existing project should be expected to fail until errors are triaged. Choose one Python type checker per project rather than running Pyright, ty, and Pyrefly at once.
 
+## Another installable bridge: lsp-mcp-server
+
+[`lsp-mcp-server`](https://github.com/ProfessioneIT/lsp-mcp-server) is the second bridge the catalog can write. `apd init --agents codex --tools lsp-mcp-server` configures the npm release `lsp-mcp-server@1.1.27` (tag `v1.1.27`, commit `2b9005387fbf5ebd101ec84cfc34a8196bf9d347`) with `npx`:
+
+```sh
+npx -y lsp-mcp-server@1.1.27
+```
+
+Node.js 18 or newer must be available to the agent process. Unlike Serena, it does not ship or choose a language server: it drives whichever server the project configures. Settings come from the nearest `.lsp-mcp.json` (then `lsp-mcp.json`, `~/.config/lsp-mcp/config.json`, or `~/.lsp-mcp.json`), and the server executables themselves — for Python, `pylsp` from `python-lsp-server` — must already be on the agent's `PATH`. With no configuration file it falls back to upstream's defaults for TypeScript/JavaScript, Python, and Rust and has nothing to query yet. Upstream's own client guides set a 20-second startup timeout and a 120-second tool timeout, because the first request also pays language-server startup.
+
+It exposes 29 tools, including `lsp_goto_definition`, `lsp_find_references`, `lsp_hover`, `lsp_diagnostics`, `lsp_completions`, `lsp_rename`, and the `lsp_start_server` / `lsp_stop_server` / `lsp_server_status` controls, and it advertises file-size limits, workspace-boundary validation, and absolute-path enforcement. It is MIT-licensed; its servers start on demand and restart after a crash. The `lsp` profile still selects Serena only, so pick one bridge per project rather than running both over the same language servers.
+
 ## Another bridge: agent-lsp
 
 [agent-lsp](https://github.com/blackwell-systems/agent-lsp) is catalogued as a reference-only bridge. It starts and manages external language servers such as `gopls`, `pyright`, and `rust-analyzer` in one session and exposes batch, refactor, and speculative-edit workflows over MCP.
 
-It is a Go binary installed by the upstream script, a release archive, or a container image. The project publishes no registry package or dependency revision for this catalog to pin, and it needs the underlying language servers installed separately, so `apd` keeps writing only the Serena recipe. Configuring a second bridge would also duplicate Serena's role in the `lsp` profile. Review its tool surface and install path upstream if that workflow fits your project.
+It is a Go binary installed by the upstream script, a release archive, or a container image. The project publishes no registry package or dependency revision for this catalog to pin, and it needs the underlying language servers installed separately, so `apd` writes only the two pinned bridge recipes and leaves agent-lsp a reference. Review its tool surface and install path upstream if that workflow fits your project.
 
 ## Another bridge: mcpls
 
 [mcpls](https://bug-ops.github.io/mcpls/) is catalogued as a second reference-only bridge next to agent-lsp. It runs language servers such as `rust-analyzer`, `pyright`, and `gopls` in one session and exposes their type information, references, diagnostics, and refactoring as 31 MCP tools over stdio or optional HTTP transport.
 
-It is a Rust binary distributed through `cargo install mcpls`, an upstream install script, release archives, or a container image, so there is no registry package revision for this catalog to pin; it also needs at least one language server installed separately. Like agent-lsp it stays a reference while `apd` writes only the Serena recipe. Use it when a project needs several of its supported language servers at once; otherwise an editor's native LSP setup already covers that work.
+It is a Rust binary distributed through `cargo install mcpls`, an upstream install script, release archives, or a container image, so there is no registry package revision for this catalog to pin; it also needs at least one language server installed separately. Like agent-lsp it stays a reference while `apd` writes only the pinned Serena and lsp-mcp-server recipes. Use it when a project needs several of its supported language servers at once; otherwise an editor's native LSP setup already covers that work.
 
 ## OpenCode's native LSP support
 
@@ -112,7 +125,7 @@ Select the intended scan scope and reviewed rule sets, pin dependencies in the p
 
 ## Verification recorded for this recipe
 
-On 2026-11-01, the `repomix` MCP entry added that day passed the same launch check with six tools discovered, while `pyrefly`, `osv-scanner`, and `deptry` were added from repository metadata, upstream documentation, and license files only: no language-server startup, editor configuration, scan, or MCP session was run for those three references. On 2026-10-29, `mcpls` was added from repository metadata, the upstream documentation book, license files, and release v0.8.0 only: no language-server startup, editor configuration, or MCP session was run. The `code-review-graph` and `mcp-tools-py` MCP entries added the same day were launched through the pinned commands and completed `initialize` and `tools/list`; see [research evidence](RESEARCH.md#mcp-protocol-smoke-results). On 2026-10-30, the `fallow` MCP entry added that day passed the same launch check with 43 tools discovered, while `chunkhound` was recorded as a reference after its pinned command failed to complete `initialize` in a fresh project within the smoke window. On 2026-10-28, `ty` and `agent-lsp` were added from repository metadata, upstream documentation, and license files only: no language-server startup, editor configuration, or MCP session was run for either entry. On 2026-10-27, the exact pinned Serena command completed MCP `initialize` and `tools/list` on macOS with Python 3.13 in a temporary Python project, using an isolated `SERENA_HOME`. Startup and tool discovery took about 35 seconds. It exposed 22 tools, including `find_symbol`, `find_referencing_symbols`, and `get_diagnostics_for_file`.
+On 2026-11-02, the `roam-code`, `orm-lens`, and `lsp-mcp-server` entries added that day were launched through their pinned commands from a temporary project and completed MCP `initialize` and `tools/list` with 17, 13, and 29 tools discovered ([research evidence](RESEARCH.md#mcp-protocol-smoke-results)); no `tools/call` request was issued, so no codebase was indexed, no Django or SQLAlchemy project was analysed, and no language server was driven. The `ai-rulez` entry added the same day stays a reference: its npm and PyPI packages are installers for a native binary, and the wrapper's own download did not finish in the smoke window, so no MCP session was started. On 2026-11-01, the `repomix` MCP entry added that day passed the same launch check with six tools discovered, while `pyrefly`, `osv-scanner`, and `deptry` were added from repository metadata, upstream documentation, and license files only: no language-server startup, editor configuration, scan, or MCP session was run for those three references. On 2026-10-29, `mcpls` was added from repository metadata, the upstream documentation book, license files, and release v0.8.0 only: no language-server startup, editor configuration, or MCP session was run. The `code-review-graph` and `mcp-tools-py` MCP entries added the same day were launched through the pinned commands and completed `initialize` and `tools/list`; see [research evidence](RESEARCH.md#mcp-protocol-smoke-results). On 2026-10-30, the `fallow` MCP entry added that day passed the same launch check with 43 tools discovered, while `chunkhound` was recorded as a reference after its pinned command failed to complete `initialize` in a fresh project within the smoke window. On 2026-10-28, `ty` and `agent-lsp` were added from repository metadata, upstream documentation, and license files only: no language-server startup, editor configuration, or MCP session was run for either entry. On 2026-10-27, the exact pinned Serena command completed MCP `initialize` and `tools/list` on macOS with Python 3.13 in a temporary Python project, using an isolated `SERENA_HOME`. Startup and tool discovery took about 35 seconds. It exposed 22 tools, including `find_symbol`, `find_referencing_symbols`, and `get_diagnostics_for_file`.
 
 The check made no `tools/call` requests and ended before language-server initialization completed. It verifies the package launch and MCP discovery path, not symbol correctness, every programming language, every operating system, or integration inside all five agent applications.
 
@@ -120,6 +133,6 @@ The check made no `tools/call` requests and ended before language-server initial
 
 `apd init --agents codex --profile lsp` 会配置 Serena，通过 MCP 将 LSP 的符号导航、引用和诊断能力提供给 agent。配置固定上游版本，使用 Python 3.13；首次启动可能下载解释器或语言服务依赖。安装器不替你配置编辑器原生 LSP，也不自动运行安全扫描。
 
-`apd list --kind lsp` 可查看 Serena 与独立语言服务。后者需按各自官方指南安装，再由编辑器或其他原生 LSP 客户端加载。OpenCode 原生 `lsp` 设置与 Serena MCP 是两条独立路径；本工具保留你的设置，不自动开启原生 LSP。
+`apd list --kind lsp` 可查看 Serena、lsp-mcp-server 与独立语言服务。后者需按各自官方指南安装，再由编辑器或其他原生 LSP 客户端加载。OpenCode 原生 `lsp` 设置与 MCP 桥接是两条独立路径；本工具保留你的设置，不自动开启原生 LSP。
 
-已验证 Serena 的 MCP 握手和工具列表，尚未执行符号操作或逐一验证所有 agent 界面。项目移动后需核对生成配置中的绝对路径；Serena 自己创建的缓存和项目状态不由 `apd remove` 清理。
+已验证 Serena 的 MCP 握手和工具列表，尚未执行符号操作或逐一验证所有 agent 界面。项目移动后需核对生成配置中的绝对路径；Serena 自己创建的缓存和项目状态不由 `apd remove` 清理。lsp-mcp-server 不自带语言服务：需自行安装（Python 用 python-lsp-server 提供的 `pylsp`）并在项目内配置 `.lsp-mcp.json`，它只是把已有语言服务接到 agent。2026-11-02 新增的 roam-code、orm-lens、lsp-mcp-server 也通过了握手与工具列表检查（分别 17、13、29 个工具），但没有调用任何工具。

@@ -17,7 +17,7 @@ Find useful, established GitHub projects for AI assisted development, then insta
 
 The installer is written in Python, with a dedicated Python toolkit. The collection also serves web and general software development across **Claude Code, Codex, Cursor, VS Code Copilot, and OpenCode**.
 
-The repository catalog includes **71 entries**: **36 installable resources** (22 skills, 6 rule packs, 7 MCP servers, and Serena's LSP bridge) and **35 references** (agent-lsp, mcpls, 9 native language servers, and 24 other tools). Choose from **11 profiles** across **5 coding agents**. Repository `main` may include unreleased additions; `apd list --json` reports the catalog in your installed runtime.
+The repository catalog includes **75 entries**: **39 installable resources** (22 skills, 6 rule packs, 9 MCP servers, and 2 LSP bridges) and **36 references** (agent-lsp, mcpls, 9 native language servers, and 25 other tools). Choose from **11 profiles** across **5 coding agents**. Repository `main` may include unreleased additions; `apd list --json` reports the catalog in your installed runtime.
 
 ## Contents
 
@@ -113,10 +113,13 @@ Browse the [curated catalog](docs/CATALOG.md) for project descriptions, upstream
 | [Playwright MCP](https://github.com/microsoft/playwright-mcp) | Browser inspection and interactive web testing. |
 | [Fetch MCP](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch) | Retrieve web pages as text or Markdown for documentation and research. |
 | [Serena](https://github.com/oraios/serena) | A commit-pinned MCP-to-LSP bridge for symbols, references, and diagnostics. |
+| [lsp-mcp-server](https://github.com/ProfessioneIT/lsp-mcp-server) | A second MCP-to-LSP bridge that drives the language server a project already has. |
+| [roam-code](https://github.com/Cranot/roam-code) | MCP access to a local codebase index for symbol, dependency, and change-impact questions. |
+| [ORM Lens](https://github.com/FROWNINGdev/orm-lens) | MCP answers about Django and SQLAlchemy models, migrations, and N+1 risks without booting the app. |
 
 Also explore [OpenSpec](https://github.com/Fission-AI/OpenSpec), [Spec Kit](https://github.com/github/spec-kit), [GitHub MCP](https://github.com/github/github-mcp-server), [uv](https://github.com/astral-sh/uv), [Ruff](https://github.com/astral-sh/ruff), and security scanners in the [full reference collection](docs/CATALOG.md).
 
-Entries marked **installable** have a recipe in this release. Entries without an install recipe are references, with installation managed by their upstream projects. `lsp` includes both the installable Serena bridge and standalone language-server references.
+Entries marked **installable** have a recipe in this release. Entries without an install recipe are references, with installation managed by their upstream projects. `lsp` includes the installable Serena and lsp-mcp-server bridges plus standalone language-server references.
 
 ```sh
 apd list --kind skill
@@ -186,7 +189,7 @@ These are selected guidance files, not the entire ECC plugin. Installation does 
 
 ## LSP and security tools
 
-`apd init --agents codex --tools serena` configures a pinned Serena MCP launch command. It selects Python 3.13 and the LSP backend; the agent starts it later. The recipe passed MCP initialization and discovery of 22 tools in a temporary Python project. That check did not execute symbol operations or validate every agent interface. See the [LSP guide](docs/LSP.md) for prerequisites, language-server references, OpenCode's separate native LSP support, and known limitations.
+`apd init --agents codex --tools serena` configures a pinned Serena MCP launch command. It selects Python 3.13 and the LSP backend; the agent starts it later. The recipe passed MCP initialization and discovery of 22 tools in a temporary Python project. That check did not execute symbol operations or validate every agent interface. `--tools lsp-mcp-server` writes the second bridge, which is pinned to an npm version and drives whichever language server a project configures through `.lsp-mcp.json`; it passed initialization and discovery of 29 tools, and it likewise ran no symbol operation. See the [LSP guide](docs/LSP.md) for prerequisites, language-server references, OpenCode's separate native LSP support, and known limitations.
 
 The `security` profile installs review guidance and rules. [Semgrep](https://github.com/semgrep/semgrep), [Bandit](https://github.com/PyCQA/bandit), [pip-audit](https://github.com/pypa/pip-audit), and [Gitleaks](https://github.com/gitleaks/gitleaks) are catalog references for project checks and CI. Installing guidance does not install these scanners or certify a project as secure.
 
@@ -260,8 +263,9 @@ then regenerate; do not maintain a second catalog in generated HTML. See the
 
 Skills describe reusable development workflows. Rules supply engineering and
 framework instructions through each agent's native rule format. MCP recipes
-configure tool servers that the agent can start. The installable LSP integration
-is Serena's MCP bridge; standalone language servers are references. Check
+configure tool servers that the agent can start. The installable LSP
+integrations are the Serena and lsp-mcp-server bridges; standalone language
+servers are references. Check
 [the catalog](docs/CATALOG.md) for each entry's installation support.
 
 ### Which coding agents can I configure?

@@ -73,6 +73,27 @@ Catalogue additions from the 2026-11-01 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
   updated in the same change.
 
+Catalogue additions from the 2026-11-02 candidate review.
+
+- Three installable integrations, all smoke-checked through
+  `scripts/smoke_mcp.py`: `Cranot/roam-code` (pinned
+  `uvx --python 3.12 --from 'roam-code[mcp]==14.1.0' roam mcp`, 17 tools
+  discovered), `FROWNINGdev/orm-lens` (pinned
+  `uvx --python 3.12 --from 'orm-lens[mcp]==1.16.0' orm-lens-mcp`, 13 tools
+  discovered), and `ProfessioneIT/lsp-mcp-server` (pinned
+  `npx -y lsp-mcp-server@1.1.27`, 29 tools discovered) as the second
+  MCP-to-LSP bridge next to Serena. The two `uvx` recipes pin the interpreter
+  because their MCP extras require Python 3.10 or newer.
+- One reference-only entry: `Goldziher/ai-rulez`, an authoring and governance
+  layer that compiles rules, skills, and MCP settings into native files for
+  dozens of agents. Its npm and PyPI packages install a native release binary
+  instead of providing a pinnable launcher, so it is recorded as a reference.
+- The catalog now has 75 entries: 39 installable resources (22 skills, 6 rule
+  packs, 9 MCP servers, and 2 LSP bridges) and 36 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
+  updated in the same change; the generated site's LSP tool pages now describe
+  each bridge's own prerequisites instead of Serena's.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
