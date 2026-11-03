@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-02",
+  "reviewed_at": "2026-11-03",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -2016,6 +2016,118 @@
         "https://github.com/Goldziher/ai-rulez/blob/main/docs/cli-reference.md",
         "https://github.com/Goldziher/ai-rulez/blob/main/docs/lockfile.md",
         "https://github.com/Goldziher/ai-rulez/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "headroom",
+      "name": "Headroom",
+      "kind": "mcp",
+      "category": "mcp-ecosystem",
+      "description": "Local context-compression layer that shrinks tool output, logs, files and RAG chunks before they reach the model, with cached originals retrievable over MCP.",
+      "repository": "headroomlabs-ai/headroom",
+      "homepage": "https://docs.headroomlabs.ai/docs",
+      "license": "Apache-2.0",
+      "stars": 78668,
+      "checked_at": "2026-11-03",
+      "last_pushed_at": "2026-11-02T13:17:36Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "--python",
+          "3.13",
+          "--from",
+          "headroom-ai[mcp]==0.42.0",
+          "headroom",
+          "mcp",
+          "serve"
+        ],
+        "requirements": [
+          "uvx"
+        ],
+        "version": "0.42.0",
+        "runtime": "uv/uvx; Python 3.13 pinned for the launcher (package requires >=3.10)"
+      },
+      "notes": "Pins the published PyPI release 0.42.0 with its `mcp` extra; upstream's registry entry and MCP docs describe the same `headroom mcp serve` contract, which a client can also write through `headroom mcp install`. The launcher pins `--python 3.13` because the package requires Python 3.10 or newer and an unpinned `uvx` can resolve to an older default interpreter, the same reason the roam-code recipe pins. The CLI ships only in the PyPI package: the npm `headroom-ai` package is the TypeScript SDK and provides no `headroom` command, and upstream notes that Codex and other clients which do not inherit an interactive PATH need the absolute path to the `headroom` executable. Only the MCP server mode is configured here. Upstream's proxy, `headroom wrap` (which also registers Serena for the wrapped project), `headroom learn` and cross-agent memory are separate features a project should evaluate on its own, and this recipe does not install the `[ml]` extra that downloads the Kompress-v2-base model from Hugging Face. The README states that compression runs locally and that prompt and file content is not sent anywhere to be compressed. Smoke-checked on macOS: the pinned command completed MCP initialize (server headroom, reported version 1.30.0, protocol 2025-11-25) and listed the three tools headroom_compress, headroom_retrieve and headroom_stats. No tool was called, so compression ratios, retrieval fidelity and token savings are unverified.",
+      "evidence": [
+        "https://api.github.com/repos/headroomlabs-ai/headroom",
+        "https://github.com/headroomlabs-ai/headroom/blob/main/README.md",
+        "https://github.com/headroomlabs-ai/headroom/blob/main/server.json",
+        "https://pypi.org/project/headroom-ai/0.42.0/",
+        "https://docs.headroomlabs.ai/docs/mcp",
+        "https://github.com/headroomlabs-ai/headroom/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "open-code-review",
+      "name": "Open Code Review",
+      "kind": "reference",
+      "category": "engineering-skills",
+      "description": "Alibaba's agent-driven code review CLI: deterministic analysis pipelines feed a tuned review model, with matching skills and plugins for Claude Code, Codex, Cursor and OpenCode.",
+      "repository": "alibaba/open-code-review",
+      "homepage": "https://open-codereview.ai",
+      "license": "Apache-2.0",
+      "stars": 49294,
+      "checked_at": "2026-11-03",
+      "last_pushed_at": "2026-11-02T15:05:55Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only. The review engine is a standalone CLI (`npm install -g @alibaba-group/open-code-review`, command `ocr`) that needs an LLM provider and an API key configured through its own interactive setup, plus repository access and per-review token spend, so there is no skill or MCP recipe this catalog can pin. Upstream ships the pieces this collection models as separate artifacts: portable agent skills under `skills/open-code-review` (review) and `skills/open-code-review-delegate`, a Claude Code plugin marketplace in `.claude-plugin/`, and per-agent plugin directories under `plugins/open-code-review/` for Claude Code, Codex, Cursor, Kimi Code, OpenCode and QCA Forward, including an OpenCode tool set. Delegation mode runs the review through the calling agent's own model and needs no OCR API key, which is the cheapest way to try it. Upstream's own benchmark table claims higher precision and F1 than a general-purpose agent at roughly one ninth of the tokens, with deliberately lower recall; those numbers are upstream measurements and were not reproduced here. It overlaps `code-review-and-quality` (portable review guidance) and `code-review-graph` (local review context served over MCP) but is the first entry in this catalog that is an actual review engine. No review was executed, no plugin was installed and no skill was activated for this entry; the install command, plugin layout and skill directories were read from upstream files only.",
+      "evidence": [
+        "https://api.github.com/repos/alibaba/open-code-review",
+        "https://github.com/alibaba/open-code-review/blob/main/README.md",
+        "https://github.com/alibaba/open-code-review/tree/main/skills/open-code-review",
+        "https://github.com/alibaba/open-code-review/tree/main/plugins/open-code-review",
+        "https://open-codereview.ai",
+        "https://github.com/alibaba/open-code-review/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "mcp-inspector",
+      "name": "MCP Inspector",
+      "kind": "reference",
+      "category": "build-mcp",
+      "description": "The reference MCP debugging client: launch, inspect and call any stdio, SSE or streamable-HTTP server from a web UI, TUI or CLI.",
+      "repository": "modelcontextprotocol/inspector",
+      "homepage": "https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector",
+      "license": "MIT and Apache-2.0 (project relicensing in progress)",
+      "stars": 11216,
+      "checked_at": "2026-11-03",
+      "last_pushed_at": "2026-10-29T06:32:33Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: the Inspector is an interactive client and debugger for MCP servers, not an MCP server a project registers, so it keeps kind reference with install null next to `fastmcp` and `mcp-python-sdk`. Upstream runs it with `npx @modelcontextprotocol/inspector` (web UI), `--cli` (scriptable), `--tui`, or the bundled `mcpdo` runner, and `npm install -g @modelcontextprotocol/inspector` or Docker are the documented alternatives; every mode downloads a package at start, so nothing is written into a project. It is the practical way to check whether a newly configured server in this catalog actually completes initialization and exposes the tools its recipe claims - the same handshake `scripts/smoke_mcp.py` performs - and to call individual tools with hand-written arguments, which the smoke check deliberately does not do. Secrets entered in the UI (OAuth tokens, client secrets, stdio `env:` values) are stored in the OS keychain where available and otherwise in an unencrypted `~/.mcp-inspector/secrets.json`, as upstream documents in docs/secret-storage.md. The repository is on its v2 line: active development is on `v2/main`, merged into `main` at milestones, with security-only fixes for v1 on the npm `v1-latest` tag; pinning is left to the user because the inspector is a global dev tool. No server was launched, no tool was called and no secret was stored for this entry.",
+      "evidence": [
+        "https://api.github.com/repos/modelcontextprotocol/inspector",
+        "https://github.com/modelcontextprotocol/inspector/blob/main/README.md",
+        "https://github.com/modelcontextprotocol/inspector/blob/main/docs/secret-storage.md",
+        "https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector",
+        "https://github.com/modelcontextprotocol/inspector/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "mcp-toolbox",
+      "name": "MCP Toolbox for Databases",
+      "kind": "reference",
+      "category": "mcp-ecosystem",
+      "description": "Google's MCP server and framework that connects coding agents to PostgreSQL, MySQL, SQLite, BigQuery and other databases with prebuilt or hand-defined SQL tools.",
+      "repository": "googleapis/mcp-toolbox",
+      "homepage": "https://mcp-toolbox.dev/",
+      "license": "Apache-2.0",
+      "stars": 16792,
+      "checked_at": "2026-11-03",
+      "last_pushed_at": "2026-11-02T23:43:59Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: the server is a Go binary published as platform npm packages (`npx -y @toolbox-sdk/server --prebuilt=postgres --stdio`), an OCI image and release archives, and every useful launch needs a connection decision this catalog cannot make for a project. Prebuilt mode reads credentials from environment variables per database, while the framework mode needs a hand-written `tools.yaml` that defines sources, tools and toolsets - parameters a recipe cannot guess, and credentials that must never be committed. A launch without either exits or exposes nothing, so no MCP handshake was run for this entry. It is the broadest database integration in this collection: PostgreSQL, MySQL, MariaDB, SQL Server, Oracle, MongoDB, Redis, Elasticsearch, CockroachDB, ClickHouse, Couchbase, Neo4j, Snowflake, Trino, plus Google Cloud AlloyDB, Cloud SQL, Spanner, BigQuery and Firestore. For a Python or web project the prebuilt `list_tables` and `execute_sql` tools are the quick path to schema exploration and database-aware code, and the SDKs (`toolbox-core` on PyPI, `@toolbox-sdk/core` on npm) embed the same tools in application code. Star count is a dated observation. Reviewed from the README, `server.json`, the npm package manifest and the documentation quickstart only.",
+      "evidence": [
+        "https://api.github.com/repos/googleapis/mcp-toolbox",
+        "https://github.com/googleapis/mcp-toolbox/blob/main/README.md",
+        "https://github.com/googleapis/mcp-toolbox/blob/main/server.json",
+        "https://github.com/googleapis/mcp-toolbox/blob/main/npm/server/package.json",
+        "https://mcp-toolbox.dev/documentation/introduction/",
+        "https://github.com/googleapis/mcp-toolbox/blob/main/LICENSE"
       ]
     }
   ],

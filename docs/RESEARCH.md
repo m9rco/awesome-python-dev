@@ -70,6 +70,16 @@ Rejected candidates in this pass were duplicative or out of scope: further agent
 
 Only the three installable entries were executed: their pinned commands ran from a temporary project through the repository's smoke script, so no user repository was indexed, no real Django or SQLAlchemy project was parsed, and no language server was started.
 
+## Candidate review on 2026-11-03
+
+A daily search pass over recently active coding-agent skills, MCP servers, and Python/Web development tooling added four entries after de-duplication against the previous 75: one installable integration (`headroomlabs-ai/headroom`) and three references (`alibaba/open-code-review`, `modelcontextprotocol/inspector`, `googleapis/mcp-toolbox`).
+
+`headroom` compresses tool output, logs, files, and RAG chunks locally before they reach the model and serves the compressed results over MCP, so it publishes a pinnable PyPI release and was checked with this repository's smoke script before admission; it is the first entry here whose main effect is on what the agent reads rather than on what it can reach. `open-code-review` is an agent-driven review CLI with its own skills and agent plugins, and it stays a reference because the reviewer is a global npm CLI that needs a configured LLM provider before it can review anything. `mcp-inspector` is the reference client for debugging MCP servers, published by the organization that maintains the protocol, and it stays a reference because it is a client rather than a registerable server. `mcp-toolbox` is Google's database MCP server with prebuilt PostgreSQL, MySQL, SQLite, SQL Server, and BigQuery tools, and it stays a reference because every useful launch needs database credentials and, for custom tools, a `tools.yaml` — the same reason GitHub's MCP server is reference-only.
+
+Rejected candidates in this pass were duplicative or out of scope: another Python type-checking language server (`DetachHead/basedpyright`, a pyright fork) next to the existing `pyright`, `pyrefly`, `ty`, and Ruff entries; further Tree-sitter- or graph-backed code-index servers of the same shape as `codebase-memory-mcp`, `code-review-graph`, and `roam-code`; MCP frameworks that are libraries for building a server (`ArcadeAI/arcade-mcp`) next to `fastmcp` and the Python SDK; a destructive-command guard whose license adds provider-specific riders to MIT rather than a plain permissive license; and general-purpose search, scraping, and vulnerability-database tools outside the coding-toolkit scope.
+
+Only the one installable entry was executed: its pinned command ran from a temporary project through the repository's smoke script, so nothing was indexed, no real tool output was compressed, and no provider tokens were spent.
+
 ## Installable upstream evidence
 
 | Item | Evidence checked | Result |
@@ -108,6 +118,10 @@ The three skill/rule source archives were downloaded from `codeload.github.com` 
 - [FastMCP](https://github.com/jlowin/fastmcp) and the [MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk) help build integrations; they are not preconfigured MCP services.
 
 - [ai-rulez](https://github.com/Goldziher/ai-rulez) does speak MCP for configuration reports and skill serving, but its npm and PyPI packages are Go installer wrappers that fetch a native release binary, so there is no registry launch command to pin; on this host the wrapper's own download of the v5.10.0 archive timed out and retried before any handshake. It also generates files across dozens of agent targets, which the catalog's skill and rule-pack recipes do not model. It is recorded next to `skills-cli` and `awesome-copilot` as authoring and governance tooling, and [its lock file](https://github.com/Goldziher/ai-rulez/blob/main/docs/lockfile.md) is evidence for the folder layout rather than a recipe this project installs.
+
+- [Open Code Review](https://github.com/alibaba/open-code-review) speaks code review rather than a protocol this catalog can register: the reviewer is a global npm CLI that needs an LLM provider and API key configured through its own interactive setup, and its skills and agent plugins are only useful once that CLI exists. Copying the skill without the engine would leave a project with instructions and nothing to run.
+- [MCP Inspector](https://github.com/modelcontextprotocol/inspector) is the reference debugging client for MCP servers, not a server a project registers, and upstream publishes it on the npm `latest` tag instead of pinning a version in its own instructions, so it is recorded as the tool to use when a recipe here does not answer the handshake.
+- [MCP Toolbox for Databases](https://github.com/googleapis/mcp-toolbox) does publish launchable packages (`npx -y @toolbox-sdk/server --prebuilt=postgres`), but every useful launch needs database credentials the project must supply and the custom-tool path needs a `tools.yaml`; a written configuration would register a server that cannot answer its first query. This is the same reasoning that keeps GitHub's MCP server reference-only.
 
 ## Verification boundaries
 
@@ -159,6 +173,14 @@ On **2026-11-02**, the same script checked the three integrations added that day
 | `lsp-mcp-server@1.1.27` | `1.1.27` | 29 | Passed |
 
 `roam-code` and `orm-lens` launch through `uvx` with `--python 3.12`: both packages accept older interpreters at the package level, but their MCP extras require Python 3.10 or newer, and an unpinned `uvx` resolution on this host selected the system Python 3.9 and exited before the handshake. `roam-code` discovered `roam_search_symbol`, `roam_deps`, `roam_uses`, `roam_dead_code`, `roam_coupling`, `roam_taint`, `roam_grep`, `roam_metrics`, and `roam_ask` among its 17 tools; `orm-lens` discovered `list_models`, `find_relations`, `er_diagram`, `cascade_preview`, `nplusone_scan`, `blast_radius`, `drift`, and `impact` among its 13; `lsp-mcp-server` discovered `lsp_goto_definition`, `lsp_find_references`, `lsp_hover`, `lsp_diagnostics`, `lsp_completions`, `lsp_rename`, and the `lsp_start_server`/`lsp_stop_server`/`lsp_server_status` controls among its 29. No MCP tool was invoked: no codebase was indexed, no Django or SQLAlchemy project was parsed, no language server was started, and no agent client was configured. `ai-rulez` was reviewed the same day but not admitted as a recipe, and no MCP session was attempted for it.
+
+On **2026-11-03**, the same script checked the integration added that day (Python `3.12.13`, SDK `2.3.0`). It negotiated protocol **2025-11-25**.
+
+| Package pin | Reported server version | Tools discovered | Result |
+| --- | --- | ---: | --- |
+| `headroom-ai[mcp]==0.42.0` (`headroom mcp serve`) | `1.30.0` | 3 | Passed |
+
+The `headroom` launcher pins `--python 3.13` because the package requires Python 3.10 or newer and an unpinned `uvx` would resolve the interpreter itself. The server reports its own version (`1.30.0`) independently of the pinned PyPI release (`0.42.0`) and exposed `headroom_compress`, `headroom_retrieve`, and `headroom_stats`; no MCP tool was invoked, so no real tool output was compressed, nothing was retrieved from a cache, and the reported savings are unverified.
 
 Reproduce with `uv run --no-project --python 3.12 --with mcp==2.3.0 python scripts/smoke_mcp.py`. The optional script uses a 90-second timeout per server and a temporary npm cache. It forwards only network proxy/CA settings in addition to the SDK's default subprocess environment. Initial attempts on this host exposed missing proxy forwarding and SDK 2.x field-name changes in the smoke helper; the recorded results are from clean reruns after fixing both.
 
