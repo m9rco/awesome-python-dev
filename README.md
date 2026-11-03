@@ -17,7 +17,7 @@ Find useful, established GitHub projects for AI assisted development, then insta
 
 The installer is written in Python, with a dedicated Python toolkit. The collection also serves web and general software development across **Claude Code, Codex, Cursor, VS Code Copilot, and OpenCode**.
 
-The repository catalog includes **75 entries**: **39 installable resources** (22 skills, 6 rule packs, 9 MCP servers, and 2 LSP bridges) and **36 references** (agent-lsp, mcpls, 9 native language servers, and 25 other tools). Choose from **11 profiles** across **5 coding agents**. Repository `main` may include unreleased additions; `apd list --json` reports the catalog in your installed runtime.
+The repository catalog includes **79 entries**: **40 installable resources** (22 skills, 6 rule packs, 10 MCP servers, and 2 LSP bridges) and **39 references** (agent-lsp, mcpls, 9 native language servers, and 28 other tools). Choose from **11 profiles** across **5 coding agents**. Repository `main` may include unreleased additions; `apd list --json` reports the catalog in your installed runtime.
 
 ## Contents
 
@@ -116,8 +116,9 @@ Browse the [curated catalog](docs/CATALOG.md) for project descriptions, upstream
 | [lsp-mcp-server](https://github.com/ProfessioneIT/lsp-mcp-server) | A second MCP-to-LSP bridge that drives the language server a project already has. |
 | [roam-code](https://github.com/Cranot/roam-code) | MCP access to a local codebase index for symbol, dependency, and change-impact questions. |
 | [ORM Lens](https://github.com/FROWNINGdev/orm-lens) | MCP answers about Django and SQLAlchemy models, migrations, and N+1 risks without booting the app. |
+| [Headroom](https://github.com/headroomlabs-ai/headroom) | MCP access to a local context-compression layer that shrinks tool output, logs, and files before the model reads them. |
 
-Also explore [OpenSpec](https://github.com/Fission-AI/OpenSpec), [Spec Kit](https://github.com/github/spec-kit), [GitHub MCP](https://github.com/github/github-mcp-server), [uv](https://github.com/astral-sh/uv), [Ruff](https://github.com/astral-sh/ruff), and security scanners in the [full reference collection](docs/CATALOG.md).
+Also explore [Open Code Review](https://github.com/alibaba/open-code-review), [MCP Inspector](https://github.com/modelcontextprotocol/inspector), [MCP Toolbox for Databases](https://github.com/googleapis/mcp-toolbox), [OpenSpec](https://github.com/Fission-AI/OpenSpec), [Spec Kit](https://github.com/github/spec-kit), [GitHub MCP](https://github.com/github/github-mcp-server), [uv](https://github.com/astral-sh/uv), [Ruff](https://github.com/astral-sh/ruff), and security scanners in the [full reference collection](docs/CATALOG.md).
 
 Entries marked **installable** have a recipe in this release. Entries without an install recipe are references, with installation managed by their upstream projects. `lsp` includes the installable Serena and lsp-mcp-server bridges plus standalone language-server references.
 

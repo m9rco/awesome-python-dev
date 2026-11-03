@@ -94,6 +94,24 @@ Catalogue additions from the 2026-11-02 candidate review.
   updated in the same change; the generated site's LSP tool pages now describe
   each bridge's own prerequisites instead of Serena's.
 
+Catalogue additions from the 2026-11-03 candidate review.
+
+- One installable integration, smoke-checked through `scripts/smoke_mcp.py`:
+  `headroomlabs-ai/headroom` (pinned
+  `uvx --python 3.13 --from 'headroom-ai[mcp]==0.42.0' headroom mcp serve`,
+  3 tools discovered), a local context-compression layer that shrinks tool
+  output, logs, files, and RAG chunks before they reach the model and exposes
+  `headroom_compress`, `headroom_retrieve`, and `headroom_stats` over MCP.
+- Three reference-only entries: `alibaba/open-code-review`, an agent-driven
+  review CLI whose reviewer is a global npm CLI needing a configured provider;
+  `modelcontextprotocol/inspector`, the reference MCP debugging client; and
+  `googleapis/mcp-toolbox`, Google's database MCP server whose useful launches
+  need database credentials and a `tools.yaml`.
+- The catalog now has 79 entries: 40 installable resources (22 skills, 6 rule
+  packs, 10 MCP servers, and 2 LSP bridges) and 39 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
+  same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
