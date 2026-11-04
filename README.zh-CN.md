@@ -17,7 +17,7 @@
 
 安装器使用 Python 编写，并提供 Python 开发预设；整个集合也覆盖 Web 和通用软件开发。目前支持 **Claude Code、Codex、Cursor、VS Code Copilot 和 OpenCode**。
 
-仓库目录收录 **79 个条目**：**40 个可安装资源**（22 个 skills、6 套规则、10 个 MCP servers、2 个 LSP 桥接），以及 **39 个参考条目**（agent-lsp、mcpls、9 个原生语言服务、28 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。`main` 可能包含尚未发版的新增项，`apd list --json` 显示已安装 runtime 实际包含的工具目录。
+仓库目录收录 **83 个条目**：**42 个可安装资源**（22 个 skills、6 套规则、12 个 MCP servers、2 个 LSP 桥接），以及 **41 个参考条目**（agent-lsp、mcpls、10 个原生语言服务、29 个其他工具）。提供 **11 种预设、5 种 coding agent** 适配。`main` 可能包含尚未发版的新增项，`apd list --json` 显示已安装 runtime 实际包含的工具目录。
 
 ## 目录
 
@@ -116,10 +116,12 @@ apd runtime update      # 立即检查稳定 runtime 通道
 | [roam-code](https://github.com/Cranot/roam-code) | 通过 MCP 访问本地代码索引，回答符号、依赖与改动影响问题。 |
 | [ORM Lens](https://github.com/FROWNINGdev/orm-lens) | 无需启动应用即可通过 MCP 了解 Django/SQLAlchemy 模型、迁移与 N+1 风险。 |
 | [Headroom](https://github.com/headroomlabs-ai/headroom) | 通过 MCP 使用本地上下文压缩层，在内容进入模型前压缩工具输出、日志和文件。 |
+| [Reticle](https://github.com/reticlehq/reticle) | 通过 MCP 在真实浏览器中验证运行中的应用，给出结论与对应的 `file:line`。 |
+| [Hippo](https://github.com/kitfunso/hippo-memory) | 通过 MCP 为 coding agent 提供本地长期记忆，常用记忆会强化、过期记忆会衰减。 |
 
-[完整参考集合](docs/CATALOG.md) 还收录了 [Open Code Review](https://github.com/alibaba/open-code-review)、[MCP Inspector](https://github.com/modelcontextprotocol/inspector)、[MCP Toolbox for Databases](https://github.com/googleapis/mcp-toolbox)、[OpenSpec](https://github.com/Fission-AI/OpenSpec)、[Spec Kit](https://github.com/github/spec-kit)、[GitHub MCP](https://github.com/github/github-mcp-server)、[uv](https://github.com/astral-sh/uv)、[Ruff](https://github.com/astral-sh/ruff) 和安全扫描工具。
+[完整参考集合](docs/CATALOG.md) 还收录了 [Ripwire](https://github.com/redhat-et/ripwire)、[Open Code Review](https://github.com/alibaba/open-code-review)、[MCP Inspector](https://github.com/modelcontextprotocol/inspector)、[MCP Toolbox for Databases](https://github.com/googleapis/mcp-toolbox)、[OpenSpec](https://github.com/Fission-AI/OpenSpec)、[Spec Kit](https://github.com/github/spec-kit)、[GitHub MCP](https://github.com/github/github-mcp-server)、[uv](https://github.com/astral-sh/uv)、[Ruff](https://github.com/astral-sh/ruff)、[Tombi](https://github.com/tombi-toml/tombi) 和安全扫描工具。
 
-标记为 **installable** 的条目已提供安装配方；没有安装配方的条目作为参考，由上游项目负责安装。`lsp` 分类同时包含可安装的 Serena 与 lsp-mcp-server 桥接，以及独立语言服务参考。
+标记为 **installable** 的条目已提供安装配方；没有安装配方的条目作为参考，由上游项目负责安装。`lsp` 分类同时包含可安装的 Serena 与 lsp-mcp-server 桥接，以及独立语言服务参考（含用于 TOML 项目配置的 Tombi）。
 
 ```sh
 apd list --kind skill

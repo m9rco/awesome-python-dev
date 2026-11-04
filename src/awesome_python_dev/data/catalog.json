@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-03",
+  "reviewed_at": "2026-11-04",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -2128,6 +2128,130 @@
         "https://github.com/googleapis/mcp-toolbox/blob/main/npm/server/package.json",
         "https://mcp-toolbox.dev/documentation/introduction/",
         "https://github.com/googleapis/mcp-toolbox/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "ripwire",
+      "name": "ripwire",
+      "kind": "reference",
+      "category": "mcp-ecosystem",
+      "description": "Ranked, deterministic call-graph CLI that maps a repository before an agent reads it and checks an edit's blast radius, reachable tests and quality regressions, with an optional MCP interface.",
+      "repository": "redhat-et/ripwire",
+      "homepage": "https://github.com/redhat-et/ripwire",
+      "license": "Apache-2.0",
+      "stars": 2513,
+      "checked_at": "2026-11-04",
+      "last_pushed_at": "2026-11-04T00:00:15Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: ripwire is a self-contained C++ binary distributed through a curl-piped installer (`RIPWIRE_REPO=redhat-et/ripwire bash -c \"$(curl -fsSL https://raw.githubusercontent.com/redhat-et/ripwire/main/scripts/install.sh)\"`), SHA-256-verified GitHub release archives and a from-source CMake build, and no package of this name exists on npm or PyPI, so there is no registry command for a recipe to pin. The one-line install also stages seventeen task-shaped skills under `~/.local/share/ripwire/skills` and activates them for every agent it finds (Claude Code, Codex, Cursor, Windsurf, Gemini, opencode, aider) - a machine-level change beyond what the installers here write. The MCP server is the optional second interface of the same binary (`ripwire --mcp`, wired up as `claude mcp add ... -- ripwire --mcp`), which is why no registry launch command and no MCP handshake exist for this entry. What it gives a Python or web project: a ranked, deterministic call graph that answers what to touch, what an edit breaks and which tests reach it (`--pack-task`, `--outline`, `--slice`, `--expand`, `--compress`), edit-time checks (`--edit-check`, `--pr-context`, `--merge-scout`), quality deltas that report only regressions across twelve kinds (`--quality-panel`, `--hotspots`, `--clones`, `--metrics`, `--deps`, `--lint`), ambiguous-name and forgotten-co-change detection, and `--scan-skill`/`--scan-skills` for reviewing an agent skill file before installing it. Bodies are redacted by default while identifiers and signatures never are. It overlaps `code-review-graph`, `repomix` and `codebase-memory-mcp` as code-context tooling, with a CLI-first, offline, single-binary shape and an explicit comparison against a graph-database context server in its own docs. Star count is a dated observation. Reviewed from the README, INSTALL.md, docs/COMMANDS.md and the release page only; nothing was installed.",
+      "evidence": [
+        "https://api.github.com/repos/redhat-et/ripwire",
+        "https://github.com/redhat-et/ripwire/blob/main/README.md",
+        "https://github.com/redhat-et/ripwire/blob/main/INSTALL.md",
+        "https://github.com/redhat-et/ripwire/blob/main/docs/COMMANDS.md",
+        "https://github.com/redhat-et/ripwire/releases/latest",
+        "https://github.com/redhat-et/ripwire/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "hippo-memory",
+      "name": "Hippo",
+      "kind": "mcp",
+      "category": "mcp-ecosystem",
+      "description": "Local-first long-term memory server for coding agents that stores project or global memories over MCP, strengthens them on recall and lets mistakes decay.",
+      "repository": "kitfunso/hippo-memory",
+      "homepage": "https://hippo-memory.com",
+      "license": "MIT",
+      "stars": 791,
+      "checked_at": "2026-11-04",
+      "last_pushed_at": "2026-11-03T23:57:48Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "npx",
+        "args": [
+          "-y",
+          "hippo-memory@3.2.2",
+          "mcp"
+        ],
+        "requirements": [
+          "npx",
+          "Node.js >=22.16"
+        ],
+        "version": "3.2.2",
+        "runtime": "npx (Node.js 22.16 or newer, which the package declares in engines); the memory store is local - `~/.hippo` globally, or `.hippo/` in a project after `hippo init`"
+      },
+      "notes": "Pins the published npm release 3.2.2 in the form upstream documents for a client that does not want a global install (`\"command\": \"npx\", \"args\": [\"-y\", \"hippo-memory\", \"mcp\"]`); its README shows the same server as `hippo mcp` and `claude mcp add hippo-memory -- hippo mcp` for Claude Code. Only the MCP launch configuration is written here: `hippo init` does more - it inserts a Hippo block into instruction files that already exist (`CLAUDE.md`, `AGENTS.md`; it never creates one), adds a daily 6:15am run through crontab or the Windows scheduler, and learns from each registered project's git history, with `--no-hooks`, `--no-schedule` and `--no-learn` to limit that and Codex session capture opt-in through `hippo hook`. With no store present the first tool call creates the global store in `~/.hippo`; a project store appears only after `hippo init`. Requires Node.js 22.16 or newer and has no other runtime dependency. The design claim is outcome learning rather than storage with search: memories are strengthened each time they are recalled, a memory marked wrong drops out of the top results, and stale ones decay; the same server is documented for Cursor, Claude Code, Codex, OpenCode and OpenClaw, and data stays local. It overlaps `codebase-memory-mcp` and `headroom` in name only - this stores what an agent learned across sessions rather than a code index or compressed tool output. Upstream publishes its evals including failures and a retracted magnitude, and records that on Z0 round 2 over 16 repositories the repeat-mistake drop was not shown (-8.9 points, under the pre-registered 15-point minimum) while teach and correction turns cost about 12% less. Smoke-checked on macOS: the pinned command completed MCP initialize (server hippo-memory, reported version 3.2.2, protocol 2024-11-05) and listed 13 tools including hippo_recall, hippo_remember, hippo_outcome, hippo_conflicts and hippo_status. No tool was called, so recall quality, decay behaviour and the benchmark claims are unverified here.",
+      "evidence": [
+        "https://api.github.com/repos/kitfunso/hippo-memory",
+        "https://github.com/kitfunso/hippo-memory/blob/master/README.md",
+        "https://github.com/kitfunso/hippo-memory/blob/master/llms-install.md",
+        "https://github.com/kitfunso/hippo-memory/blob/master/LICENSE",
+        "https://hippo-memory.com/mcp/",
+        "https://registry.npmjs.org/hippo-memory/latest"
+      ]
+    },
+    {
+      "id": "reticle",
+      "name": "Reticle",
+      "kind": "mcp",
+      "category": "browser",
+      "description": "MCP server that drives a web app from inside a real browser and returns pass/fail/cannot-tell verdicts with the file:line to fix, for change verification, access control, accessibility, performance and SEO checks.",
+      "repository": "reticlehq/reticle",
+      "homepage": "https://docs.reticle.sh",
+      "license": "Apache-2.0",
+      "stars": 1308,
+      "checked_at": "2026-11-04",
+      "last_pushed_at": "2026-11-04T00:02:50Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "npx",
+        "args": [
+          "-y",
+          "@reticlehq/server@3.9.0",
+          "mcp"
+        ],
+        "requirements": [
+          "npx",
+          "Node.js >=20.11"
+        ],
+        "version": "3.9.0",
+        "runtime": "npx (Node.js 20.11 or newer, which the package declares in engines); a real browser and the project's own running app are needed before a flow can be verified"
+      },
+      "notes": "Pins the published npm release 3.9.0 in the form upstream documents for an existing client config (`\"command\": \"npx\", \"args\": [\"-y\", \"@reticlehq/server@3.9.0\", \"mcp\"]`); the README also describes a one-time CLI setup (the one-line installer `curl -fsSL https://raw.githubusercontent.com/reticlehq/reticle/main/install/install.sh | sh` plus a PowerShell equivalent, then `reticle setup mcp`). Those fuller paths do more than this catalog writes: they append blocks to `CLAUDE.md`, `AGENTS.md`, `RETICLE.md` and `.claude/commands/reticle.md`, add a prompt hook to each agent's project config so the agent verifies before claiming done, and keep run state under `.reticle/`, with `--no-mcp` skipping the files. The agent drives the project's own running app from inside a real browser and gets a verdict with the file:line behind it, so a browser and a served app are prerequisites before anything can be verified. Anonymous usage counts are sent by default (`reticle telemetry disable`, `RETICLE_TELEMETRY=0` or `DO_NOT_TRACK=1`); prompts stay redacted locally and are only uploaded after the project is linked with `reticle connect` or `RETICLE_API_KEY` in CI. Verdicts and evidence are computed locally and need no account. Playwright is the closest neighbour in this collection - both drive a browser - but this one is asked for a verdict rather than raw page state, which is what its own \"why not Playwright\" section argues. Every npm package in the repository became Apache-2.0 in this release, which is why the repository-level LICENSE file reads as an overview and GitHub reports the licence as unrecognised. Smoke-checked on macOS: the pinned command completed MCP initialize (server reticle, reported version 3.9.0, protocol 2025-11-25) and listed 10 tools. The handshake ran in a temporary directory with no app and no browser, and no tool was called, so no real flow, verdict or check was verified.",
+      "evidence": [
+        "https://api.github.com/repos/reticlehq/reticle",
+        "https://github.com/reticlehq/reticle/blob/main/README.md",
+        "https://github.com/reticlehq/reticle/blob/main/install/install.sh",
+        "https://github.com/reticlehq/reticle/blob/main/LICENSE",
+        "https://docs.reticle.sh",
+        "https://registry.npmjs.org/@reticlehq/server/latest"
+      ]
+    },
+    {
+      "id": "tombi",
+      "name": "Tombi",
+      "kind": "lsp",
+      "category": "language-servers",
+      "description": "Schema-driven TOML formatter, linter and language server that gives editors and coding agents completion, diagnostics and formatting for project configuration such as pyproject.toml.",
+      "repository": "tombi-toml/tombi",
+      "homepage": "https://tombi-toml.github.io/tombi/",
+      "license": "MIT",
+      "stars": 1192,
+      "checked_at": "2026-11-04",
+      "last_pushed_at": "2026-11-04T00:06:24Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only, alongside the other standalone language servers: Tombi is a raw LSP server (`tombi lsp`), not an MCP server, so no MCP handshake applies and no launch recipe is pinned. It is one Rust binary reachable through a curl installer, `brew install tombi`, `winget`, `uvx tombi` / `uv add --dev tombi` / `uv tool install tombi` on Python and `npx tombi` / `npm install -g tombi` on npm, with the same binary behind the VS Code, Open VSX, Zed, JetBrains, Helix, Neovim and Emacs integrations, so the command worth writing depends on the client a project already uses. Its relevance here is configuration rather than Python source: `pyproject.toml`, uv, ruff and pytest settings are all TOML, and Tombi validates and formats them against the JSON Schema Store with auto-sorted keys, so an agent editing project configuration gets diagnostics instead of a plausible-looking file. The helptext of an editor integration shows the shape - root markers `tombi.toml`, `pyproject.toml`, `.git`. It is the only configuration-file language server in this collection; the others cover Python, TypeScript, Go, Rust and C++ source. Star count is a dated observation. Reviewed from the repository README, the installation and language-server documentation pages and the npm and PyPI package metadata; nothing was installed and no editor session was run.",
+      "evidence": [
+        "https://api.github.com/repos/tombi-toml/tombi",
+        "https://github.com/tombi-toml/tombi/blob/main/README.md",
+        "https://github.com/tombi-toml/tombi/blob/main/LICENSE",
+        "https://tombi-toml.github.io/tombi/docs/installation",
+        "https://tombi-toml.github.io/tombi/docs/language-server",
+        "https://pypi.org/project/tombi/"
       ]
     }
   ],

@@ -112,6 +112,23 @@ Catalogue additions from the 2026-11-03 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
   same change.
 
+Catalogue additions from the 2026-11-04 candidate review.
+
+- Two installable MCP servers, both smoke-checked through `scripts/smoke_mcp.py`:
+  `kitfunso/hippo-memory` (pinned `npx -y hippo-memory@3.2.2 mcp`, 13 tools
+  discovered), a local-first long-term memory store for coding agents, and
+  `reticlehq/reticle` (pinned `npx -y @reticlehq/server@3.9.0 mcp`, 10 tools
+  discovered), which drives a project's running web app in a real browser and
+  returns pass/fail/cannot-tell verdicts with the `file:line` behind them.
+- Two reference-only entries: `redhat-et/ripwire`, a ranked call-graph CLI whose
+  one-line install ships a release binary and seventeen agent skills and whose
+  MCP server is a flag on the same binary, and `tombi-toml/tombi`, a
+  schema-driven TOML formatter, linter, and language server for files such as
+  `pyproject.toml`.
+- The catalog now has 83 entries: 42 installable resources (22 skills, 6 rule
+  packs, 12 MCP servers, and 2 LSP bridges) and 41 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
+  updated in the same change.
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,

@@ -65,12 +65,14 @@ These catalog entries are references (`install: null`). An LSP client must start
 | [gopls](https://github.com/golang/tools/tree/master/gopls) | Go navigation, diagnostics, refactoring | `gopls` | [Go setup guide](https://go.dev/gopls/) |
 | [rust-analyzer](https://github.com/rust-lang/rust-analyzer) | Rust navigation, completion, diagnostics, assists | `rust-analyzer` | [Rust toolchain installation](https://rust-analyzer.github.io/book/rust_analyzer_binary.html) |
 | [clangd](https://github.com/clangd/clangd) | C/C++ navigation, completion, diagnostics | `clangd` | [Install and describe the build](https://clangd.llvm.org/installation) |
+| [Tombi](https://github.com/tombi-toml/tombi) | TOML formatting, linting, and schema-aware diagnostics for `pyproject.toml` and other project configuration | `tombi lsp` | [Installation](https://tombi-toml.github.io/tombi/docs/installation) |
 
 For example, upstream documents `python -m pip install python-lsp-server` inside the environment you want to use, followed by configuring `pylsp` in your editor. Rust's toolchain method is `rustup component add rust-analyzer`, followed by client configuration. Choose versions and environment scope appropriate to your project; these commands are not run by `apd`.
 
 Ruff supplies lint and formatting capabilities. Pair it with a navigation/type server when that functionality is needed; it does not replace every Python language-server feature. Its built-in `ruff server` supersedes the older `ruff-lsp` wrapper. See the [Ruff language-server description](https://docs.astral.sh/ruff/editors/).
 
 Pyrefly is a third Rust-based Python type checker with an editor-facing server, next to Pyright and ty. Upstream's own extensions cover VSCode and OpenVSX-based editors, and the `lsp` argument recorded above is the one their default `pyrefly.lspArguments` value passes to the binary; for other editors upstream points at community setups. Its release notes describe monthly minor releases that can report new errors, so a first run over an existing project should be expected to fail until errors are triaged. Choose one Python type checker per project rather than running Pyright, ty, and Pyrefly at once.
+Tombi is the one server in this table that targets configuration rather than source code: Python projects describe themselves in TOML (`pyproject.toml`, uv, Ruff, and pytest settings), and Tombi formats, lints, and validates those files against schemas from the JSON Schema Store. It is a single Rust binary distributed through the curl installer, Homebrew, winget, `uvx`/`uv tool install`, npm, and the VS Code, Open VSX, Zed, JetBrains, Helix, Neovim, and Emacs integrations, so which command a client needs depends on that client; Neovim's own configuration registers `tombi lsp` for `toml` files and roots the workspace at `pyproject.toml`. Pair it with a navigation/type server rather than instead of one.
 
 ## Another installable bridge: lsp-mcp-server
 
