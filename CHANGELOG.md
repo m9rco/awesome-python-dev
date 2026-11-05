@@ -129,6 +129,30 @@ Catalogue additions from the 2026-11-04 candidate review.
   packs, 12 MCP servers, and 2 LSP bridges) and 41 references.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
   updated in the same change.
+
+Catalogue additions from the 2026-11-05 candidate review.
+
+- Four reference-only entries: `Graphify-Labs/graphify`, a coding-agent skill
+  that turns a repository, its docs, SQL schemas and configuration into a
+  queryable knowledge graph from local deterministic parsing with no vector
+  store; `CodeBoarding/CodeBoarding`, hybrid static analysis plus LLM agents
+  that render a codebase as interactive architecture maps and Markdown, HTML,
+  MDX or reStructuredText documentation; `IBM/mcp-context-forge`, IBM's
+  gateway, registry and proxy in front of MCP, A2A and REST/gRPC servers; and
+  `intellectronica/ruler`, which applies one `.ruler/` instruction and MCP
+  source to the native rule, skill, subagent and MCP files of more than thirty
+  coding agents.
+- None of the four was admitted as installable: `graphify` and `CodeBoarding`
+  are CLI steps that need an installed engine, a registered skill, or a
+  configured model provider before they produce anything, `mcp-context-forge`
+  is a long-running gateway that will not start without generated secrets, and
+  `ruler` rewrites many native files across a project rather than writing one
+  launch configuration.
+- The catalog now has 87 entries: 42 installable resources (22 skills, 6 rule
+  packs, 12 MCP servers, and 2 LSP bridges) and 45 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
+  same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,

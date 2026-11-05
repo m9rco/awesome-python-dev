@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-04",
+  "reviewed_at": "2026-11-05",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -2252,6 +2252,101 @@
         "https://tombi-toml.github.io/tombi/docs/installation",
         "https://tombi-toml.github.io/tombi/docs/language-server",
         "https://pypi.org/project/tombi/"
+      ]
+    },
+    {
+      "id": "graphify",
+      "name": "graphify",
+      "kind": "reference",
+      "category": "engineering-skills",
+      "description": "Turn a repository, its documentation, SQL schemas and configuration into a queryable knowledge graph through a coding-agent skill that answers architecture, dependency and change-impact questions from local deterministic parsing with no vector store.",
+      "repository": "Graphify-Labs/graphify",
+      "homepage": "https://www.graphify.com",
+      "license": "Apache-2.0",
+      "stars": 142432,
+      "checked_at": "2026-11-05",
+      "last_pushed_at": "2026-11-03T22:46:46Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: the entry point is a CLI-registered agent skill, not a pinnable launch configuration. The graph engine ships as the PyPI package `graphifyy` (`uv tool install graphifyy` or `pipx install graphifyy`, Python 3.10+) and `graphify install` detects the assistants on the machine (Claude Code, Codex, Cursor, Gemini CLI, CodeBuddy, plus a Windows variant) and registers the `/graphify` skill, with `--project` and `--platform` for a scoped registration. Copying the skill directory alone would leave a project with graph query instructions and no engine, which is the same boundary recorded for `open-code-review`, and the registration writes into agent configuration the way `ripwire` does. Its distinguishing property is determinism rather than retrieval: local AST parsing over source, docs, SQL schemas, configs and PDFs, every edge explained with its origin, and no vector store or embedding provider, so answers can be traced instead of ranked by similarity. The repository also carries the engine package (`graphify/`), `docs/how-it-works.md`, `docs/docker-mcp-sqlite.md`, benchmarks and its own AGENTS.md. Apache-2.0 with an additional `LICENSE-MIT` file, and the default branch is named `v8`. Star count is a dated observation. Reviewed from the README, `docs/how-it-works.md`, `pyproject.toml` and the license files only; nothing was installed and no graph was built.",
+      "evidence": [
+        "https://api.github.com/repos/Graphify-Labs/graphify",
+        "https://github.com/Graphify-Labs/graphify/blob/v8/README.md",
+        "https://github.com/Graphify-Labs/graphify/blob/v8/docs/how-it-works.md",
+        "https://github.com/Graphify-Labs/graphify/blob/v8/pyproject.toml",
+        "https://github.com/Graphify-Labs/graphify/blob/v8/LICENSE",
+        "https://pypi.org/project/graphifyy/"
+      ]
+    },
+    {
+      "id": "codeboarding",
+      "name": "CodeBoarding",
+      "kind": "reference",
+      "category": "documentation",
+      "description": "Render a codebase as interactive architecture maps and Markdown, HTML, MDX or reStructuredText documentation so reviewers and coding agents can see which components a change touches before merging.",
+      "repository": "CodeBoarding/CodeBoarding",
+      "homepage": "https://www.codeboarding.org",
+      "license": "MIT",
+      "stars": 2663,
+      "checked_at": "2026-11-05",
+      "last_pushed_at": "2026-11-04T23:24:02Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: the packaged CLI needs a configured model provider before it produces anything, and only an existing analysis can be rendered without one. Install is `pipx install codeboarding --python python3.12` (or pip into a virtual environment), then `codeboarding-setup` and `codeboarding full --local <repo>`, which writes `.codeboarding/analysis.json` plus nested component diagrams; `--render md|html|mdx|rst` emits an overview and one file per expanded component, and `codeboarding-render` re-renders a stored analysis with no LLM. Static analysis builds the component graph and a configured provider (OpenAI, Anthropic, Google, Vercel, Ollama, OpenRouter, or an OpenAI-compatible gateway, set in `~/.codeboarding/config.toml`) describes component responsibilities, so code excerpts are sent to that provider - the same credential boundary that keeps `open-code-review` a reference. It is the first entry here whose product is architecture documentation rather than code context for a tool call: the output feeds documentation, pull-request review and a coding agent's next prompt. Upstream also ships a VS Code/Open VSX extension, a GitHub Action that publishes architecture changes on pull requests, and a web viewer that parses local analysis files in the browser. Star count is a dated observation. Reviewed from the README, the getting-started page, `pyproject.toml` and the license file only; nothing was installed and no analysis was generated.",
+      "evidence": [
+        "https://api.github.com/repos/CodeBoarding/CodeBoarding",
+        "https://github.com/CodeBoarding/CodeBoarding/blob/main/README.md",
+        "https://github.com/CodeBoarding/CodeBoarding/blob/main/LICENSE",
+        "https://github.com/CodeBoarding/CodeBoarding/blob/main/pyproject.toml",
+        "https://codeboarding.org/getting-started",
+        "https://pypi.org/project/codeboarding/"
+      ]
+    },
+    {
+      "id": "mcp-context-forge",
+      "name": "MCP Context Forge",
+      "kind": "reference",
+      "category": "mcp-ecosystem",
+      "description": "IBM's gateway, registry and proxy in front of MCP, A2A and REST/gRPC servers that exposes one governed endpoint with virtual servers, auth, rate limiting, guardrails and an admin UI.",
+      "repository": "IBM/mcp-context-forge",
+      "homepage": "https://ibm.github.io/mcp-context-forge/",
+      "license": "Apache-2.0",
+      "stars": 4752,
+      "checked_at": "2026-11-05",
+      "last_pushed_at": "2026-11-04T19:04:44Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: this is a long-running gateway rather than a stdio server a project registers, and it will not start without secrets. The documented launch is `uvx --from mcp-contextforge-gateway mcpgateway --host 0.0.0.0 --port 4444` after `python3 -m mcpgateway.scripts.init_secrets` generates `JWT_SECRET_KEY` and `AUTH_ENCRYPTION_SECRET`, which upstream states are required in every environment including local development; pip installs, Docker/Compose, and a source checkout are the other paths. It speaks HTTP, JSON-RPC, WebSocket, SSE and streamable HTTP, with stdio transport only for server-side use, so a written stdio configuration would register a server that cannot answer its first call - the same reasoning that keeps `mcp-toolbox` and GitHub's MCP server reference-only. What it adds to a project is federation and governance rather than another tool: a registry that federates MCP, A2A and REST/gRPC servers behind one endpoint, virtual servers, tool and prompt aggregation, plugins, OAuth/JWT/basic auth with conditional passthrough of upstream authorization headers, rate limiting, retries, health checks, metrics and an admin UI. Its repository also carries Python and JavaScript lint/test configuration, a smoke test and its own AGENTS.md. Star count is a dated observation. Reviewed from the README, the documented setup and secrets sections, the documentation site and the PyPI metadata; nothing was installed and no gateway was started.",
+      "evidence": [
+        "https://api.github.com/repos/IBM/mcp-context-forge",
+        "https://github.com/IBM/mcp-context-forge/blob/main/README.md",
+        "https://github.com/IBM/mcp-context-forge/blob/main/.env.example",
+        "https://github.com/IBM/mcp-context-forge/blob/main/LICENSE",
+        "https://ibm.github.io/mcp-context-forge/",
+        "https://pypi.org/project/mcp-contextforge-gateway/"
+      ]
+    },
+    {
+      "id": "ruler",
+      "name": "Ruler",
+      "kind": "reference",
+      "category": "engineering-rules",
+      "description": "Apply one `.ruler/` source of instructions and MCP settings to the native rule, skill, subagent and MCP files of more than thirty coding agents, keeping the generated files out of version control.",
+      "repository": "intellectronica/ruler",
+      "homepage": "https://github.com/intellectronica/ruler",
+      "license": "MIT",
+      "stars": 2959,
+      "checked_at": "2026-11-05",
+      "last_pushed_at": "2026-11-04T17:06:53Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: one run rewrites many native agent files across a project, which is a broader change than the single launch configuration or copied skill directory the recipes here model. The launcher is the npm package `@intellectronica/ruler` (`npm install -g @intellectronica/ruler`, or `npx @intellectronica/ruler apply` for a one-off), and the source of truth is a `.ruler/` directory holding `AGENTS.md` and `ruler.toml` (legacy `mcp.json` and `instructions.md` fallbacks still resolve), with nested `.ruler/` directories for context-specific scopes and a global configuration used when no local one exists. It writes the target's own files rather than an adaptation: `AGENTS.md`, `CLAUDE.md`, `.amazonq/rules/ruler_q_rules.md`, `.idx/airules.md`, `firebender.json` and others for instructions; `.mcp.json`, `.cursor/mcp.json`, `.codex/config.toml`, `.gemini/settings.json`, `opencode.json` and similar for MCP servers; and the per-agent skill and subagent directories (`.claude/skills/`, `.github/skills/`, `.agents/skills/`, `.opencode/agents/`, `.codex/agents/`) where an agent supports them. It also automates `.gitignore` for the generated paths. It overlaps `ai-rulez`, which authors, locks, signs and policy-checks one source; this applies an existing source to every harness in a project, so a team adopting both would author in one and apply with the other. Star count is a dated observation. Reviewed from the README, its agent support table, `AGENTS.md`, the license file and the npm metadata; nothing was installed and no rule or MCP file was generated.",
+      "evidence": [
+        "https://api.github.com/repos/intellectronica/ruler",
+        "https://github.com/intellectronica/ruler/blob/main/README.md",
+        "https://github.com/intellectronica/ruler/blob/main/AGENTS.md",
+        "https://github.com/intellectronica/ruler/blob/main/LICENSE",
+        "https://registry.npmjs.org/@intellectronica%2fruler"
       ]
     }
   ],
