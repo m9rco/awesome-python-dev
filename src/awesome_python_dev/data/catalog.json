@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-05",
+  "reviewed_at": "2026-11-06",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -2347,6 +2347,113 @@
         "https://github.com/intellectronica/ruler/blob/main/AGENTS.md",
         "https://github.com/intellectronica/ruler/blob/main/LICENSE",
         "https://registry.npmjs.org/@intellectronica%2fruler"
+      ]
+    },
+    {
+      "id": "agnix",
+      "name": "agnix",
+      "kind": "lsp",
+      "category": "language-servers",
+      "description": "Linter and language server for agent configuration: 758 rules that validate CLAUDE.md, AGENTS.md, SKILL.md, hooks, plugin and MCP files per client, with autofixes.",
+      "repository": "agent-sh/agnix",
+      "homepage": "https://agent-sh.github.io/agnix/",
+      "license": "MIT OR Apache-2.0",
+      "stars": 471,
+      "checked_at": "2026-11-06",
+      "last_pushed_at": "2026-11-04T15:05:09Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only, and the first entry here that lints the agent files themselves: agnix validates CLAUDE.md, AGENTS.md, SKILL.md, `.claude/rules/*.md`, hooks, plugin manifests and MCP configuration against 758 rules, several hundred of them scoped per client (Claude Code 170, Codex CLI 89, Cursor 40, Cline 16, Gemini CLI 35, and more on the same table), and it can auto-fix two of the most common findings. Upstream calls it \"the missing linter and lsp for AI coding assistants\" and ships three binaries - the `agnix` CLI, `agnix-lsp` and `agnix-mcp` - under one Cargo workspace, so no single pinned recipe represents it: the documented paths are `npx agnix .` or `uvx agnix .` in a project, `npm install -g agnix` (npm 0.61.0), `brew tap agent-sh/agnix && brew install agnix`, `pip install agnix` (0.61.0 on PyPI, same summary as the repository) and `cargo install agnix-cli`, plus VS Code, JetBrains, Neovim and Zed extensions and a GitHub Action that lints changed files in CI. It is filed under the language-server category as its README does, next to Tombi as the second configuration-file language server rather than a programming-language one: the LSP binary is a raw editor server, not an MCP server, so there is no stdio handshake to smoke-test and the CLI in CI is the primary use. Repository metadata, README install and rule tables, both license files and the npm and PyPI package metadata were read; nothing was installed and no CLI, LSP or editor session was run for this entry, and the rule and client counts are upstream numbers.",
+      "evidence": [
+        "https://api.github.com/repos/agent-sh/agnix",
+        "https://github.com/agent-sh/agnix/blob/main/README.md",
+        "https://github.com/agent-sh/agnix/blob/main/LICENSE-APACHE",
+        "https://github.com/agent-sh/agnix/blob/main/LICENSE-MIT",
+        "https://pypi.org/project/agnix/"
+      ]
+    },
+    {
+      "id": "skillspector",
+      "name": "SkillSpector",
+      "kind": "reference",
+      "category": "security-tooling",
+      "description": "NVIDIA's security scanner for agent skills and MCP servers: static pattern checks plus optional LLM analysis for prompt injection, data exfiltration and supply-chain risk before a skill is installed.",
+      "repository": "NVIDIA/SkillSpector",
+      "homepage": "https://docs.nvidia.com/skills/scanning-agent-skills",
+      "license": "Apache-2.0",
+      "stars": 24520,
+      "checked_at": "2026-11-06",
+      "last_pushed_at": "2026-11-05T23:35:59Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only, and the first security entry here that scans the agent tooling instead of the project: SkillSpector runs static pattern checks for prompt injection, data exfiltration, credential access, obfuscation and supply-chain risk over a skill directory, an MCP server config, a Git URL, a zip, or an MCP registry snapshot, and can add LLM semantic analysis on top. Three things keep it out of the installable set: the documented distributions are `uv tool install git+https://github.com/NVIDIA/skillspector.git`, a container image and a source checkout, which this repository's install rules cannot pin - and there is no PyPI distribution of the name to pin instead (checked: `https://pypi.org/pypi/skillspector/json` answers 404); the `mcp` extra that enables `skillspector mcp` has to be requested at install time; and the LLM stages need a provider key plus network access, with `--no-llm` as the offline path, while the package requires Python >=3.12,<3.16 per its pyproject. Static-only scanning of a local skill directory is the cheapest way to try it. It is the safety counterpart to the existing `skillevaluator` reference in this collection (that one measures how well a skill performs, this one whether it can be trusted), and NVIDIA documents it as part of the Verified Skills pipeline behind their published skill catalog. Repository metadata, README, pyproject and license were read; no skill was scanned, no image was pulled and no MCP session was started.",
+      "evidence": [
+        "https://api.github.com/repos/NVIDIA/SkillSpector",
+        "https://github.com/NVIDIA/SkillSpector/blob/main/README.md",
+        "https://github.com/NVIDIA/SkillSpector/blob/main/pyproject.toml",
+        "https://github.com/NVIDIA/SkillSpector/blob/main/LICENSE",
+        "https://docs.nvidia.com/skills/scanning-agent-skills"
+      ]
+    },
+    {
+      "id": "brooks-lint",
+      "name": "brooks-lint",
+      "kind": "reference",
+      "category": "engineering-skills",
+      "description": "Six portable Agent Skills that review a codebase for architecture decay, technical debt, test weakness and remediation, reporting book-derived risk codes with a 0-100 health score.",
+      "repository": "hyhmrright/brooks-lint",
+      "homepage": "https://hyhmrright.github.io/brooks-lint/",
+      "license": "MIT",
+      "stars": 1561,
+      "checked_at": "2026-11-06",
+      "last_pushed_at": "2026-11-05T04:42:33Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only even though it is a skill pack, and that is a delivery-boundary call rather than a scope one: upstream ships six skills under `skills/` (brooks-audit, brooks-debt, brooks-health, brooks-review, brooks-sweep, brooks-test) that all load a shared `skills/_shared/` directory (common.md, decay-risks.md, remedy-guide.md, test-decay-risks.md, source-coverage.md, custom-risks-guide.md), and the documented installers copy `skills/*` flat into the client's skills directory: `npx brooks-lint install <platform>` (npm 1.9.1), `curl -fsSL .../scripts/install.sh | bash -s -- <platform>`, `/plugin marketplace add hyhmrright/brooks-lint`, or a manual `cp -r skills/*`. This catalog's skill recipe pins exactly one subtree and requires a SKILL.md at that subtree's root, so pinning `skills/` is impossible (no top-level SKILL.md there) and pinning a single skill would install a directory whose `../_shared/*.md` references dangle - so there is no faithful pin to record. Fourteen platform targets are documented (claude, codex, cursor, copilot, gemini, opencode, windsurf, antigravity, kiro, droid, dsh, pi, bob, agents), each with its own plugin metadata, hooks and short-form commands, and the README notes that automated checks verify file layouts and resources, not runtime behaviour on every host. The content is six review modes that audit architecture decay, technical debt, test weakness and remediation using book-derived risk codes and a 0-100 health score; it overlaps `code-review-and-quality`, `open-code-review` and `graphify` in intent, so it is included for its dependency-aware cross-file review shape and its named decay taxonomy rather than as another generic reviewer. Repository metadata, README structure, the brooks-review SKILL.md and npm package metadata were read; nothing was installed and no skill was activated.",
+      "evidence": [
+        "https://api.github.com/repos/hyhmrright/brooks-lint",
+        "https://github.com/hyhmrright/brooks-lint/blob/main/README.md",
+        "https://github.com/hyhmrright/brooks-lint/tree/main/skills",
+        "https://github.com/hyhmrright/brooks-lint/blob/main/LICENSE",
+        "https://registry.npmjs.org/brooks-lint/latest"
+      ]
+    },
+    {
+      "id": "misata",
+      "name": "Misata",
+      "kind": "mcp",
+      "category": "python-toolchain",
+      "description": "Declarative synthetic test data over MCP: state the facts a dataset must hold and get multi-table rows that satisfy them, with a certificate a DuckDB run re-checks.",
+      "repository": "rasinmuhammed/misata",
+      "homepage": "https://misata.studio",
+      "license": "MIT",
+      "stars": 75,
+      "checked_at": "2026-11-06",
+      "last_pushed_at": "2026-11-01T14:01:07Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "--python",
+          "3.12",
+          "--from",
+          "misata[mcp]==0.9.8.1",
+          "misata-mcp"
+        ],
+        "requirements": [
+          "uvx"
+        ],
+        "version": "0.9.8.1",
+        "runtime": "uv/uvx; Python 3.12 pinned for the launcher (the `mcp` extra needs mcp>=1,<2 and the package requires >=3.10)"
+      },
+      "notes": "Pins the published PyPI release 0.9.8.1 with its `mcp` extra, matching the `claude mcp add misata -- uvx --from \"misata[mcp]\" misata-mcp` form upstream documents (`misata mcp install --client all` writes the same server for Cursor, Windsurf and Claude Desktop). The launcher pins `--python 3.12` for a deterministic resolution: the package itself accepts Python >=3.10 and the `mcp` extra caps `mcp>=1.0.0,<2.0.0`, so an unpinned interpreter could resolve a FastMCP line the server was not written against. It is the test-fixture entry of this collection rather than another schema or query tool: a declaration of the facts the data must hold (monthly revenue, channel shares, balanced ledgers, foreign keys, state machines) is compiled into multi-table rows written to CSV, Parquet, JSONL, DuckDB or Postgres, together with a certificate `misata` can re-run later. The server exposes 15 tools - list_domains, preview_story, inspect_schema, generate_dataset, generate_from_schema, seed_database, create_sandbox, query_sandbox, validate_yaml, audit_dataset, explain_schema, solve_outcome, attest_dataset, check_realism, validate_domain - and upstream flags `seed_database` as the only one that writes to a database. The same package also ships a CLI, a pytest plugin entry point, a Streamlit studio and a `SKILL.md`; this recipe configures only the MCP server. Limits are stated upstream: exactness holds for declared facts (sums, rates, shares, roll-ups, keys, lifecycles) and not for arbitrary SQL or window functions, and it does not learn a joint distribution from private data - the `mimic` path fits to real rows and is not anonymised. Smoke-checked on macOS with `scripts/smoke_mcp.py`: the pinned command completed MCP initialize (server `misata` 0.9.8.1, protocol 2025-11-25) and listed the 15 tools. No tool was called, no dataset was generated and no certificate was re-verified here.",
+      "evidence": [
+        "https://api.github.com/repos/rasinmuhammed/misata",
+        "https://github.com/rasinmuhammed/misata/blob/main/README.md",
+        "https://github.com/rasinmuhammed/misata/blob/main/pyproject.toml",
+        "https://pypi.org/project/misata/0.9.8.1/",
+        "https://github.com/rasinmuhammed/misata/blob/main/LICENSE"
       ]
     }
   ],
