@@ -153,6 +153,27 @@ Catalogue additions from the 2026-11-05 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
   same change.
 
+Catalogue additions from the 2026-11-06 candidate review.
+
+- One installable MCP server, smoke-checked through `scripts/smoke_mcp.py`:
+  `misata` (pinned `uvx --python 3.12 --from 'misata[mcp]==0.9.8.1'
+  misata-mcp`, 15 tools discovered; multi-table synthetic test data compiled
+  from declared facts, with a DuckDB-checkable certificate, next to a CLI and
+  a pytest plugin).
+- Three reference-only entries: `agent-sh/agnix`, 758 rules that lint and
+  auto-fix agent configuration (`CLAUDE.md`, `AGENTS.md`, `SKILL.md`, hooks,
+  plugin and MCP files) shipped as a CLI, an `agnix-lsp` language server and an
+  optional `agnix-mcp` server; `NVIDIA/SkillSpector`, which scans a skill
+  directory, MCP server, Git URL, archive or registry snapshot for prompt
+  injection, exfiltration, credential access and supply-chain risk before
+  installation; and `hyhmrright/brooks-lint`, six review modes for architecture
+  decay, technical debt and test weakness whose installer copies a
+  shared-`_shared/` skill set this catalog cannot pin as one directory.
+- The catalog now has 91 entries: 43 installable resources (22 skills, 6 rule
+  packs, 13 MCP servers, and 2 LSP bridges) and 48 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
+  updated in the same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
