@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-06",
+  "reviewed_at": "2026-11-07",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -2454,6 +2454,130 @@
         "https://github.com/rasinmuhammed/misata/blob/main/pyproject.toml",
         "https://pypi.org/project/misata/0.9.8.1/",
         "https://github.com/rasinmuhammed/misata/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "seleniumbase",
+      "name": "SeleniumBase MCP",
+      "kind": "mcp",
+      "category": "browser",
+      "description": "Stealthy browser automation over MCP: drive real Chrome through SeleniumBase's pure CDP mode to open pages, inspect and click elements, type, assert conditions and manage cookies, storage and tabs.",
+      "repository": "SeleniumBase/SeleniumBase",
+      "homepage": "https://seleniumbase.io",
+      "license": "MIT",
+      "stars": 13228,
+      "checked_at": "2026-11-07",
+      "last_pushed_at": "2026-11-06T21:44:39Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "--python",
+          "3.13",
+          "--from",
+          "seleniumbase[mcp]==4.57.1",
+          "seleniumbase-mcp"
+        ],
+        "requirements": [
+          "uvx"
+        ],
+        "version": "4.57.1",
+        "runtime": "uv/uvx; Python 3.13 pinned for the launcher (package requires >=3.10, the `mcp` extra needs >=3.10)"
+      },
+      "notes": "Pins the published PyPI release 4.57.1 with its `mcp` extra, which is upstream's simplest path: `pip install \"seleniumbase[mcp]\"` registers the `seleniumbase-mcp` console script and the MCP client config becomes just `seleniumbase-mcp`. That server is the one in the repository's `mcp_servers/` directory and is the only variant configured here; SeleniumBase's `Driver()` and `SB()` automation styles have separate servers in the `seleniumbase/seleniumbase-mcp` repository. This launcher pins `--python 3.13` for a deterministic resolution: the distribution requires Python >=3.10 and an unpinned `uvx` on a host whose default interpreter is older (this repository's smoke host ships 3.9) fails before the MCP handshake, the same reason the roam-code, orm-lens, headroom and misata recipes pin. The server drives Chrome over the DevTools Protocol with no WebDriver in the loop (`seleniumbase.sb_cdp.Chrome`), so no chromedriver download is needed, but a working Chrome/Chromium install is, and the browser is started only when the agent calls `start_browser`. Upstream documents `headless` defaulting to `None`, which resolves to headless on Linux and headed on macOS/Windows, and a `solve_captcha()` capability; CAPTCHA solving and stealth behaviour are uninspected here. The rest of SeleniumBase remains a general pytest-based browser-test framework with its own extras (playwright, mss, pdfminer, pyautogui); this recipe writes only the MCP launch configuration and installs none of those, and it does not configure the underlying test framework. Smoke-checked on macOS with `scripts/smoke_mcp.py`: the pinned command completed MCP initialize (server `seleniumbase-mcp`, protocol 2025-11-25; the server reports no version string) and listed 24 tools - start_browser, close_browser, get_page_info, open_url, manage_history, find_elements, get_content, get_attributes, check_if_condition, click_element, hover_action, type_text, select_option, focus_element, wait_for_condition, assert_condition, manage_cookies, manage_storage, scroll_page, manage_window, manage_tabs, solve_captcha, save_page, run_javascript. No tool was called, so no Chrome session, page load or CAPTCHA solve was exercised, and whether the upstream README's shorter tool list still matches the server was not re-checked beyond this listing.",
+      "evidence": [
+        "https://api.github.com/repos/SeleniumBase/SeleniumBase",
+        "https://github.com/SeleniumBase/SeleniumBase/blob/master/README.md",
+        "https://github.com/SeleniumBase/SeleniumBase/blob/master/mcp_servers/README.md",
+        "https://pypi.org/project/seleniumbase/4.57.1/",
+        "https://github.com/SeleniumBase/SeleniumBase/blob/master/LICENSE"
+      ]
+    },
+    {
+      "id": "dbhub",
+      "name": "DBHub",
+      "kind": "mcp",
+      "category": "mcp-ecosystem",
+      "description": "Token-efficient database MCP server: two default tools to run SQL and search schemas across PostgreSQL, MySQL, MariaDB, SQL Server, Oracle and SQLite, with read-only guardrails, SSH tunnelling and SSL options.",
+      "repository": "bytebase/dbhub",
+      "homepage": "https://dbhub.ai",
+      "license": "MIT",
+      "stars": 3801,
+      "checked_at": "2026-11-07",
+      "last_pushed_at": "2026-11-03T06:59:40Z",
+      "archived": false,
+      "install": {
+        "type": "mcp",
+        "command": "npx",
+        "args": [
+          "-y",
+          "@bytebase/dbhub@1.5.1",
+          "--transport",
+          "stdio",
+          "--demo"
+        ],
+        "requirements": [
+          "npx",
+          "Node.js >=22.5.0"
+        ],
+        "version": "1.5.1",
+        "runtime": "Node.js >=22.5.0 (the server uses the built-in `node:sqlite` module)"
+      },
+      "notes": "Pins the published npm release 1.5.1 and the stdio transport the agent starts, with `--demo` so the shipped configuration works before any database is chosen: upstream documents a bundled SQLite sample \"employee\" database for testing. Replace `--demo` with `--dsn \"<your-dsn>\"` (or the DB_* environment variables) to point it at a real database, which is what the upstream examples show, including the PostgreSQL form used in the Claude Code MCP documentation; this recipe stores no credentials and the user's DSN is supplied at launch like any other MCP server. It is the database entry of this collection: other MCP database tools appear here only as reference (mcp-toolbox, mongodb-mcp-server-adjacent guides) and none of them is a pinned launch recipe, so DBHub is the one-command path from a database to an agent. Upstream's token-efficiency claim is the reason it is worth a recipe: two tools by default (`execute_sql`, `search_objects`) at roughly 1.4k tokens, with `explain_sql` and other tools opt-in, against alternatives that load a full toolbelt. Guardrails are documented as read-only mode, row limiting and query timeouts, and one process can serve multiple databases through a TOML config with `--id` suffixes for tool names; there is also a web workbench (`--transport http --port 8080`), a Docker image, an MCP Bundle and a Claude Code plugin, none of which this recipe configures. Node.js >=22.5.0 is a hard requirement because the server uses the built-in `node:sqlite` module; the smoke host's v22.22.2 satisfied it. Smoke-checked on macOS with `scripts/smoke_mcp.py`: the pinned command completed MCP initialize (server `DBHub MCP Server` 1.5.1, protocol 2025-11-25) and listed the two default tools, execute_sql and search_objects. No query was executed against the bundled sample database, so query results, guardrail behaviour and multi-database configuration remain unverified.",
+      "evidence": [
+        "https://api.github.com/repos/bytebase/dbhub",
+        "https://github.com/bytebase/dbhub/blob/main/README.md",
+        "https://dbhub.ai/installation",
+        "https://dbhub.ai/config/command-line",
+        "https://registry.npmjs.org/@bytebase%2fdbhub/1.5.1",
+        "https://github.com/bytebase/dbhub/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "spec-kitty",
+      "name": "Spec Kitty",
+      "kind": "reference",
+      "category": "spec-driven-development",
+      "description": "Spec-driven development CLI that keeps specs, work packages, review and merge state in the repository and runs parallel coding agents in isolated git worktrees.",
+      "repository": "spec-kitty/spec-kitty",
+      "homepage": "https://spec-kitty.ai",
+      "license": "MIT",
+      "stars": 1716,
+      "checked_at": "2026-11-07",
+      "last_pushed_at": "2026-11-06T23:48:15Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only, for two reasons. First, the artifact is a whole workflow rather than one pinned capability: the CLI turns intent into the chain `spec -> plan -> tasks -> next -> review -> accept -> merge`, stores mission artifacts under `kitty-specs/` with lifecycle lanes (`planned`, `in_progress`, `for_review`, `approved`, `done`), gives each agent an isolated worktree under `.worktrees/`, and integrates by writing slash commands or skills into Claude Code, Codex, Cursor, Gemini, Copilot, Windsurf, OpenCode and others at initialization time - a machine- and harness-level change beyond the four install types this catalog writes. Second, there is no single artifact to pin: the published stable PyPI release is 3.2.7 (2026-09-09) while `main` carries the 4.x release-candidate line (`spec-kitty-cli==4.0.0rc2`), and upstream states that stable launch acceptance remains pending, so neither the stable nor the RC represents the project faithfully for a pinned recipe. It sits next to `spec-kit` and `openspec`: those record a spec workflow, while this one adds governance around it - a repository-native charter, review and accept gates, lane-based progress (`spec-kitty agent tasks status --json` for tools), parallel-agent worktree isolation and a retrospective generated per completed mission. Upstream is explicit that it is overkill for one-off edits, tiny scripts, or teams that do not use Git, and that it is designed for humans defining intent and acceptance criteria rather than lights-out autonomy. Reviewed from the README and the published PyPI metadata only; the CLI was not installed and no workflow was run, so command behaviour, worktree isolation and multi-agent concurrency are unverified. Star count is a dated observation.",
+      "evidence": [
+        "https://api.github.com/repos/spec-kitty/spec-kitty",
+        "https://github.com/spec-kitty/spec-kitty/blob/main/README.md",
+        "https://spec-kitty.ai/",
+        "https://pypi.org/project/spec-kitty-cli/3.2.7/",
+        "https://github.com/spec-kitty/spec-kitty/blob/main/LICENSE"
+      ]
+    },
+    {
+      "id": "cross-code-organizer",
+      "name": "Cross-Code Organizer",
+      "kind": "reference",
+      "category": "skill-ecosystem",
+      "description": "Local cross-harness dashboard that inventories, edits and cleans up Claude Code, Codex CLI, OpenCode and DSH configs, memories, skills, agents and MCP servers, and scans MCP tool descriptions for poisoning.",
+      "repository": "mcpware/cross-code-organizer",
+      "homepage": "https://github.com/mcpware/cross-code-organizer",
+      "license": "MIT",
+      "stars": 386,
+      "checked_at": "2026-11-07",
+      "last_pushed_at": "2026-11-04T12:01:18Z",
+      "archived": false,
+      "install": null,
+      "notes": "Reference only: it is an interactive local dashboard application (`npx @mcpware/cross-code-organizer`, Node.js >=20) that a person opens in a browser, not a skill, rule pack, MCP server or LSP bridge, so none of the four install types this catalog writes applies and an agent-side launch config would not describe its use. It was renamed from Claude Code Organizer, and upstream ships a rename note for search. What it adds beyond the browser entries here: one view of what each harness actually loads (Claude Code memories, skills, agents, hooks, slash commands, MCP servers, sessions and context budget; Codex AGENTS instructions, profiles, sessions, history, snapshots, TOML config, plugins, hooks and skills; OpenCode layered JSON/JSONC config; DSH profiles and skill roots), normalised per adapter instead of assuming identical precedence, with in-place Markdown editing, duplicate memory and skill cleanup, reversible exact-duplicate repair and copy-only skill migration in the newer line. Its security side is the pairing with a scanner over MCP server configs and tool descriptions for prompt-injection-style poisoning, including an \"Activation Scanner\" research preview that probes local model activations before an untrusted capability runs; upstream positions it against standalone scanners by letting a finding navigate straight to the offending server entry. Two caveats recorded here: the published npm release is 0.19.3 while the README documents a v0.20.0 line with additional repair and harness support, so the dashboard and the published package are not the same surface, and its config-hygiene purpose overlaps `mcp-inspector` and `mcp-context-forge` in this collection without replacing either. Privacy: it reads local harness config directories and project configs, telemetry is explicit opt-in and documented as anonymous counters with no paths, prompts or file contents, and it uploads no configuration. Reviewed from the README, PRIVACY.md and registry metadata only; nothing was installed or launched and no scanner verdict was reproduced. Star count is a dated observation.",
+      "evidence": [
+        "https://api.github.com/repos/mcpware/cross-code-organizer",
+        "https://github.com/mcpware/cross-code-organizer/blob/main/README.md",
+        "https://github.com/mcpware/cross-code-organizer/blob/main/PRIVACY.md",
+        "https://registry.npmjs.org/@mcpware%2fcross-code-organizer/0.19.3",
+        "https://github.com/mcpware/cross-code-organizer/blob/main/LICENSE"
       ]
     }
   ],

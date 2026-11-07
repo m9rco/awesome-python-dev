@@ -174,6 +174,32 @@ Catalogue additions from the 2026-11-06 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
   updated in the same change.
 
+Catalogue additions from the 2026-11-07 candidate review.
+
+- Two installable MCP servers, both smoke-checked through `scripts/smoke_mcp.py`:
+  `SeleniumBase/SeleniumBase` (pinned `uvx --python 3.13 --from
+  'seleniumbase[mcp]==4.57.1' seleniumbase-mcp`, 24 tools discovered) drives
+  Chrome through SeleniumBase's pure CDP Mode with no WebDriver or chromedriver
+  and ships that server inside the test framework's own PyPI distribution;
+  `bytebase/dbhub` (pinned `npx -y @bytebase/dbhub@1.5.1 --transport stdio
+  --demo`, `execute_sql` and `search_objects` discovered) executes SQL and
+  searches schemas on PostgreSQL, MySQL, MariaDB, SQL Server, Oracle and SQLite
+  and starts on a bundled sample SQLite database, so its stored command needs no
+  credentials before the user swaps in a `--dsn`.
+- Two reference-only entries: `spec-kitty/spec-kitty`, which keeps specs, work
+  packages, review and merge state in the repository and runs each work package
+  in an isolated git worktree (reference-only because `spec-kitty init` installs
+  into every harness it detects and its 4.x line is still a release candidate
+  over the stable `3.2.7` on PyPI), and `mcpware/cross-code-organizer`, a local
+  dashboard that inventories what each harness loads, edits memory and skill
+  files in place, repairs duplicates and scans MCP tool descriptions for
+  poisoning (reference-only because it is an interactive local application
+  rather than one of the four install types).
+- The catalog now has 95 entries: 45 installable resources (22 skills, 6 rule
+  packs, 15 MCP servers, and 2 LSP bridges) and 50 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
+  same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
