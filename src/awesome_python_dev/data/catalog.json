@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-07",
+  "reviewed_at": "2026-11-08",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -2579,6 +2579,117 @@
         "https://registry.npmjs.org/@mcpware%2fcross-code-organizer/0.19.3",
         "https://github.com/mcpware/cross-code-organizer/blob/main/LICENSE"
       ]
+    },
+    {
+      "archived": false,
+      "category": "python-toolchain",
+      "checked_at": "2026-11-08",
+      "description": "Orchestrate Ruff, Bandit, Oxlint and pip-audit behind one stdio MCP server and return a compressed repository map instead of raw files.",
+      "evidence": [
+        "https://api.github.com/repos/mustel-py/mustel",
+        "https://github.com/mustel-py/mustel/blob/main/README.md",
+        "https://github.com/mustel-py/mustel/blob/main/pyproject.toml",
+        "https://pypi.org/project/mustel/0.3.4/",
+        "https://github.com/mustel-py/mustel/blob/main/LICENSE"
+      ],
+      "homepage": "https://mustel.vercel.app/",
+      "id": "mustel",
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "--python",
+          "3.12",
+          "--with",
+          "mcp<2",
+          "--from",
+          "mustel==0.3.4",
+          "mustel",
+          "serve"
+        ],
+        "requirements": [
+          "uvx"
+        ],
+        "version": "0.3.4",
+        "runtime": "uv/uvx; Python 3.12 pinned for the launcher (the package requires >=3.10 while this host's system Python is 3.9); published 0.3.4 imports `mcp.server.fastmcp` without capping `mcp`, so the recipe adds `--with mcp<2`"
+      },
+      "kind": "mcp",
+      "last_pushed_at": "2026-10-24T20:06:44Z",
+      "license": "MIT",
+      "name": "Mustel",
+      "notes": "Python static-analysis orchestrator exposed over stdio MCP; the five tools `review`, `review_file`, `get_code_map`, `env` and `bootstrap` were discovered in a fresh temporary project in this pass (`initialize` + `tools/list`, protocol 2025-11-25, the server reporting FastMCP `1.30.0`). It coordinates Ruff, Bandit, Oxlint, pip-audit and local YAML pattern files in parallel and switches profile by environment: dev mode (default) runs only local, non-networked checks with a stat-based (`mtime` + `size`) cache, while audit mode adds the deeper Bandit and pip-audit passes when `CI`, `GITHUB_ACTIONS` or `PRE_COMMIT` is set. Its difference from the other Python checker recipe here (`mcp-tools-py`: pylint, pytest, mypy, Ruff and symbol renames) is the dependency-vulnerability lane plus the compressed repository map: `get_code_map` returns an AST/regex skeleton of paths, classes, functions and docstrings that upstream describes as a 1,500-token budget, and `.ipynb` code cells are parsed natively so an agent reads structure instead of whole files. Ruff, Bandit, pip-audit, Semgrep and OSV-Scanner remain reference-only entries; this recipe is the wiring that puts two of those scanners behind MCP in one server, and upstream records a guardrail that injects compile/syntax failures into the agent's tool output on save. Caveats: the `bootstrap` tool and `mustel bootstrap` rewrite machine-level configuration (`~/.cursor/mcp.json`, `~/.claude.json`, Claude Desktop configs, project `.cursorrules`/`.windsurfrules` and git pre-commit hooks), so this catalog registers only the stdio server and never calls it; audit mode needs network access for vulnerability data; the pinned `0.3.4` matches the version in `main`'s `pyproject.toml`, but that PyPI release predates the repository's October commits. The smoke check started the launcher and listed the tools; no tool was called, no project was analysed, no code map was generated and no IDE or hook configuration was written.",
+      "repository": "mustel-py/mustel",
+      "stars": 19
+    },
+    {
+      "archived": false,
+      "category": "skill-ecosystem",
+      "checked_at": "2026-11-08",
+      "description": "Lint, autofix and baseline the skills, plugins, hooks and instruction files a coding agent loads across the major agent ecosystems.",
+      "evidence": [
+        "https://api.github.com/repos/stbenjam/skillsaw",
+        "https://github.com/stbenjam/skillsaw/blob/main/README.md",
+        "https://skillsaw.org/rules/",
+        "https://pypi.org/project/skillsaw/0.23.0/",
+        "https://github.com/stbenjam/skillsaw/blob/main/LICENSE",
+        "https://github.com/stbenjam/skillsaw/blob/main/.pre-commit-hooks.yaml"
+      ],
+      "homepage": "https://skillsaw.org/",
+      "id": "skillsaw",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-07T23:40:46Z",
+      "license": "Apache-2.0",
+      "name": "Skillsaw",
+      "notes": "A linter for the files that steer a coding agent, recorded next to `agnix` with a different delivery shape: agnix is a Rust LSP binary with 758 per-client rules, skillsaw is a Python package on PyPI that runs as `uvx skillsaw tree` (report what it detects), `uvx skillsaw` (lint), `uvx skillsaw fix` (deterministic autofixes) and `uvx skillsaw baseline` (accept existing findings, fail only on new ones), with `.pre-commit-hooks.yaml` for a commit-time gate. It validates structure across ecosystems: Agent Skills (`SKILL.md`), Agent Plugins v1 (`plugin.json`, `mcp.json`), Claude Code and OpenAI Codex plugins and marketplaces, Cursor, Grok Build, Z.ai ZCode, Google Antigravity, GitHub Copilot / VS Code custom agents, OpenCode, Pi, native OpenClaw plugins, APM packages, MCP server maps and MCP Registry `server.json`, Vercel skills CLI lockfiles, `CLAUDE.md`/`AGENTS.md`/`GEMINI.md`/`QWEN.md`, hooks and eval formats. On top of schema and frontmatter checks it applies content and token-economy rules (instruction drift across duplicate files, instruction budget, section length, weak language, contradictions, repetitive inline tool-call examples), discovery integrity checks (unreferenced bundled files, broken internal references, inconsistent terminology, missing stop conditions, stale baselines) and supply-chain rules (dangerous `hooks.json` lifecycle hooks, `curl | sh` download-and-execute, `eval` obfuscation, strict MCP allowlists, invisible-unicode and prompt-injection payloads, embedded credentials). It stays reference-only because it is a CLI linter rather than one of the catalog's four install types; its own `npx skills add stbenjam/skillsaw` path installs only the `skillsaw-onboard` skill, which then drives the same `uvx` CLI. Adjacent to `cross-code-organizer` (harness inventory), `skillevaluator` (skill quality scoring) and `SkillSpector` (skill security scanning) rather than a duplicate of any of them. Nothing was installed and no repository was linted in this pass.",
+      "repository": "stbenjam/skillsaw",
+      "stars": 71
+    },
+    {
+      "archived": false,
+      "category": "python-skills",
+      "checked_at": "2026-11-08",
+      "description": "Checklist-driven Claude Code skills for the Python library lifecycle, with shared and other-language bundles from the same collection.",
+      "evidence": [
+        "https://api.github.com/repos/wdm0006/python-skills",
+        "https://github.com/wdm0006/python-skills/blob/main/README.md",
+        "https://github.com/wdm0006/python-skills/blob/main/.claude-plugin/marketplace.json",
+        "https://github.com/wdm0006/python-skills/tree/main/skills/python",
+        "https://github.com/wdm0006/python-skills/blob/main/LICENSE"
+      ],
+      "homepage": "https://github.com/wdm0006/python-skills",
+      "id": "python-dev-skills",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-07T22:44:31Z",
+      "license": "MIT",
+      "name": "Python Dev Skills",
+      "notes": "A multi-language Claude Code skill collection whose Python half is the largest and most directly useful here: checklist-driven `SKILL.md` files for `api-design`, `cli-development`, `code-quality`, `documentation`, `lazy-dependencies`, `library-review`, `llm-features`, `mcp-servers`, `packaging`, `performance`, `project-setup`, `release-management`, `security-audit`, `testing-strategy`, `web-app-architecture` and `community`, plus twenty shared `skills/common/` skills (git hygiene, GitHub Actions, CI permissions, rendering untrusted content, destructive operations, UI design, defect reports and more) and smaller Go, Rust, Scala, Swift and browser-extension sets. Delivery is a Claude Code plugin marketplace: `/plugin marketplace add wdm0006/python-skills` then `/plugin install python-library-complete@dev-skills` or a narrower bundle (`python-library-foundations`, `python-library-quality`, `python-web-app`, `python-mcp-servers`, `swift-apps`, `browser-extensions`), whose exact membership is declared in `.claude-plugin/marketplace.json`; the collection grew out of a Python library-development guide and its README states a repository rename is planned now that it covers several languages. It is reference-only for two reasons: the delivered unit is a plugin bundle whose members share `skills/common/*` rather than one self-contained subtree this catalog can pin with a full commit and archive SHA-256, and the repository path the marketplace command depends on is scheduled to change, so a pin now would need re-verification on rename. It sits next to the ECC and `wshobson/agents` Python skills this catalog installs and to `awesome-copilot` as discovery sources for the same idea. Nothing was installed and no bundle was activated.",
+      "repository": "wdm0006/python-skills",
+      "stars": 111
+    },
+    {
+      "archived": false,
+      "category": "skill-ecosystem",
+      "checked_at": "2026-11-08",
+      "description": "Google's seven Agent Skills plus a CLI for building, evaluating, deploying, observing and publishing agents on Google ADK.",
+      "evidence": [
+        "https://api.github.com/repos/google/agents-cli",
+        "https://github.com/google/agents-cli/blob/main/README.md",
+        "https://github.com/google/agents-cli/blob/main/skills/README.md",
+        "https://pypi.org/project/google-agents-cli/1.13.0/",
+        "https://github.com/google/agents-cli/blob/main/LICENSE"
+      ],
+      "homepage": "https://google.github.io/agents-cli/",
+      "id": "agents-cli",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-04T17:44:57Z",
+      "license": "Apache-2.0",
+      "name": "Agents CLI (Google ADK)",
+      "notes": "The first entry here whose subject is building the agent rather than tooling a Python or Web project: Agents CLI gives a coding agent seven Agent Skills that cover the ADK development lifecycle — `google-agents-cli-workflow` (lifecycle, code preservation, model selection), `google-agents-cli-adk-code` (ADK Python API: agents, tools, orchestration, callbacks, state, graph Workflow API), `google-agents-cli-scaffold`, `google-agents-cli-eval` (datasets, metrics, generate/grade, compare, analyze, optimize, LLM-as-judge), `google-agents-cli-deploy` (Agent Runtime on the Gemini enterprise platform, Cloud Run, GKE, CI/CD, secrets), `google-agents-cli-publish` (Gemini registration) and `google-agents-cli-observability` (Cloud Trace, Cloud Logging) — shipped in the same repository as a PyPI CLI (`uvx google-agents-cli setup`, package `google-agents-cli` `1.13.0`, Python >=3.11) whose commands stay usable standalone (`agents-cli create`, `scaffold enhance`, `eval`, `deploy`). The documented skill path is the same `npx skills add google/agents-cli` CLI this catalog records as `skills-cli`, with `.claude-plugin`, `plugin.json` and `gemini-extension.json` manifests for the plugin marketplaces. It is reference-only because the delivered unit is a seven-skill bundle plus a generator CLI rather than one pinnable subtree or MCP launch command, and because the parts that matter most (deployment, publishing, hosted evaluation) require the user's own Google Cloud project and credentials while only local `create`/`run`/`eval` works with an AI Studio API key. Upstream also states that its usage telemetry writes a structured log entry into the user's own Google Cloud project (command name, exit code, error class, duration). Recorded next to the other skill collections as a discovery source; nothing was installed, no project was scaffolded and no agent was deployed.",
+      "repository": "google/agents-cli",
+      "stars": 6315
     }
   ],
   "profiles": {
