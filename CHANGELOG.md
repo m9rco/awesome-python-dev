@@ -200,6 +200,28 @@ Catalogue additions from the 2026-11-07 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
   same change.
 
+Catalogue additions from the 2026-11-08 candidate review.
+
+- One installable MCP server, smoke-checked through `scripts/smoke_mcp.py`:
+  `mustel-py/mustel` (pinned
+  `uvx --python 3.12 --with mcp<2 --from mustel==0.3.4 mustel serve`, 5 tools
+  discovered; Ruff, Bandit, Oxlint and pip-audit in one stdio server with a
+  compressed AST code map and an audit mode that also runs dependency
+  vulnerability checks).
+- Three reference-only entries: `stbenjam/skillsaw`, a PyPI linter for the
+  skills, plugin manifests, hooks, instruction files and MCP metadata a coding
+  agent loads, recorded next to `agnix` for its different delivery shape;
+  `wdm0006/python-skills`, a Claude Code plugin marketplace whose Python bundles
+  cover the library lifecycle but whose members share `skills/common/*` files and
+  whose repository is scheduled to be renamed; and `google/agents-cli`, Google's
+  seven-skill ADK lifecycle bundle plus the `google-agents-cli` CLI, which stays
+  a reference because the bundle is not one pinnable subtree and its deploy,
+  publish and hosted-eval paths need the user's own Google Cloud project.
+- The catalog now has 99 entries: 46 installable resources (22 skills, 6 rule
+  packs, 16 MCP servers, and 2 LSP bridges) and 53 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
+  same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
