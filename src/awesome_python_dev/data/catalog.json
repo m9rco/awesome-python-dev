@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-08",
+  "reviewed_at": "2026-11-09",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -2690,6 +2690,119 @@
       "notes": "The first entry here whose subject is building the agent rather than tooling a Python or Web project: Agents CLI gives a coding agent seven Agent Skills that cover the ADK development lifecycle — `google-agents-cli-workflow` (lifecycle, code preservation, model selection), `google-agents-cli-adk-code` (ADK Python API: agents, tools, orchestration, callbacks, state, graph Workflow API), `google-agents-cli-scaffold`, `google-agents-cli-eval` (datasets, metrics, generate/grade, compare, analyze, optimize, LLM-as-judge), `google-agents-cli-deploy` (Agent Runtime on the Gemini enterprise platform, Cloud Run, GKE, CI/CD, secrets), `google-agents-cli-publish` (Gemini registration) and `google-agents-cli-observability` (Cloud Trace, Cloud Logging) — shipped in the same repository as a PyPI CLI (`uvx google-agents-cli setup`, package `google-agents-cli` `1.13.0`, Python >=3.11) whose commands stay usable standalone (`agents-cli create`, `scaffold enhance`, `eval`, `deploy`). The documented skill path is the same `npx skills add google/agents-cli` CLI this catalog records as `skills-cli`, with `.claude-plugin`, `plugin.json` and `gemini-extension.json` manifests for the plugin marketplaces. It is reference-only because the delivered unit is a seven-skill bundle plus a generator CLI rather than one pinnable subtree or MCP launch command, and because the parts that matter most (deployment, publishing, hosted evaluation) require the user's own Google Cloud project and credentials while only local `create`/`run`/`eval` works with an AI Studio API key. Upstream also states that its usage telemetry writes a structured log entry into the user's own Google Cloud project (command name, exit code, error class, duration). Recorded next to the other skill collections as a discovery source; nothing was installed, no project was scaffolded and no agent was deployed.",
       "repository": "google/agents-cli",
       "stars": 6315
+    },
+    {
+      "archived": false,
+      "category": "spec-driven-development",
+      "checked_at": "2026-11-09",
+      "description": "Agent plugin that drafts a software design and then reviews it adversarially with a team of reviewer agents across Claude Code, Codex, Cursor, Copilot, Gemini and Antigravity.",
+      "evidence": [
+        "https://api.github.com/repos/google/elephant-goldfish-model",
+        "https://github.com/google/elephant-goldfish-model/blob/main/README.md",
+        "https://github.com/google/elephant-goldfish-model/tree/main/agents",
+        "https://github.com/google/elephant-goldfish-model/tree/main/distributions/claude/skills",
+        "https://github.com/google/elephant-goldfish-model/blob/main/.cursor-plugin/rules/egm.mdc",
+        "https://github.com/google/elephant-goldfish-model/blob/main/AI_POLICY.md",
+        "https://github.com/google/elephant-goldfish-model/blob/main/LICENSE"
+      ],
+      "homepage": "https://egm.dev",
+      "id": "elephant-goldfish",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-08T13:33:11Z",
+      "license": "Apache-2.0",
+      "name": "Elephant Goldfish Model",
+      "notes": "A Google-published, multi-harness agent plugin for the design half of the loop, recorded in `spec-driven-development` next to `spec-kit` and `spec-kitty` with a different lever: rather than generating and gating specification documents, it runs an agent ensemble that drafts a design and then attacks it. Ten reviewer prompts live in `agents/` (`bootstrap_orchestrator`, `comprehension`, `structural`, `style`, `design_critic`, `implementation_readiness`, `inventive_catalyst`, `synthesizer`, `zoom_out`, `codebase_details`) and the shipped skills walk the loop (`egm-bootstrap`, `egm-brainstorm`, `egm-draft`, `egm-review` / `egm-review-loop`, `egm-resolve`, `egm-drift-report`). It ships per-harness manifests and rule files for Claude Code (`.claude-plugin/`, `distributions/claude/skills/*`), Codex (`.codex-plugin/`), Cursor (`.cursor-plugin/` plus `.cursor-plugin/rules/egm.mdc`), Antigravity/Gemini (`.agents/`, `.gemini/`) and Copilot (`com.github.copilot`), with per-client setup under `docs/` (`claude.md`, `codex.md`, `cursor.md`, `copilot.md`); the Claude route upstream documents is `claude plugin marketplace add google/elephant-goldfish-model` then `claude plugin install egm@egm`. It is reference-only for the reason upstream states itself - install the complete plugin so its skills can read the reviewer prompts and document standards: the skills are not self-contained, they read the repository-level `agents/` prompts, so a pinned skill subtree would be incomplete and a recipe would ship half the product. Repository metadata, README, plugin manifests, the `agents/` and `distributions/claude/skills/` trees, `AI_POLICY.md` and `LICENSE` (Apache-2.0) were read in this pass; 15k+ stars and a push the day before this review. Nothing was installed, no plugin or skill was activated and no design review was run.",
+      "repository": "google/elephant-goldfish-model",
+      "stars": 15063
+    },
+    {
+      "archived": false,
+      "category": "security-tooling",
+      "checked_at": "2026-11-09",
+      "description": "Inline AI-agent firewall and MCP security control that scans outbound and inbound traffic, enforces egress policy and emits signed receipts.",
+      "evidence": [
+        "https://api.github.com/repos/pipelab-org/pipelock",
+        "https://github.com/pipelab-org/pipelock/blob/main/README.md",
+        "https://github.com/pipelab-org/pipelock/blob/main/docs/bypass-resistance.md",
+        "https://github.com/pipelab-org/pipelock/blob/main/docs/mediation-envelope.md",
+        "https://github.com/pipelab-org/pipelock/blob/main/docs/receipts/versioning.md",
+        "https://github.com/pipelab-org/pipelock/blob/main/docs/owasp-agentic-top15-mapping.md",
+        "https://github.com/pipelab-org/pipelock/releases/tag/v3.7.1",
+        "https://github.com/pipelab-org/pipelock/blob/main/LICENSE"
+      ],
+      "homepage": "https://pipelab.org",
+      "id": "pipelock",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-09T00:03:05Z",
+      "license": "Apache-2.0",
+      "name": "Pipelock",
+      "notes": "An AI-agent firewall for the layer this catalog otherwise covers only statically: it sits inline between the agent and the network (and on the MCP path), scans outbound requests and inbound responses, and mediates egress against a policy file instead of auditing a repository after the fact. Detection is layered - an ordered URL scanner pipeline (scheme, CRLF and path-traversal checks, allow/block lists, immutable literal-IP SSRF and core-DLP floors, path/query/subdomain entropy analysis, nested URL destinations, DNS SSRF and rebinding protection, per-domain rate limits and data budgets), 65 built-in DLP patterns with checksum validation, and 34 prompt-injection / state-poisoning response patterns with six-pass normalization for zero-width characters, homoglyphs and leetspeak; DLP runs before DNS resolution so secrets are caught before a query leaves the proxy. Decisions can be exported as signed receipts plus mediation metadata (`docs/receipts/versioning.md`, `docs/mediation-envelope.md`) and mapped to the OWASP Agentic Top 15 and LLM Top 10, and the repository ships a GitHub Action (`action.yml`), Helm charts, Dockerfiles and a policy spec. Reference-only: it is a Go binary distributed as source builds, verified prebuilt releases, containers or a GitHub Action, not as one of this catalog's four installer types. It is the runtime counterpart of the recorded `gitleaks` and `SkillSpector` entries, which find secrets and unsafe content at rest; it is not a duplicate of them. Caveats: the README quick start targets v3.8.0 and says to use those examples after the release is published, while the latest published release checked here is v3.7.1, and upstream states AARP/SVID workload-identity appraisal is verifier-side today. No proxy was started, no policy was loaded and no traffic was intercepted in this pass.",
+      "repository": "pipelab-org/pipelock",
+      "stars": 987
+    },
+    {
+      "archived": false,
+      "category": "browser",
+      "checked_at": "2026-11-09",
+      "description": "Website audit CLI and stdio MCP server that returns LLM-optimized SEO, accessibility and performance findings a coding agent can fix.",
+      "evidence": [
+        "https://api.github.com/repos/squirrelscan/squirrelscan",
+        "https://github.com/squirrelscan/squirrelscan/blob/main/README.md",
+        "https://github.com/squirrelscan/squirrelscan/blob/main/apps/cli/src/cli/commands/mcp.ts",
+        "https://github.com/squirrelscan/squirrelscan/tree/main/apps/cli/src/mcp/tools",
+        "https://www.npmjs.com/package/squirrelscan/v/0.0.173",
+        "https://github.com/squirrelscan/squirrelscan/blob/main/LICENSE"
+      ],
+      "homepage": "https://squirrelscan.com",
+      "id": "squirrelscan",
+      "install": {
+        "type": "mcp",
+        "command": "npx",
+        "args": [
+          "-y",
+          "squirrelscan@0.0.173",
+          "mcp"
+        ],
+        "requirements": [
+          "npx"
+        ],
+        "version": "0.0.173",
+        "runtime": "Node.js >=18; the audit fetches the target site over HTTP, so the server needs network access and an explicit site argument per call; the hosted HTTP endpoint and signed-in report scopes were not part of this recipe"
+      },
+      "kind": "mcp",
+      "last_pushed_at": "2026-11-08T23:55:50Z",
+      "license": "MIT",
+      "name": "Squirrelscan",
+      "notes": "A website-audit CLI and stdio MCP server for the Web half of this catalog's scope, recorded in `browser` next to `playwright`, `reticle` and `seleniumbase`: those three drive or inspect a page a developer is still building, while this one audits a deployed site and returns findings shaped for an agent to act on (upstream states every finding carries how to fix it, in LLM-optimized output, and every rule has its own documentation page). It exposes the audit, entity, issue, report, rule and feedback tool groups over MCP (`apps/cli/src/mcp/tools/*.ts`) plus Agent Skills, and it is installable here because the CLI publishes a pinnable npm package whose `mcp` subcommand runs the local stdio server (`apps/cli/src/cli/commands/mcp.ts`, upstream issue #112): the smoke check started `npx -y squirrelscan@0.0.173 mcp` from a temporary project and negotiated `initialize` + `tools/list` (protocol 2025-11-25, the server reporting itself as `squirrelscan` 0.0.173, 15 tools: `audit_website`, `quick_check`, `get_report`, `list_audits`, `list_issues`, `get_issue`, `comment_on_issue`, `list_rules`, `get_rule`, `list_entities`, `get_entity`, `get_entity_graph`, `compare_entities`, `get_entity_findings`, `send_feedback`). The hosted endpoint (`https://mcp.squirrelscan.com/mcp`, HTTP transport) and the Claude Code plugin marketplace route stay upstream setup rather than part of this recipe, and signed-in report scopes need the user's own account. Nothing was audited: no site was fetched, no report was written and no MCP tool was called.",
+      "repository": "squirrelscan/squirrelscan",
+      "stars": 308
+    },
+    {
+      "archived": false,
+      "category": "lsp-bridge",
+      "checked_at": "2026-11-09",
+      "description": "MCP server and CLI that answer Python go-to-definition, references, outline, diagnostic and rename-preview queries through ty and Ruff instead of text search.",
+      "evidence": [
+        "https://api.github.com/repos/iyazerski/lspyx",
+        "https://github.com/iyazerski/lspyx/blob/main/README.md",
+        "https://github.com/iyazerski/lspyx/tree/main/src/daemon",
+        "https://github.com/iyazerski/lspyx/blob/main/src/lsp/rename.rs",
+        "https://github.com/iyazerski/lspyx/releases/tag/v0.6.0",
+        "https://crates.io/crates/lspyx",
+        "https://github.com/iyazerski/lspyx/blob/main/LICENSE"
+      ],
+      "homepage": "https://github.com/iyazerski/lspyx",
+      "id": "lspyx",
+      "install": null,
+      "kind": "lsp",
+      "last_pushed_at": "2026-11-07T20:49:14Z",
+      "license": "MIT",
+      "name": "lspyx",
+      "notes": "A Python-specific bridge in `lsp-bridge`, next to the general bridges (`serena`, `lsp-mcp-server`, `agent-lsp`, `mcpls`). The difference is the semantic backend: instead of driving pyright's language server it answers go-to-definition, references, outline, diagnostics and rename-preview queries through `ty`, Astral's type checker, plus Ruff, behind one small stdio MCP server with a per-workspace daemon (`src/daemon/`, `src/lsp/rename.rs`, `src/mcp/*`), and the same answers are available from the CLI. Launch is `lspyx mcp serve` (`claude mcp add --scope user lspyx -- lspyx mcp serve`), it needs `ty` and Ruff in the project `.venv` or on `PATH` (`lspyx doctor` checks the setup), and it is distributed as a Rust binary through `brew install iyazerski/tap/lspyx`, `cargo install lspyx --locked` or an install script - so, like `mcpls` and `agent-lsp`, there is no pinned registry package the installer could own, and the pair of external tools it depends on is another reason the entry stays reference-only. Evidence read in this pass: repository metadata, README, tags, the `src/` tree, eight tagged releases with eight binary assets each (latest v0.6.0, 2026-11-07) and the MIT license. Caveat worth weighing before adopting it: it is a young, single-maintainer project with 0 stars observed on 2026-11-09, recorded because the Python semantic-navigation lane has no other bridge and its ty/Ruff backend is unrepresented in this catalog. Nothing was installed and no MCP session was started.",
+      "repository": "iyazerski/lspyx",
+      "stars": 0
     }
   ],
   "profiles": {
