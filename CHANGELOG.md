@@ -222,6 +222,25 @@ Catalogue additions from the 2026-11-08 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
   same change.
 
+Catalogue additions from the 2026-11-09 candidate review.
+
+- One installable MCP server, smoke-checked through `scripts/smoke_mcp.py`:
+  `squirrelscan/squirrelscan` (pinned `npx -y squirrelscan@0.0.173 mcp`, protocol
+  2025-11-25, 15 tools discovered; a website audit that returns SEO,
+  accessibility, performance, content and link findings written for an agent to
+  fix).
+- Three reference-only entries: `google/elephant-goldfish-model`, a
+  Google-published multi-harness plugin whose ten reviewer agents draft a design
+  and then attack it, recorded in `spec-driven-development`; `pipelab-org/pipelock`,
+  an AI agent firewall that mediates egress and MCP traffic against a policy file
+  and emits signed action receipts, recorded in `security-tooling`; and
+  `iyazerski/lspyx`, a Python-only MCP bridge over `ty` and Ruff, recorded in
+  `lsp-bridge` next to `mcpls` and `agent-lsp`.
+- The catalog now has 103 entries: 47 installable resources (22 skills, 6 rule
+  packs, 17 MCP servers, and 2 LSP bridges) and 56 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
+  same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
