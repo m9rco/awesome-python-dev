@@ -261,6 +261,20 @@ Catalogue additions from the 2026-11-10 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
   updated in the same change.
 
+Catalogue additions from the 2026-11-10 evening candidate review.
+
+- Four reference-only entries after de-duplication against the previous 107:
+  `trailofbits/skills`, the Trail of Bits Agent Skills marketplace (47
+  plugins) recorded in `security`; `oceanbase/powercontext`, the server-side
+  memory, handoff and experience layer recorded in `mcp-ecosystem`; and two
+  standalone language servers, `DetachHead/basedpyright` and
+  `bellini666/pytest-language-server`, recorded next to `pyright`, `ty` and
+  `pyrefly`.
+- The catalog now holds 111 entries: 48 installable resources (23 skills, 6 rule
+  packs, 17 MCP servers, and 2 LSP bridges) and 63 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
+  updated in the same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
