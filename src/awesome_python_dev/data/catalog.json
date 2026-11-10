@@ -2915,6 +2915,100 @@
       "notes": "Third entry in the `build-mcp` lane next to `fastmcp` and the official `mcp-python-sdk`, and the most widely deployed of the three (the README attributes 7,500+ prebuilt tools across 81 hosted MCP servers to it): a decorator API covering tools, resources, prompts, sampling, elicitation, progress and logging, `requires_auth=` declarations that let the framework own OAuth and token refresh, a vendor-neutral client story, and the `arcade-mcp` CLI for scaffolding, running and deploying servers. It is reference-only for the same reason as `fastmcp`: it is a Python library (`pyproject.toml`, monorepo `libs/arcade-core`, `libs/arcade-mcp-server`, `libs/arcade-cli`, `libs/arcade-evals`, `libs/arcade-serve`, `examples/mcp_servers/`) installed as a dependency inside a server project, not an agent-side MCP server this installer can configure by launching a command, so there is no pinned recipe; `pip install arcade-mcp` resolves PyPI 1.17.6 (Python >=3.10) and the server package publishes separately as `arcade-mcp-server` 1.33.0. MIT license. Evidence read in this pass: repository metadata, README (framework highlights and install sections), the `libs/` and `examples/` trees, and the PyPI metadata for both packages. Nothing was installed and no server was started.",
       "repository": "ArcadeAI/arcade-mcp",
       "stars": 1088
+    },
+    {
+      "archived": false,
+      "category": "language-servers",
+      "checked_at": "2026-11-10",
+      "description": "Fork of Pyright that adds Pylance features, configurable checking modes, a baseline file and an `--outputjson` report, shipped with a `basedpyright-langserver` that speaks LSP.",
+      "evidence": [
+        "https://api.github.com/repos/DetachHead/basedpyright",
+        "https://github.com/DetachHead/basedpyright/blob/main/README.md",
+        "https://github.com/DetachHead/basedpyright/blob/main/docs/installation/command-line-and-language-server.md",
+        "https://github.com/DetachHead/basedpyright/blob/main/.zed/settings.json",
+        "https://github.com/DetachHead/basedpyright/blob/main/LICENSE.txt",
+        "https://pypi.org/project/basedpyright/1.40.2/"
+      ],
+      "homepage": "https://docs.basedpyright.com",
+      "id": "basedpyright",
+      "install": null,
+      "kind": "lsp",
+      "last_pushed_at": "2026-11-10T11:06:10Z",
+      "license": "MIT",
+      "name": "basedpyright",
+      "notes": "Recorded next to `pyright`, `ty`, `pyrefly` and `python-lsp-server` as the third Python type checker here that also ships a language server, because it exists for the parts upstream Pyright does not open-source: Pylance-style features (inlay hints, semantic highlighting, import organization), the `recommended` and `all` checking modes, a baseline file that lets an existing project adopt strict typing incrementally instead of fixing everything at once, and a CLI report in `--outputjson` for CI. Upstream describes it as a fork of Pyright with type-checking improvements and Pylance features, and publishes a documentation site for the differences. Distribution: PyPI package `basedpyright` 1.40.2 (published 2026-10-04, Python >=3.10, bundles a Node.js runtime), a Homebrew formula, and VS Code, Open VSX and Sublime Text integrations; the launch command `basedpyright-langserver --stdio` is taken from the repository's own Zed configuration (`.zed/settings.json`). It stays reference-only for the same reason as every raw language server here: LSP does not speak MCP, so an editor or an MCP-to-LSP bridge has to start it. License note: `LICENSE.txt` carries the MIT text inherited from Pyright, the PyPI classifiers say MIT, and the GitHub API reports `NOASSERTION` because of the modified header. 3,647 stars and 138 forks on 2026-11-10; nothing was installed and no language-server or editor session was started for this entry.",
+      "repository": "DetachHead/basedpyright",
+      "stars": 3647
+    },
+    {
+      "archived": false,
+      "category": "mcp-ecosystem",
+      "checked_at": "2026-11-10",
+      "description": "Server-side memory, handoff and experience layer for coding agents, exposed through an HTTP contract with a Python client, CLI, dashboard and a curated Agent-facing MCP projection over revisioned artifacts.",
+      "evidence": [
+        "https://api.github.com/repos/oceanbase/powercontext",
+        "https://github.com/oceanbase/powercontext/blob/main/README.md",
+        "https://github.com/oceanbase/powercontext/blob/main/LICENSE",
+        "https://powercontext.oceanbase.io",
+        "https://github.com/oceanbase/powercontext/blob/main/docs/en/docs/integrations/claude-code.md",
+        "https://pypi.org/project/powercontext/1.5.1/"
+      ],
+      "homepage": "https://powercontext.oceanbase.io",
+      "id": "powercontext",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-10T15:32:42Z",
+      "license": "Apache-2.0",
+      "name": "PowerContext",
+      "notes": "Recorded in the memory lane that already holds `hippo-memory` and `codebase-memory-mcp`, with a different shape: memory, handoff, experience and skill are server-side artifacts behind an HTTP contract, and the Python client, CLI, dashboard, in-process Core SDK and MCP endpoint are views over the same server rather than files inside one agent's home directory. Delivery is a server the user runs and binds - `uv tool install --force \"powercontext[cli,server]==1.5.1\"` (PyPI 1.5.1, Apache-2.0) followed by creating the Scopes and using the returned `scope_id` - so no stdio launch command can be pinned and no install type in this catalog fits. Automatic capture additionally needs the client-side integration enabled, including trusting the PowerContext hooks in Codex, where the `UserPromptSubmit` hook is what makes prompt capture and recall run; the repository documents per-host integrations under `docs/en/docs/integrations/` (Codex is the `official` host, Claude Code and others are `community`) plus agent plugins, and all of it writes agent configuration rather than one launch entry. 1,575 stars, 631 forks and a push on 2026-11-10. Nothing was installed: no server was started, no scope was created, no hook was trusted and no MCP session was started.",
+      "repository": "oceanbase/powercontext",
+      "stars": 1575
+    },
+    {
+      "archived": false,
+      "category": "language-servers",
+      "checked_at": "2026-11-10",
+      "description": "Rust language server for pytest that resolves fixture definitions across `conftest.py` and third-party plugins, and answers yield navigation, fixture call hierarchy, completion, references, rename and diagnostics for test code.",
+      "evidence": [
+        "https://api.github.com/repos/bellini666/pytest-language-server",
+        "https://github.com/bellini666/pytest-language-server/blob/master/README.md",
+        "https://github.com/bellini666/pytest-language-server/blob/master/LICENSE",
+        "https://pypi.org/project/pytest-language-server/0.26.0/",
+        "https://crates.io/crates/pytest-language-server"
+      ],
+      "homepage": "https://github.com/bellini666/pytest-language-server",
+      "id": "pytest-language-server",
+      "install": null,
+      "kind": "lsp",
+      "last_pushed_at": "2026-11-07T09:22:51Z",
+      "license": "MIT",
+      "name": "pytest-language-server",
+      "notes": "Recorded for a lane no other entry covers: pytest fixture semantics. It answers go-to-definition for fixtures in the same file, in `conftest.py` files and in third-party fixtures from plugins such as pytest-mock and pytest-asyncio while respecting pytest's fixture shadowing and priority rules; jumps to the `yield` that produces a generator fixture (with teardown navigation); exposes incoming and outgoing call hierarchy so the tests and fixtures around a dependency are visible; completes fixture names inside test and fixture functions with hierarchy-aware suggestions; finds references; renames; and reports diagnostics. The README documents root markers `pytest.ini`, `pyproject.toml`, `setup.py`, `setup.cfg` and `.git`. It stays reference-only because it is a raw LSP binary launched as `pytest-language-server`, the same boundary as `ruff`, `pyright` and `tombi`. Distribution: PyPI `pytest-language-server` 0.26.0 (published 2026-11-03, Python >=3.10, prebuilt wheels), `uv tool install` / `pip install` / `pipx`, a Homebrew tap, crates.io, GitHub release binaries and a source build. It is early-stage and single-maintainer (Rust, 124 stars, first release November 2025) and its README states it was built with AI coding agents and reviewed afterwards, so treat it as an addition to - not a replacement for - a navigation and type server. Nothing was installed and no editor or language-server session was started.",
+      "repository": "bellini666/pytest-language-server",
+      "stars": 124
+    },
+    {
+      "archived": false,
+      "category": "security",
+      "checked_at": "2026-11-10",
+      "description": "Trail of Bits plugin marketplace of 47 Agent Skills for security and development workflows: audit context building, differential and variant analysis, Semgrep rule authoring, property-based and mutation testing, supply-chain auditing and a modern Python project skill.",
+      "evidence": [
+        "https://api.github.com/repos/trailofbits/skills",
+        "https://github.com/trailofbits/skills/blob/main/README.md",
+        "https://github.com/trailofbits/skills/blob/main/.claude-plugin/marketplace.json",
+        "https://github.com/trailofbits/skills/blob/main/LICENSE",
+        "https://github.com/trailofbits/skills/tree/main/plugins"
+      ],
+      "homepage": "https://github.com/trailofbits/skills",
+      "id": "trailofbits-skills",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-06T15:20:09Z",
+      "license": "CC-BY-SA-4.0",
+      "name": "Trail of Bits Skills",
+      "notes": "The most complete security-workflow skill collection found in this pass, from an upstream that publishes security research and audits: 47 plugins in `.claude-plugin/marketplace.json`, including audit-context-building, differential-review, variant-analysis, patching-bugs, post-patch-validation, semgrep-rule-creator and semgrep-rule-variant-creator, cvss-scoring, sharp-edges, insecure-defaults, supply-chain-risk-auditor, plus traces of adjacent domains this catalog does not cover (smart contracts, malware and YARA, proofs), and a development group that does serve Python and Web work (`modern-python`, `code-improver`, `review-walkthrough`, `second-opinion`, `regression-hunt`, `property-based-testing`, `mutation-testing`, `static-analysis`, `gh-cli`, `devcontainer-setup`). It does not duplicate `security-review` (one ECC skill), `open-code-review`, or the scanner references (`semgrep`, `bandit`, `osv-scanner`, `gitleaks`, `pipelock`, `skillspector`): this is the workflow layer that decides what to audit, how to reproduce a finding and how to verify a patch, and upstream keeps a public trophy case of bugs found with it. It is reference-only because upstream delivers it as a plugin marketplace (`/plugin marketplace add trailofbits/skills`) and as per-plugin skill directories whose scripts and references differ, so there is no single subtree this catalog can pin and verify; the license is a second reason not to copy text - the content is CC-BY-SA-4.0 with a share-alike term, unlike the MIT skill collections already recorded (`anthropics/skills`, `vercel-labs/agent-skills`). 8,109 stars and 692 forks on 2026-11-10, last pushed 2026-11-06. Nothing was installed, no plugin was activated and no skill was run.",
+      "repository": "trailofbits/skills",
+      "stars": 8109
     }
   ],
   "profiles": {

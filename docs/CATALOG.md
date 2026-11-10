@@ -1,6 +1,6 @@
 # Curated catalog / 精选目录
 
-Reviewed **2026-11-10**, catalog schema **2**. **107 entries**, with **48 installable/configurable integrations** and **59 reference-only tools**. The installable set contains 23 skills, 6 rule packs, 17 MCP servers, and 2 MCP-to-LSP bridges. The 16 LSP entries comprise the two installable bridges (Serena, lsp-mcp-server), the three reference-only bridges (agent-lsp, mcpls, lspyx), and 11 standalone language-server references.
+Reviewed **2026-11-10**, catalog schema **2**. **111 entries**, with **48 installable/configurable integrations** and **63 reference-only tools**. The installable set contains 23 skills, 6 rule packs, 17 MCP servers, and 2 MCP-to-LSP bridges. The 18 LSP entries comprise the two installable bridges (Serena, lsp-mcp-server), the three reference-only bridges (agent-lsp, mcpls, lspyx), and 13 standalone language-server references.
 
 Stars are dated repository-level snapshots, not scores for individual skills or rules. Multiple entries from ECC, Superpowers, agent-skills, or another monorepo share the same repository evidence. The executable source of truth is [`catalog.json`](../src/awesome_python_dev/data/catalog.json); every entry records its source, license, review date, and installation status.
 
@@ -84,6 +84,7 @@ Profiles select relevant tools instead of loading every available rule and frame
 | [`gitleaks`](https://github.com/gitleaks/gitleaks) | Detect committed or working-tree secrets using configurable rules and allowlists. | Reference only | 30,384 | MIT |
 | [`skillspector`](https://github.com/NVIDIA/SkillSpector) | Scan a skill directory, MCP server, Git URL, archive, or MCP registry snapshot for prompt injection, exfiltration, credential access, obfuscation, and supply-chain risk before installing it. | Reference only | 24,520 | Apache-2.0 |
 | [`pipelock`](https://github.com/pipelab-org/pipelock) | Mediate an agent's egress and MCP traffic against a policy file, scanning requests and responses and signing a receipt for every decision. | Reference only | 987 | Apache-2.0 |
+| [`trailofbits-skills`](https://github.com/trailofbits/skills) | Trail of Bits plugin marketplace of 47 Agent Skills for security review — audit context building, differential and variant analysis, Semgrep rule authoring, patch validation, supply-chain auditing — plus development workflows including `modern-python`, property-based testing and static analysis. | Reference only | 8,109 | CC-BY-SA-4.0 |
 
 ## Portable agent rules
 
@@ -124,6 +125,7 @@ Profiles select relevant tools instead of loading every available rule and frame
 | [`ripwire`](https://github.com/redhat-et/ripwire) | Ranked, deterministic call graph that maps a repository before an agent reads it and checks an edit's blast radius, reachable tests, and quality regressions. | Reference only | 2,513 | Apache-2.0 |
 | [`codeboarding`](https://github.com/CodeBoarding/CodeBoarding) | Render a codebase as interactive architecture maps plus Markdown, HTML, MDX or reStructuredText documentation for review and a coding agent's next prompt. | Reference only | 2,663 | MIT |
 | [`mcp-context-forge`](https://github.com/IBM/mcp-context-forge) | Federate MCP, A2A and REST/gRPC servers behind one governed endpoint with a registry, virtual servers, auth, rate limiting, and an admin UI. | Reference only | 4,752 | Apache-2.0 |
+| [`powercontext`](https://github.com/oceanbase/powercontext) | Server-side memory, handoff and experience layer for coding agents, exposed as an HTTP contract with a Python client, CLI, dashboard and a curated MCP projection over revisioned artifacts. | Reference only | 1,575 | Apache-2.0 |
 
 ## Language intelligence and LSP
 
@@ -145,6 +147,8 @@ Profiles select relevant tools instead of loading every available rule and frame
 | [`clangd`](https://clangd.llvm.org/) | C/C++ language server with completion, cross-references, diagnostics, and refactoring support. | Reference only | 2,315 | Apache-2.0 WITH LLVM-exception |
 | [`tombi`](https://github.com/tombi-toml/tombi) | Schema-driven TOML formatter, linter, and language server for project configuration such as `pyproject.toml`. | Reference only | 1,192 | MIT |
 | [`agnix`](https://github.com/agent-sh/agnix) | Lint and auto-fix agent configuration — `CLAUDE.md`, `AGENTS.md`, `SKILL.md`, hooks, plugin and MCP files — with 758 per-client rules, shipped as a CLI with an `agnix-lsp` language server and an `agnix-mcp` server. | Reference only | 471 | MIT OR Apache-2.0 |
+| [`basedpyright`](https://docs.basedpyright.com) | Pyright fork with Pylance features, configurable checking modes, a baseline file and an `--outputjson` report, shipping the `basedpyright-langserver` server. | Reference only | 3,647 | MIT |
+| [`pytest-language-server`](https://github.com/bellini666/pytest-language-server) | Rust language server for pytest: fixture definitions across `conftest.py` and plugins, `yield` navigation, fixture call hierarchy, completion, references and diagnostics. | Reference only | 124 | MIT |
 
 ## Specification-driven development
 
@@ -231,7 +235,7 @@ Skill and rule archives are pinned to full commits and verified against a record
 - **Fetch:** Requires uv/uvx and a compatible Python. No private-IP bypass is enabled by this recipe.
 - **Serena:** The project path is resolved into the MCP configuration. First startup may download language-server dependencies and create Serena-owned state. The installer does not manage or uninstall those upstream caches. See [language intelligence and setup](LSP.md).
 - **lsp-mcp-server:** The second installable bridge and the only TypeScript one here: it drives whichever language server a project configures, so Python coverage depends on pyright, Python LSP Server, or another LSP binary installed separately. It pins npm release `1.1.27` (upstream tag `v1.1.27`, commit `2b9005387fbf5ebd101ec84cfc34a8196bf9d347`), reads per-project server settings from `.lsp-mcp.json`, and upstream recommends a longer client tool timeout because the first call starts a language server and its initial analysis. The npm package also ships a `SKILL.md` that teaches tool selection and says it should be re-copied when the server version changes; only the MCP launch configuration is written here. The smoke check completed `initialize` and listed 29 tools, but no language server was started through it and no project file was read by a tool call, so the LSP round trip itself is unverified.
-- **Native language servers:** Pyright, Pyrefly, Python LSP Server, Ruff, ty, TypeScript Language Server, gopls, rust-analyzer, clangd, and Tombi remain reference-only. Their native LSP commands need an LSP client; they are not interchangeable with MCP servers.
+- **Native language servers:** Pyright, basedpyright, Pyrefly, Python LSP Server, Ruff, ty, pytest-language-server, TypeScript Language Server, gopls, rust-analyzer, clangd, and Tombi remain reference-only. Their native LSP commands need an LSP client; they are not interchangeable with MCP servers.
 - **agent-lsp:** One of the two reference-only LSP bridges next to the installable Serena and lsp-mcp-server recipes. It ships as a Go binary from an upstream install script, release archive, or container image, and requires the underlying language servers separately; there is no registry package or dependency version for this catalog to pin, so `apd` writes only the Serena and lsp-mcp-server recipes.
 - **mcpls:** The other reference-only bridge. It is distributed as a Rust binary through `cargo install mcpls`, an upstream install script, release archives, or a container image, and needs at least one language server (for example pyright) installed separately. Enabling it next to Serena or lsp-mcp-server would give the same project two bridges over the same servers.
 - **code-review-graph:** The project path is resolved into the MCP configuration and the server indexes it with Tree-sitter; graph data stays in a `.code-review-graph` directory inside the project. Building or refreshing the graph is an explicit CLI or tool step, and upstream `install` also writes hooks, skills, and rules files that this recipe does not touch.
