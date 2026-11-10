@@ -241,6 +241,26 @@ Catalogue additions from the 2026-11-09 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
   same change.
 
+Catalogue additions from the 2026-11-10 candidate review.
+
+- One installable skill: `OthmanAdi/planning-with-files` — plans, progress and
+  findings kept in `.planning/`, per-turn plan re-injection against context rot,
+  recovery after `/clear` or compaction, and a deterministic completion gate.
+  The pinned `skills/planning-with-files` archive was downloaded and SHA-256
+  verified; nothing was installed.
+- Three reference-only entries: `nextlevelbuilder/ui-ux-pro-max-skill`, the
+  design-intelligence skill whose local style, palette, typography and UX data
+  is queried by Python scripts and delivered through a per-client generator CLI,
+  recorded in `framework-best-practices`; `agentskills/agentskills`, the Agent
+  Skills specification plus the `skills-ref` reference validator, recorded in
+  `skill-ecosystem`; and `ArcadeAI/arcade-mcp`, the Python MCP server framework
+  (`pip install arcade-mcp`), recorded in `build-mcp` next to `fastmcp` and the
+  official `mcp-python-sdk`.
+- The catalog now holds 107 entries: 48 installable resources (23 skills, 6 rule
+  packs, 17 MCP servers, and 2 LSP bridges) and 59 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
+  updated in the same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,

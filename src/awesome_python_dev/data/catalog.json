@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-09",
+  "reviewed_at": "2026-11-10",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -2803,6 +2803,118 @@
       "notes": "A Python-specific bridge in `lsp-bridge`, next to the general bridges (`serena`, `lsp-mcp-server`, `agent-lsp`, `mcpls`). The difference is the semantic backend: instead of driving pyright's language server it answers go-to-definition, references, outline, diagnostics and rename-preview queries through `ty`, Astral's type checker, plus Ruff, behind one small stdio MCP server with a per-workspace daemon (`src/daemon/`, `src/lsp/rename.rs`, `src/mcp/*`), and the same answers are available from the CLI. Launch is `lspyx mcp serve` (`claude mcp add --scope user lspyx -- lspyx mcp serve`), it needs `ty` and Ruff in the project `.venv` or on `PATH` (`lspyx doctor` checks the setup), and it is distributed as a Rust binary through `brew install iyazerski/tap/lspyx`, `cargo install lspyx --locked` or an install script - so, like `mcpls` and `agent-lsp`, there is no pinned registry package the installer could own, and the pair of external tools it depends on is another reason the entry stays reference-only. Evidence read in this pass: repository metadata, README, tags, the `src/` tree, eight tagged releases with eight binary assets each (latest v0.6.0, 2026-11-07) and the MIT license. Caveat worth weighing before adopting it: it is a young, single-maintainer project with 0 stars observed on 2026-11-09, recorded because the Python semantic-navigation lane has no other bridge and its ty/Ruff backend is unrepresented in this catalog. Nothing was installed and no MCP session was started.",
       "repository": "iyazerski/lspyx",
       "stars": 0
+    },
+    {
+      "archived": false,
+      "category": "engineering-skills",
+      "checked_at": "2026-11-10",
+      "description": "File-based planning skill for coding agents: crash-proof markdown plans on disk, session recovery after /clear or compaction, per-turn plan re-injection against context rot, and a deterministic completion gate, installed from a pinned archive.",
+      "evidence": [
+        "https://api.github.com/repos/OthmanAdi/planning-with-files",
+        "https://github.com/OthmanAdi/planning-with-files/blob/master/README.md",
+        "https://github.com/OthmanAdi/planning-with-files/tree/master/skills/planning-with-files",
+        "https://github.com/OthmanAdi/planning-with-files/blob/master/skills/planning-with-files/SKILL.md",
+        "https://github.com/OthmanAdi/planning-with-files/blob/master/skills/planning-with-files/scripts/init-session.sh",
+        "https://github.com/OthmanAdi/planning-with-files/blob/master/skills/planning-with-files/templates/task_plan.md",
+        "https://codeload.github.com/OthmanAdi/planning-with-files/tar.gz/2362ca385ad74f061aa0e7b73f56543a4b7e6df2",
+        "https://github.com/OthmanAdi/planning-with-files/blob/master/LICENSE"
+      ],
+      "homepage": "https://github.com/OthmanAdi/planning-with-files",
+      "id": "planning-with-files",
+      "install": {
+        "url": "https://codeload.github.com/OthmanAdi/planning-with-files/tar.gz/2362ca385ad74f061aa0e7b73f56543a4b7e6df2",
+        "sha256": "cf60990c520c8f5d6fff876524450ce67172ad8ce785213a9bc50dbb06ac2227",
+        "ref": "2362ca385ad74f061aa0e7b73f56543a4b7e6df2",
+        "type": "skill",
+        "subdir": "skills/planning-with-files",
+        "license_path": "LICENSE"
+      },
+      "kind": "skill",
+      "last_pushed_at": "2026-11-07T11:24:31Z",
+      "license": "MIT",
+      "name": "planning-with-files",
+      "notes": "Adds the persistent-plan lane to `engineering-skills`, next to the one-shot planning skills already there: instead of a single plan document the skill keeps `.planning/<date>-<slug>/task_plan.md`, `progress.md` and `findings.md` on disk, re-injects the active plan every turn against context rot, recovers the plan after `/clear` or compaction, and gates completion with `scripts/check-complete.sh` (plus a SHA-256 attestation of the plan it injected). The recipe copies the archived `skills/planning-with-files` subtree from the pinned commit `2362ca38` - `SKILL.md`, `scripts/` (bash, PowerShell and Python implementations), `templates/`, `evals/`, `examples.md`, `plan-inventory.md`, `reference.md` - so the installed skill is self-contained: every path in `SKILL.md` is relative to the skill directory (`${CLAUDE_SKILL_DIR}`, `$PWF_SKILL_DIR`, `./scripts/...`) with no `../` escapes, and the Claude Code/Codex hooks it needs are declared in the skill's own frontmatter, which the clients read from the installed file. Upstream additionally ships an npm launcher, plugin-marketplace entries and an `npx skills` path for 60+ agents; this entry deliberately pins only the commit archive. Evidence read in this pass: repository metadata, README, the `skills/` tree at the pinned commit, `SKILL.md`, the `scripts/`, `templates/` and `evals/` listings, and the downloaded archive (24,950,981 bytes, SHA-256 verified, 37 files under the skill subtree, `LICENSE` at the archive root copied as `license_path`). Nothing was installed and no agent session was started.",
+      "repository": "OthmanAdi/planning-with-files",
+      "stars": 27973
+    },
+    {
+      "archived": false,
+      "category": "framework-best-practices",
+      "checked_at": "2026-11-10",
+      "description": "Design-intelligence skill for building UI/UX in web and app projects: 80 styles, 192 palettes, 74 font pairings, 120 UX guidelines and 25 chart types in local CSV data, queried with Python scripts through a per-client CLI installer.",
+      "evidence": [
+        "https://api.github.com/repos/nextlevelbuilder/ui-ux-pro-max-skill",
+        "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/README.md",
+        "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/skill.json",
+        "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/tree/main/.claude/skills/ui-ux-pro-max",
+        "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/.claude/skills/ui-ux-pro-max/SKILL.md",
+        "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/.claude/skills/ui-ux-pro-max/scripts/search.py",
+        "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/.claude/skills/ui-ux-pro-max/references/quick-reference.md",
+        "https://www.npmjs.com/package/ui-ux-pro-max-cli",
+        "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/LICENSE"
+      ],
+      "homepage": "https://uupm.cc",
+      "id": "ui-ux-pro-max",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-07T19:05:11Z",
+      "license": "MIT",
+      "name": "UI/UX Pro Max",
+      "notes": "The Web-side counterpart of the Python-focused skills in this catalog: a design-intelligence skill that answers style, palette, typography, icon, motion and UX-guideline questions from 3.1 MB of local CSV/JSON data (39 files, 3,103,749 bytes under `.claude/skills/ui-ux-pro-max/data/`, 22 tech stacks) through `scripts/search.py` and `design_system.py`, which need only a Python 3 standard library and make no network calls. Recorded reference-only on purpose. Upstream ships a per-client generator (`npm install -g ui-ux-pro-max-cli`, `uipro init --ai claude`, also `npx ... init --ai <client>`, with `update`/`uninstall`/`--dry-run` subcommands and a Claude Code marketplace path), and its README says to *always* use the CLI; the repository tree is the CLI's source template rather than the installed layout, and the commands inside `SKILL.md` are anchored to `${CLAUDE_PLUGIN_ROOT}/.claude/skills/ui-ux-pro-max/scripts/search.py`, so a bare commit-archive copy would not reproduce it. That, plus the CLI's own activation and update path, is why no pinned recipe is claimed and the entry stays next to `skillsaw` and `graphify` as a reference. License MIT (`LICENSE` at the repository root; `skill.json` also declares MIT). Evidence read in this pass: repository metadata, README (install and troubleshooting sections, including the pre-v2.5.1 symlink packaging note), `skill.json` 2.15.0, the `.claude/skills/` and `.claude/skills/ui-ux-pro-max` trees at commit `4f2dbb67`, `SKILL.md` and its path references. Nothing was installed and no client files were generated.",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "stars": 147361
+    },
+    {
+      "archived": false,
+      "category": "skill-ecosystem",
+      "checked_at": "2026-11-10",
+      "description": "The Agent Skills specification plus skills-ref, the Python reference implementation that validates a skill directory, reads its properties and renders the available-skills prompt block.",
+      "evidence": [
+        "https://api.github.com/repos/agentskills/agentskills",
+        "https://agentskills.io",
+        "https://github.com/agentskills/agentskills/blob/main/docs/specification.mdx",
+        "https://github.com/agentskills/agentskills/blob/main/skills-ref/README.md",
+        "https://github.com/agentskills/agentskills/blob/main/skills-ref/pyproject.toml",
+        "https://github.com/agentskills/agentskills/tree/main/skills-ref/src",
+        "https://pypi.org/project/skills-ref/",
+        "https://github.com/agentskills/agentskills/blob/main/LICENSE"
+      ],
+      "homepage": "https://agentskills.io",
+      "id": "agent-skills-spec",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-04T19:47:27Z",
+      "license": "Apache-2.0",
+      "name": "Agent Skills specification",
+      "notes": "The normative document behind the `skill` kind in this catalog: `docs/specification.mdx` defines the `SKILL.md` frontmatter (`name`, `description`, optional `license`/`allowed-tools`/`metadata`), the directory layout and the progressive-disclosure rules that the `skill` recipes here follow, and `skills-ref/` is the Python reference implementation (`skills-ref validate <dir>`, `read-properties <dir>`, `to-prompt <dir>...`; importable API in `src/`, tests alongside, PyPI release 0.1.1, Python >=3.11, Apache-2.0). Recorded as a reference next to `anthropics/skills` and `agents-cli`: it is not a tool this installer puts into a client project, it is what to check a skill against, so there is no pinned recipe. Upstream marks `skills-ref` as demonstration-only rather than production tooling, which is recorded here as a caveat; the specification itself is what makes the entry useful. Evidence read in this pass: repository metadata, README, the `docs/` and `skills-ref/` trees, `skills-ref/README.md`, `skills-ref/pyproject.toml` and the PyPI release metadata. Nothing was installed and no skill was validated with it.",
+      "repository": "agentskills/agentskills",
+      "stars": 27113
+    },
+    {
+      "archived": false,
+      "category": "build-mcp",
+      "checked_at": "2026-11-10",
+      "description": "Open-source Python framework for building MCP servers and tools: decorator API over the full MCP spec (tools, resources, prompts, sampling, elicitation), authorization hooks, and an arcade-mcp CLI for scaffolding and running servers.",
+      "evidence": [
+        "https://api.github.com/repos/ArcadeAI/arcade-mcp",
+        "https://github.com/ArcadeAI/arcade-mcp/blob/main/README.md",
+        "https://github.com/ArcadeAI/arcade-mcp/tree/main/libs",
+        "https://github.com/ArcadeAI/arcade-mcp/blob/main/libs/arcade-mcp-server/pyproject.toml",
+        "https://github.com/ArcadeAI/arcade-mcp/tree/main/examples/mcp_servers",
+        "https://pypi.org/project/arcade-mcp/",
+        "https://docs.arcade.dev",
+        "https://github.com/ArcadeAI/arcade-mcp/blob/main/LICENSE"
+      ],
+      "homepage": "https://docs.arcade.dev",
+      "id": "arcade-mcp",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-09T21:03:13Z",
+      "license": "MIT",
+      "name": "Arcade MCP",
+      "notes": "Third entry in the `build-mcp` lane next to `fastmcp` and the official `mcp-python-sdk`, and the most widely deployed of the three (the README attributes 7,500+ prebuilt tools across 81 hosted MCP servers to it): a decorator API covering tools, resources, prompts, sampling, elicitation, progress and logging, `requires_auth=` declarations that let the framework own OAuth and token refresh, a vendor-neutral client story, and the `arcade-mcp` CLI for scaffolding, running and deploying servers. It is reference-only for the same reason as `fastmcp`: it is a Python library (`pyproject.toml`, monorepo `libs/arcade-core`, `libs/arcade-mcp-server`, `libs/arcade-cli`, `libs/arcade-evals`, `libs/arcade-serve`, `examples/mcp_servers/`) installed as a dependency inside a server project, not an agent-side MCP server this installer can configure by launching a command, so there is no pinned recipe; `pip install arcade-mcp` resolves PyPI 1.17.6 (Python >=3.10) and the server package publishes separately as `arcade-mcp-server` 1.33.0. MIT license. Evidence read in this pass: repository metadata, README (framework highlights and install sections), the `libs/` and `examples/` trees, and the PyPI metadata for both packages. Nothing was installed and no server was started.",
+      "repository": "ArcadeAI/arcade-mcp",
+      "stars": 1088
     }
   ],
   "profiles": {
