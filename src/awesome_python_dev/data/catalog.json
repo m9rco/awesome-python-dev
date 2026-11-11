@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-10",
+  "reviewed_at": "2026-11-11",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -3009,6 +3009,137 @@
       "notes": "The most complete security-workflow skill collection found in this pass, from an upstream that publishes security research and audits: 47 plugins in `.claude-plugin/marketplace.json`, including audit-context-building, differential-review, variant-analysis, patching-bugs, post-patch-validation, semgrep-rule-creator and semgrep-rule-variant-creator, cvss-scoring, sharp-edges, insecure-defaults, supply-chain-risk-auditor, plus traces of adjacent domains this catalog does not cover (smart contracts, malware and YARA, proofs), and a development group that does serve Python and Web work (`modern-python`, `code-improver`, `review-walkthrough`, `second-opinion`, `regression-hunt`, `property-based-testing`, `mutation-testing`, `static-analysis`, `gh-cli`, `devcontainer-setup`). It does not duplicate `security-review` (one ECC skill), `open-code-review`, or the scanner references (`semgrep`, `bandit`, `osv-scanner`, `gitleaks`, `pipelock`, `skillspector`): this is the workflow layer that decides what to audit, how to reproduce a finding and how to verify a patch, and upstream keeps a public trophy case of bugs found with it. It is reference-only because upstream delivers it as a plugin marketplace (`/plugin marketplace add trailofbits/skills`) and as per-plugin skill directories whose scripts and references differ, so there is no single subtree this catalog can pin and verify; the license is a second reason not to copy text - the content is CC-BY-SA-4.0 with a share-alike term, unlike the MIT skill collections already recorded (`anthropics/skills`, `vercel-labs/agent-skills`). 8,109 stars and 692 forks on 2026-11-10, last pushed 2026-11-06. Nothing was installed, no plugin was activated and no skill was run.",
       "repository": "trailofbits/skills",
       "stars": 8109
+    },
+    {
+      "archived": false,
+      "category": "python-toolchain",
+      "checked_at": "2026-11-11",
+      "description": "Structural search, lint and rewrite CLI over tree-sitter that matches code by AST pattern instead of text, shipped on PyPI as `ast-grep-cli` and recorded as the precise-rewrite layer a coding agent can call when a textual edit is not enough.",
+      "evidence": [
+        "https://api.github.com/repos/ast-grep/ast-grep",
+        "https://github.com/ast-grep/ast-grep/blob/main/README.md",
+        "https://github.com/ast-grep/ast-grep/blob/main/pyproject.toml",
+        "https://github.com/ast-grep/ast-grep/tree/main/crates",
+        "https://github.com/ast-grep/ast-grep/blob/main/LICENSE",
+        "https://pypi.org/project/ast-grep-cli/",
+        "https://ast-grep.github.io/"
+      ],
+      "homepage": "https://ast-grep.github.io/",
+      "id": "ast-grep",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-11T11:55:46Z",
+      "license": "MIT",
+      "name": "ast-grep",
+      "notes": "Reference only because the delivered unit is a native CLI, not one of this catalog's four install types: the repository is a Rust workspace (`crates/cli`, `core`, `language`, `config`, `lsp`, `pyo3`, `napi`, `wasm`) whose Python packaging path is `pip install ast-grep-cli` (root `pyproject.toml`, maturin backend, 0.51.2), so it belongs in a project environment next to `ruff` and `deptry` rather than in a client configuration. It fills the structural-rewrite lane this catalog did not have: the tree-sitter grammar for Python (`crates/language`) lets patterns such as `def $F($$$ARGS)` match by syntax and `--rewrite` apply one change across a repository, which a `grep`/`sed` pass cannot express safely. Upstream also carries an `lsp` subcommand (`crates/cli/src/lsp.rs`) for reporting ast-grep rules in an editor; that is rule diagnostics for the tool itself, not a Python language server, so it is not recorded in the LSP lane. Third-party MCP wrappers exist but are not this project's; no upstream skill or server is registered here. Evidence read in this pass: repository metadata, README, root `pyproject.toml`, the `crates/` tree, `LICENSE` (MIT) and the documentation site. Nothing was installed and no search or rewrite was run.",
+      "repository": "ast-grep/ast-grep",
+      "stars": 16554
+    },
+    {
+      "archived": false,
+      "category": "skill-ecosystem",
+      "checked_at": "2026-11-11",
+      "description": "Anthropic-managed directory of vetted Claude Code plugins — 317 entries covering skills, agents, hooks, commands and MCP servers — installed with `/plugin install <name>@claude-plugins-official`.",
+      "evidence": [
+        "https://api.github.com/repos/anthropics/claude-plugins-official",
+        "https://github.com/anthropics/claude-plugins-official/blob/main/README.md",
+        "https://github.com/anthropics/claude-plugins-official/blob/main/.claude-plugin/marketplace.json",
+        "https://github.com/anthropics/claude-plugins-official/tree/main/plugins",
+        "https://github.com/anthropics/claude-plugins-official/tree/main/external_plugins",
+        "https://github.com/anthropics/claude-plugins-official/blob/main/LICENSE"
+      ],
+      "homepage": "https://code.claude.com/docs/en/plugins",
+      "id": "claude-plugins-official",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-11T07:28:56Z",
+      "license": "Apache-2.0",
+      "name": "Claude Code plugin directory (official)",
+      "notes": "Reference only because the delivered unit is a marketplace, not one pinnable subtree: each name in `.claude-plugin/marketplace.json` resolves to its own repository, subdirectory or version tag, so there is no single commit to pin and no skill directory to install. It is recorded next to `anthropics/skills`, `skills-cli` and `awesome-copilot` as the reviewed directory a project should prefer when it wants a Claude Code plugin, and it covers this catalog's lanes too — `plugins/` groups the Anthropic-maintained entries (including the MCP servers recorded here as `serena`, `context7`, `playwright` and `github`), while `external_plugins/` carries 14 partner entries that point back to their own projects. Upstream states the trust boundary explicitly: Anthropic does not control the MCP servers, files or software that third-party plugins reference and cannot verify they behave as intended, so review stays with the user. Evidence read in this pass: repository metadata, README (structure, installation and submission sections), `.claude-plugin/marketplace.json` (317 names, 41 top-level `plugins/` entries, 14 `external_plugins/` entries) and `LICENSE` (Apache-2.0). Nothing was installed and no plugin was activated.",
+      "repository": "anthropics/claude-plugins-official",
+      "stars": 46870
+    },
+    {
+      "archived": false,
+      "category": "security",
+      "checked_at": "2026-11-11",
+      "description": "Modular, stack-agnostic toolkit of 19 security-review skills plus a Google ADK reference harness that lets coding agents threat-model, research, reproduce, deduplicate, patch and calibrate vulnerabilities across a codebase.",
+      "evidence": [
+        "https://api.github.com/repos/google/mantis",
+        "https://github.com/google/mantis/blob/main/README.md",
+        "https://github.com/google/mantis/tree/main/skills",
+        "https://github.com/google/mantis/blob/main/reference/README.md",
+        "https://github.com/google/mantis/blob/main/reference/install.sh",
+        "https://github.com/google/mantis/blob/main/schema.json",
+        "https://github.com/google/mantis/blob/main/LICENSE"
+      ],
+      "homepage": "https://github.com/google/mantis",
+      "id": "mantis",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-10T03:41:46Z",
+      "license": "Apache-2.0",
+      "name": "Mantis (Google)",
+      "notes": "Reference only because the delivered unit is a skill collection plus a separate harness rather than one subtree to copy: `skills/` holds 19 skills (`mantis-threat-model`, `mantis-researcher`, `mantis-reproduce`, `mantis-patch`, `mantis-critic`, `mantis-dedupe`, `mantis-calibrate`, `mantis-chain`, `mantis-structural-index`, `mantis-reflect` and the rest) that an agent loads on demand, while `reference/` is a Google ADK pipeline for the same method (`./install.sh`, `python3 scripts/configure.py --auto`, `./run.sh path/to/code`) that needs its own model provider (Vertex AI ADC or an API key) and `action/` runs it over a pull request. It is recorded in `security` next to `trailofbits-skills` and the scanner references because it orchestrates existing tools instead of adding another scanner, with upstream stating that AI findings and patches must be verified by a security expert before they are reported. Upstream's README also marks the pull-request scan as untested end to end and says not to use it to gate merges. Evidence read in this pass: repository metadata, README (installation, run modes, overview and warnings), the `skills/` listing (20 entries including its own README), `reference/README.md`, `reference/install.sh`, `schema.json` and `LICENSE` (Apache-2.0). Nothing was installed, no campaign was run and no code was scanned.",
+      "repository": "google/mantis",
+      "stars": 2758
+    },
+    {
+      "archived": false,
+      "category": "data-workflows",
+      "checked_at": "2026-11-11",
+      "description": "Self-contained product-analytics skill that turns user-level event logs into reproducible path, transition, funnel, segment, retention and sequence analysis results on top of the Apache-2.0 Retentioneering Python library.",
+      "evidence": [
+        "https://api.github.com/repos/retentioneering/retentioneering-tools",
+        "https://github.com/retentioneering/retentioneering-tools/blob/68f699f67674375c59ea26c6a719e91e83905f51/.agents/skills/retentioneering-product-analytics/SKILL.md",
+        "https://github.com/retentioneering/retentioneering-tools/blob/68f699f67674375c59ea26c6a719e91e83905f51/.agents/skills/retentioneering-product-analytics/references/analysis-recipes.md",
+        "https://github.com/retentioneering/retentioneering-tools/blob/68f699f67674375c59ea26c6a719e91e83905f51/.agents/skills/retentioneering-product-analytics/scripts/inspect_event_log.py",
+        "https://github.com/retentioneering/retentioneering-tools/blob/68f699f67674375c59ea26c6a719e91e83905f51/LICENSE",
+        "https://codeload.github.com/retentioneering/retentioneering-tools/tar.gz/68f699f67674375c59ea26c6a719e91e83905f51",
+        "https://pypi.org/project/retentioneering/",
+        "https://retentioneering.com/docs/"
+      ],
+      "homepage": "https://retentioneering.com",
+      "id": "retentioneering",
+      "install": {
+        "license_path": "LICENSE",
+        "ref": "68f699f67674375c59ea26c6a719e91e83905f51",
+        "sha256": "c0fe070c7ad635c57b69f4d24ce394b6f21664c234ccdcf24db49af554568781",
+        "subdir": ".agents/skills/retentioneering-product-analytics",
+        "type": "skill",
+        "url": "https://codeload.github.com/retentioneering/retentioneering-tools/tar.gz/68f699f67674375c59ea26c6a719e91e83905f51"
+      },
+      "kind": "skill",
+      "last_pushed_at": "2026-11-08T11:26:31Z",
+      "license": "Apache-2.0",
+      "name": "Retentioneering",
+      "notes": "Installable as one self-contained skill directory: `.agents/skills/retentioneering-product-analytics/` holds `SKILL.md` (with `name`, `description` and `license: Apache-2.0` frontmatter) plus `references/` (api-map, analysis-recipes, gotchas-and-validation) and `scripts/inspect_event_log.py`, five files whose every referenced path stays inside that directory, so the pinned archive recipe copies a working unit rather than a fragment. The same repository publishes the `retentioneering` Python package (Python >= 3.11) and an MCP server, which are the engine this skill drives; only the skill is installed here, so the library still has to be present in the environment that holds the event data. It is recorded in `data-workflows` because it answers product questions from user-level event data — paths, transitions, funnels, segments, retention, step matrices and sequence mining — which is the analysis lane this catalog had for schemas and migrations but not for clickstream behaviour. Evidence read in this pass: repository metadata, `SKILL.md` and its bundled-reference table, the `references/` and `scripts/` listings, `LICENSE` (Apache-2.0) and the downloaded archive at the pinned commit (5,951,483 bytes, subtree file count 5). Nothing was installed and no dataset was analysed.",
+      "repository": "retentioneering/retentioneering-tools",
+      "stars": 946
+    },
+    {
+      "archived": false,
+      "category": "mcp-ecosystem",
+      "checked_at": "2026-11-11",
+      "description": "Local-first Go MCP server (9 tools) that keeps a Git-versioned, agent-written map of a codebase and its database schema so a coding agent can orient itself without re-reading the repository on every task.",
+      "evidence": [
+        "https://api.github.com/repos/aoci-spec/aoci-code",
+        "https://github.com/aoci-spec/aoci-code/blob/main/README.md",
+        "https://github.com/aoci-spec/aoci-code/blob/main/README.zh-CN.md",
+        "https://github.com/aoci-spec/aoci-code/tree/main/docs",
+        "https://github.com/aoci-spec/aoci-code/tree/main/spec",
+        "https://github.com/aoci-spec/aoci-code/blob/main/LICENSE"
+      ],
+      "homepage": "https://www.aoci.ai",
+      "id": "aoci-code",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-11T07:21:07Z",
+      "license": "FSL-1.1-MIT",
+      "name": "AOCI-CODE",
+      "notes": "Reference only because the delivered unit is a Go binary that starts a local MCP server a project registers itself: `.goreleaser.yml`, `docs/` (22 entries) and `spec/` (the index grammar) describe the release binaries and the file format, and the README documents the agent-written index (`aoci.txt`, `aoci.code.txt`, `aoci.meta.txt`) committed next to the code and updated through the server's 9 tools as work lands, with the badge still marking v0.2.0-rc1. It is recorded in `mcp-ecosystem` next to `codebase-memory-mcp`, `chunkhound`, `powercontext` and `code-review-graph` for the same problem — a repository an agent should not re-read on every task — with a different mechanism: one model-written line per file, versioned by Git and re-verified against the tree instead of retrieved by embedding. License caveat recorded with the entry: the repository carries the Functional Source License 1.1 with an MIT future license (`LICENSE`, FSL-1.1-MIT; the GitHub API reports `NOASSERTION` because the header is adapted), which permits non-competing use and converts to MIT later, so no text from `spec/` or `docs/` is copied into this repository and the entry stays reference-only. Upstream also ships `NOTICE`, `PATENTS`, `TRADEMARKS` and `THIRD-PARTY-NOTICES` files plus a Glama listing. Evidence read in this pass: repository metadata, both READMEs, README.zh-CN.md, the root tree listing, the `docs/` and `spec/` listings and `LICENSE`. Nothing was installed and no index was built.",
+      "repository": "aoci-spec/aoci-code",
+      "stars": 1897
     }
   ],
   "profiles": {

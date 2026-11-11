@@ -275,6 +275,22 @@ Catalogue additions from the 2026-11-10 evening candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
   updated in the same change.
 
+Catalogue additions from the 2026-11-11 candidate review.
+
+- One installable skill, `retentioneering/retentioneering-tools`
+  (`retentioneering-product-analytics`), pinned to commit
+  `68f699f67674375c59ea26c6a719e91e83905f51` with archive SHA-256
+  `c0fe070c7ad6…`, recorded in `data-workflows`.
+- Four reference-only entries: `ast-grep/ast-grep` (structural search and
+  rewrite for the Python toolchain), `anthropics/claude-plugins-official`
+  (the 317-plugin Claude Code marketplace), `google/mantis` (agentic security
+  review: 19 skills plus an ADK harness) and `aoci-spec/aoci-code`
+  (local-first code-map MCP server, FSL-1.1-MIT).
+- The catalog now holds 116 entries: 49 installable resources (24 skills, 6 rule
+  packs, 17 MCP servers, and 2 LSP bridges) and 67 references.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
+  updated in the same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
