@@ -291,6 +291,24 @@ Catalogue additions from the 2026-11-11 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, `docs/LSP.md`, and both READMEs were
   updated in the same change.
 
+Catalogue additions from the 2026-11-12 candidate review.
+
+- Two installable MCP servers, both smoke-checked through
+  `scripts/smoke_mcp.py`: `MinishLab/semble` (pinned
+  `uvx --python 3.12 --from 'semble[mcp]==0.7.3' semble`, 2 tools discovered;
+  CPU-only code search, recorded in `mcp-ecosystem`) and `hslee16/Archy`
+  (pinned `uvx --python 3.12 --from archy==0.55.1 archy mcp`, 14 tools
+  discovered; Python import-graph architecture assertions, recorded in
+  `python-toolchain`).
+- One reference-only entry: `scverse/acumen`, harness and scoring method for
+  building an agentic skill for a Python package, recorded in
+  `skill-ecosystem`.
+- The catalog now holds 119 entries: 51 installable resources (24 skills, 6 rule
+  packs, 19 MCP servers, and 2 LSP bridges) and 68 references. Profiles and rule
+  dependencies are unchanged; no launcher or installer behaviour was touched.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
+  same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
