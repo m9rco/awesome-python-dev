@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-11",
+  "reviewed_at": "2026-11-12",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -3140,6 +3140,115 @@
       "notes": "Reference only because the delivered unit is a Go binary that starts a local MCP server a project registers itself: `.goreleaser.yml`, `docs/` (22 entries) and `spec/` (the index grammar) describe the release binaries and the file format, and the README documents the agent-written index (`aoci.txt`, `aoci.code.txt`, `aoci.meta.txt`) committed next to the code and updated through the server's 9 tools as work lands, with the badge still marking v0.2.0-rc1. It is recorded in `mcp-ecosystem` next to `codebase-memory-mcp`, `chunkhound`, `powercontext` and `code-review-graph` for the same problem — a repository an agent should not re-read on every task — with a different mechanism: one model-written line per file, versioned by Git and re-verified against the tree instead of retrieved by embedding. License caveat recorded with the entry: the repository carries the Functional Source License 1.1 with an MIT future license (`LICENSE`, FSL-1.1-MIT; the GitHub API reports `NOASSERTION` because the header is adapted), which permits non-competing use and converts to MIT later, so no text from `spec/` or `docs/` is copied into this repository and the entry stays reference-only. Upstream also ships `NOTICE`, `PATENTS`, `TRADEMARKS` and `THIRD-PARTY-NOTICES` files plus a Glama listing. Evidence read in this pass: repository metadata, both READMEs, README.zh-CN.md, the root tree listing, the `docs/` and `spec/` listings and `LICENSE`. Nothing was installed and no index was built.",
       "repository": "aoci-spec/aoci-code",
       "stars": 1897
+    },
+    {
+      "archived": false,
+      "category": "mcp-ecosystem",
+      "checked_at": "2026-11-12",
+      "description": "Answer code questions from a local CPU-only repository index that returns ranked snippets instead of making the agent grep and read whole files, over an MCP server, a CLI, an agent skill or a sub-agent.",
+      "evidence": [
+        "https://api.github.com/repos/MinishLab/semble",
+        "https://github.com/MinishLab/semble/blob/main/README.md",
+        "https://github.com/MinishLab/semble/blob/main/docs/installation.md",
+        "https://github.com/MinishLab/semble/blob/main/pyproject.toml",
+        "https://github.com/MinishLab/semble/blob/main/src/semble/mcp.py",
+        "https://pypi.org/project/semble/0.7.3/",
+        "https://github.com/MinishLab/semble/blob/main/LICENSE"
+      ],
+      "homepage": "https://minish.ai/packages/semble/introduction/",
+      "id": "semble",
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "--python",
+          "3.12",
+          "--from",
+          "semble[mcp]==0.7.3",
+          "semble"
+        ],
+        "requirements": [
+          "uvx"
+        ],
+        "version": "0.7.3",
+        "runtime": "uv/uvx; Python 3.12 pinned for the launcher (the package requires >=3.10 while this host's system Python is 3.9); the `mcp` extra requires mcp>=2.0,<3.0; the server indexes the directory it is started in, and the first run downloads the embedding model and the tree-sitter grammars"
+      },
+      "kind": "mcp",
+      "last_pushed_at": "2026-11-08T08:23:11Z",
+      "license": "MIT",
+      "name": "Semble",
+      "notes": "Installable because the distribution ships a stdio MCP server behind a documented extra: upstream configures clients as `uvx --python 3.12 --from 'semble[mcp]==0.7.3' semble` (the `mcp` extra caps `mcp<3.0`), and in this pass that exact command passed `initialize` and `tools/list` through the Python MCP SDK before any tool was called. Recorded in `mcp-ecosystem` next to `chunkhound`, `codebase-memory-mcp`, `repomix`, `aoci-code` and `code-review-graph` as a different retrieval mechanism for the same problem — a repository an agent should not re-read per task: static embeddings and reranking on CPU, no GPU, no API key and no external service, so the index is cheap enough to rebuild instead of cached in the project. The package offers four delivery modes from one installer (`semble install` writes MCP configuration, AGENTS.md/CLAUDE.md instructions, a `semble-search` sub-agent, or a `semble` skill plus a one-line pointer); this recipe records only the MCP launch, and no instruction file, sub-agent or skill is written by this catalog. Retrieval-quality, index-speed and token-count figures in the README (`#benchmarks`, `assets/images/*.png`) are upstream's own measurements and were not reproduced here. Evidence read in this pass: repository metadata, README, `docs/installation.md`, `pyproject.toml`, `src/semble/` layout (`mcp.py`, `search.py`, `agents/`), PyPI 0.7.3 metadata and `LICENSE` (MIT). No query was run beyond the smoke check and no index outside the working directory was built.",
+      "repository": "MinishLab/semble",
+      "stars": 6403
+    },
+    {
+      "archived": false,
+      "category": "python-toolchain",
+      "checked_at": "2026-11-12",
+      "description": "Turn a Python import graph into assertions an agent and CI can both fail on: what an edit reaches, which tests it affects, where the cycles are, and whether the graph still agrees with the layers the project declared.",
+      "evidence": [
+        "https://api.github.com/repos/hslee16/Archy",
+        "https://github.com/hslee16/Archy/blob/main/README.md",
+        "https://github.com/hslee16/Archy/blob/main/server.json",
+        "https://github.com/hslee16/Archy/blob/main/docs/WHAT_DIDNT_WORK.md",
+        "https://github.com/hslee16/Archy/blob/main/skills/archy/SKILL.md",
+        "https://github.com/hslee16/Archy/blob/main/src/archy/mcp.py",
+        "https://github.com/hslee16/Archy/blob/main/pyproject.toml",
+        "https://pypi.org/project/archy/0.55.1/",
+        "https://github.com/hslee16/Archy/blob/main/LICENSE"
+      ],
+      "homepage": "https://github.com/hslee16/Archy",
+      "id": "archy",
+      "install": {
+        "type": "mcp",
+        "command": "uvx",
+        "args": [
+          "--python",
+          "3.12",
+          "--from",
+          "archy==0.55.1",
+          "archy",
+          "mcp"
+        ],
+        "requirements": [
+          "uvx"
+        ],
+        "version": "0.55.1",
+        "runtime": "uv/uvx; Python 3.12 pinned for the launcher (the package requires >=3.10 while this host's system Python is 3.9); `mcp>=1.28.1,<3` is a base dependency; the server analyses the import graph of the directory it is started in and writes no state there"
+      },
+      "kind": "mcp",
+      "last_pushed_at": "2026-11-12T15:30:46Z",
+      "license": "MIT",
+      "name": "Archy",
+      "notes": "Installable because the same graph is exposed twice, and the second surface is a documented stdio MCP server: upstream records `mcp` as the package argument in `server.json` and in the README's install section, and in this pass `uvx --python 3.12 --from archy==0.55.1 archy mcp` passed `initialize` and `tools/list` through the Python MCP SDK. Python-only and static: it parses imports, so it needs no interpreter run, no database and no test execution to answer blast radius, affected tests, cycles, coupling and layer agreement, and `check` exits non-zero on a violation, which is what makes it usable both in a session and in CI. It fills a lane this catalog was missing: `ruff`, `ty` and `pyright` cover style, types and imports at file scope, while this answers transitive reach and direction against layers the project declares. Upstream is unusually explicit about what it is not — a code-navigation tool; that lane stays with `serena`, `lsp-mcp-server` and the descriptive graph tools — and it publishes its negative results (0 of 25 unaided agent runs on the riskiest SWE-bench tasks introduced a cycle or a declared-layer violation, upper bound 12%; 0.5% of 1,072 human commits did), which is why its own README retracts the 'agents will rot your import graph' premise in `docs/WHAT_DIDNT_WORK.md`. Recorded from a young repository (8 stars on 2026-11-12) whose CI, e2e install workflow, scoring documents, Claude Code marketplace manifest, bundled `skills/archy` skill and GitHub Action were read rather than audited. Evidence read in this pass: repository metadata, README, `server.json`, `docs/SCORING.md`, `docs/WHAT_DIDNT_WORK.md`, the `src/archy/` module list, PyPI 0.55.1 metadata and `LICENSE` (MIT). No project beyond the smoke check was analysed, no layer configuration was written and the `contracts` extra (import-linter) was not installed.",
+      "repository": "hslee16/Archy",
+      "stars": 8
+    },
+    {
+      "archived": false,
+      "category": "skill-ecosystem",
+      "checked_at": "2026-11-12",
+      "description": "Build, benchmark and optimise an agentic skill for a Python package by running coding agents against training tasks, rewriting the skill from the errors they make, and scoring each version on held-out validation tasks.",
+      "evidence": [
+        "https://api.github.com/repos/scverse/acumen",
+        "https://github.com/scverse/acumen/blob/main/README.md",
+        "https://github.com/scverse/acumen/blob/main/docs/getting_started.md",
+        "https://github.com/scverse/acumen/blob/main/docs/index.md",
+        "https://github.com/scverse/acumen/tree/main/src/acumen",
+        "https://github.com/scverse/acumen/blob/main/pyproject.toml",
+        "https://pypi.org/project/acumen/0.0.2/",
+        "https://github.com/scverse/acumen/blob/main/LICENSE"
+      ],
+      "homepage": "https://acumen-skills.readthedocs.io/",
+      "id": "acumen",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-12T15:30:12Z",
+      "license": "MIT",
+      "name": "Acumen",
+      "notes": "Reference only because the delivered unit is a project harness rather than a skill, rule pack, MCP server or bridge: `acumen init` scaffolds a configuration and a task set for one target package, the run executes coding agents against the training split, the rewrite step edits the package's `SKILL.md` from the measured failures, and the score step evaluates the new version on held-out validation tasks — so using it means owning a driver model, an agent CLI, task data and throwaway environments for the target project. It is recorded in `skill-ecosystem` next to `skillevaluator` and `agent-skills` as the generating counterpart of the auditing tools this catalog already had: those measure or review a skill that exists, this one produces and optimises it and reports the score per version. Same upstream as the Python scientific tooling already recorded (`pytest`, `hypothesis`); the package is young (PyPI 0.0.2, Python >=3.12) and documents its own method, configuration and validation split on Read the Docs. Evidence read in this pass: repository metadata, README, `docs/` (index and getting-started), the `src/acumen/` layout, `pyproject.toml`, PyPI metadata and `LICENSE` (MIT). Nothing was installed, no agent was run and no skill was rewritten.",
+      "repository": "scverse/acumen",
+      "stars": 20
     }
   ],
   "profiles": {
