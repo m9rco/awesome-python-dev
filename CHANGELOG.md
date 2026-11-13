@@ -326,6 +326,10 @@ Catalogue additions from the 2026-11-13 candidate review.
   dependencies are unchanged; no launcher or installer behaviour was touched.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
   same change.
+- `docs/LSP.md` records both the 2026-11-13 verification and the 2026-11-12 one
+  the previous pass omitted (two MCP entries launched through their pinned
+  commands, 2 and 14 tools listed, no `tools/call`), and `docs/RESEARCH.md`
+  moves its research date to 2026-11-13.
 
 ## npm shell 0.1.1 — 2026-10-28
 
