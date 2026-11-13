@@ -309,6 +309,24 @@ Catalogue additions from the 2026-11-12 candidate review.
 - `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
   same change.
 
+Catalogue additions from the 2026-11-13 candidate review.
+
+- Four reference-only entries, recorded from repository, package and registry
+  metadata only: `schemathesis/schemathesis` (tests derived from an OpenAPI,
+  GraphQL or gRPC schema, run through a CLI that exits non-zero or through
+  pytest; PyPI `4.33.4`) and `inducer/pudb` (full-screen console debugger, the
+  first debugger in the catalog; PyPI `2026.1`) in `python-toolchain`,
+  `miqdadbadjuber/anti-slop` (six Agent Skills that filter generic AI output,
+  installed flat by `npx antislop-ai` or a per-agent plugin route, so no single
+  subtree is pinnable) in `engineering-skills`, and `modem-dev/hunk` (terminal
+  review surface for an agent's diff, delivered as a standalone binary or
+  `hunkdiff` npm `0.25.0`) in `delivery-workflows`.
+- The catalog now holds 123 entries: 51 installable resources (24 skills, 6 rule
+  packs, 19 MCP servers, and 2 LSP bridges) and 72 references. Profiles and rule
+  dependencies are unchanged; no launcher or installer behaviour was touched.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
+  same change.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
