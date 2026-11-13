@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-12",
+  "reviewed_at": "2026-11-13",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -3249,6 +3249,102 @@
       "notes": "Reference only because the delivered unit is a project harness rather than a skill, rule pack, MCP server or bridge: `acumen init` scaffolds a configuration and a task set for one target package, the run executes coding agents against the training split, the rewrite step edits the package's `SKILL.md` from the measured failures, and the score step evaluates the new version on held-out validation tasks — so using it means owning a driver model, an agent CLI, task data and throwaway environments for the target project. It is recorded in `skill-ecosystem` next to `skillevaluator` and `agent-skills` as the generating counterpart of the auditing tools this catalog already had: those measure or review a skill that exists, this one produces and optimises it and reports the score per version. Same upstream as the Python scientific tooling already recorded (`pytest`, `hypothesis`); the package is young (PyPI 0.0.2, Python >=3.12) and documents its own method, configuration and validation split on Read the Docs. Evidence read in this pass: repository metadata, README, `docs/` (index and getting-started), the `src/acumen/` layout, `pyproject.toml`, PyPI metadata and `LICENSE` (MIT). Nothing was installed, no agent was run and no skill was rewritten.",
       "repository": "scverse/acumen",
       "stars": 20
+    },
+    {
+      "archived": false,
+      "category": "python-toolchain",
+      "checked_at": "2026-11-13",
+      "description": "Schema-driven API testing for Python: derive property-based requests from OpenAPI, GraphQL or gRPC schemas, shrink the failures, and run them as pytest tests or a CLI that exits non-zero.",
+      "evidence": [
+        "https://api.github.com/repos/schemathesis/schemathesis",
+        "https://github.com/schemathesis/schemathesis/blob/master/README.md",
+        "https://github.com/schemathesis/schemathesis/blob/master/docs/quick-start.md",
+        "https://github.com/schemathesis/schemathesis/blob/master/ARCHITECTURE.md",
+        "https://github.com/schemathesis/schemathesis/blob/master/LICENSE",
+        "https://pypi.org/project/schemathesis/4.33.4/"
+      ],
+      "homepage": "https://schemathesis.readthedocs.io",
+      "id": "schemathesis",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-13T12:31:24Z",
+      "license": "MIT",
+      "name": "schemathesis",
+      "notes": "Reference only, and the first entry here that tests a live API against its own schema: schemathesis reads an OpenAPI, GraphQL or gRPC schema, generates requests from it with Hypothesis and shrinks the failing ones, then reports them as a CLI run (`schemathesis run <schema> --base-url ...`, non-zero exit) or as pytest tests through the `schemathesis` fixture and `from schemathesis import ...` API. It is reference-only for the same reason as `deptry`: the useful unit is a pytest plugin and CLI that has to run inside the project's own environment against a reachable service, not a skill directory, rule pack, MCP server or bridge this catalog can pin, and upstream publishes it on PyPI (`schemathesis` 4.33.4, Python >=3.11, tag v4.33.4 published 2026-11-12) rather than as a launcher. It sits next to `pytest` and `hypothesis` (its engine) in this category and adds the lane none of them covers: `pytest` runs the tests a project wrote, `hypothesis` generates inputs for the code under test, `misata` generates synthetic rows over MCP and `orm-lens` answers schema questions, while schemathesis drives HTTP against a service the project did not hand-write cases for. The repository also ships `docs/` (quick start, configuration, guides, explanations, reference), `ARCHITECTURE.md`, `CHANGELOG.md`, a Justfile and Dockerfiles; the docs were skimmed for the entry points, not audited. Star count and push timestamp are dated observations from the GitHub API. Nothing was installed, no schema was served and no test was run.",
+      "repository": "schemathesis/schemathesis",
+      "stars": 3776
+    },
+    {
+      "archived": false,
+      "category": "engineering-skills",
+      "checked_at": "2026-11-13",
+      "description": "Six Agent Skills that keep AI-written UI, copy, layout, code and accessibility from reading as generic output: numbered rules with a delivery gate, plus an audit mode for finished projects.",
+      "evidence": [
+        "https://api.github.com/repos/miqdadbadjuber/anti-slop",
+        "https://github.com/miqdadbadjuber/anti-slop/blob/main/README.md",
+        "https://github.com/miqdadbadjuber/anti-slop/tree/main/skills",
+        "https://github.com/miqdadbadjuber/anti-slop/blob/main/GUIDE.md",
+        "https://github.com/miqdadbadjuber/anti-slop/blob/main/skills/antislop/SKILL.md",
+        "https://github.com/miqdadbadjuber/anti-slop/blob/main/LICENSE",
+        "https://registry.npmjs.org/antislop-ai/latest"
+      ],
+      "homepage": "https://antislop.ai.id",
+      "id": "anti-slop",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-13T12:29:58Z",
+      "license": "MIT",
+      "name": "anti-slop",
+      "notes": "Reference only although it is a skill pack, the same delivery-boundary call as `brooks-lint`: six sibling skill directories (`skills/antislop`, the always-loaded core, plus `antislop-ui`, `antislop-human`, `antislop-layoutmobile`, `antislop-copywriting`, `antislop-code`, two of which bundle their own `references/` and scripts) are installed flat into the client's skills directory by `npx antislop-ai` (npm 3.2.30), `npx skills add miqdadbadjuber/anti-slop`, or a per-agent plugin marketplace (Claude Code, Codex, Cursor, Cline, Antigravity, Kimi Code, Oh My Pi, Pi - seven doors plus a Pi package), and the core skill refers to its siblings by repository path (`skills/antislop-copywriting/SKILL.md`, `antislop-ui`'s `references/CORE-WEB-VITALS.md`), so no single pinned subtree is faithful. It is the negative filter this catalog otherwise lacks: `ui-ux-pro-max` is a design database a project queries for a direction, the ECC packs state what good code looks like, and this one enumerates what generic AI output looks like - numbered rule IDs (R-xx) grouped into a Hard Gate, Purpose Gates and Quality Locks, a Delivery Gate that runs before anything is delivered, a two-mode workflow (`during` to prevent, `after` to audit a finished project into a numbered findings report), a saved per-machine preference file, and rules that cover copywriting, layout, accessibility and code alongside UI. The repository also carries `antislop.md`, `GUIDE.md`, `ROADMAP.md`, `rules/`, `cli/`, per-agent plugin manifests and `SECURITY.md`; the README install matrix, the core `SKILL.md` and the MIT `LICENSE` were read, and the npm and release metadata were checked. Nothing was installed, no skill was activated and no interface was reviewed.",
+      "repository": "miqdadbadjuber/anti-slop",
+      "stars": 9108
+    },
+    {
+      "archived": false,
+      "category": "delivery-workflows",
+      "checked_at": "2026-11-13",
+      "description": "Review-first terminal diff viewer for agentic coders: a multi-file review stream with sidebar navigation, inline AI and agent annotations, watch mode, and split, unified or auto layouts over Git, jj or Sapling changes.",
+      "evidence": [
+        "https://api.github.com/repos/modem-dev/hunk",
+        "https://github.com/modem-dev/hunk/blob/main/README.md",
+        "https://github.com/modem-dev/hunk/blob/main/LICENSE",
+        "https://hunk.dev/docs/",
+        "https://www.npmjs.com/package/hunkdiff/v/0.25.0",
+        "https://github.com/modem-dev/hunk/releases/latest"
+      ],
+      "homepage": "https://hunk.dev",
+      "id": "hunk",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-13T15:22:40Z",
+      "license": "MIT",
+      "name": "hunk",
+      "notes": "Reference only, because nothing in it is a skill, rule pack, MCP server or language bridge: hunk is an interactive full-screen program a developer runs over a diff, plus pager and Git difftool modes and a watch mode that reloads file and Git-backed reviews, so there is no unit this catalog configures and no registry launch command to pin. Delivery is a standalone binary (`curl -fsSL https://hunk.dev/install.sh | sh`), `npm i -g hunkdiff` (0.25.0, Node.js >=22) or `brew install hunk`. It complements rather than repeats the review tools already recorded - `code-review-and-quality`, `open-code-review`, `brooks-lint`, `graphify` and `trailofbits-skills` decide what to review and produce findings inside the session, while hunk is the surface the human reads the change on, with the agent's notes rendered beside the changed lines and keyboard, mouse and multi-file navigation instead of scrolling a patch. It is built on OpenTUI and `@pierre/diffs` and the repository is a monorepo (`packages/`, `website/`, `benchmarks/`, `nix/`, `examples/`, `docs/`) with CI, changesets, dependency-cruiser rules and its own `AGENTS.md`/`CLAUDE.md`. README, repository file listing, the MIT `LICENSE`, npm metadata for `hunkdiff` 0.25.0 and the release page (v0.25.0, 2026-11-11) were read; the binary was not installed, no diff was reviewed and no agent annotation was tested.",
+      "repository": "modem-dev/hunk",
+      "stars": 9830
+    },
+    {
+      "archived": false,
+      "category": "python-toolchain",
+      "checked_at": "2026-11-13",
+      "description": "Full-screen console debugger for Python: source, variables, stack and breakpoint panes with watch expressions, a command line, remote debugging and a pytest integration.",
+      "evidence": [
+        "https://api.github.com/repos/inducer/pudb",
+        "https://github.com/inducer/pudb/blob/main/LICENSE",
+        "https://github.com/inducer/pudb/blob/main/README.rst",
+        "https://documen.tician.de/pudb/",
+        "https://pypi.org/project/pudb/2026.1/"
+      ],
+      "homepage": "https://documen.tician.de/pudb/",
+      "id": "pudb",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-01T14:46:07Z",
+      "license": "MIT",
+      "name": "pudb",
+      "notes": "Reference only, and the first debugger in this catalog: it is an interactive terminal program a developer drives (`pudb script.py`, `python -m pudb.run`, remote debugging over a terminal, or the bundled pytest integration), not a skill, rule pack, MCP server or language server that this catalog configures, and upstream publishes it on PyPI (`pudb` 2026.1, Python ~=3.10, release 2026-10-13) rather than as a pinnable launcher. It covers the inspection step the recorded checkers stop short of: `pytest`, `hypothesis`, `deptry`, `ruff`, `ty`, `pyright`, `bandit` and `semgrep` report what is wrong, the language servers and bridges navigate it, and pudb is where a failing frame is read line by line - including when a change that passed an agent's tests only fails at runtime. The urwid-based UI keeps the source, variables, stack and breakpoints on screen at once, with watch expressions, a pdb-style command line, theming, remote debugging and a `try-the-debugger.sh` in the repository; the package directory, `README.rst`, `pyproject.toml`, `manual-tests/` and the CI configuration were listed and the documentation skimmed, not audited. License caveat recorded deliberately: the GitHub API reports `NOASSERTION`, while the repository `LICENSE` file carries the MIT/X Consortium text verbatim with a differently worded preamble, so the SPDX value here comes from reading the file rather than from the API - this differs from a repository with no license file at all, which fails admission. Stars, push timestamp and the PyPI release were read from the API and PyPI. Nothing was installed and no session was debugged.",
+      "repository": "inducer/pudb",
+      "stars": 3254
     }
   ],
   "profiles": {
