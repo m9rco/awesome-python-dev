@@ -331,6 +331,28 @@ Catalogue additions from the 2026-11-13 candidate review.
   commands, 2 and 14 tools listed, no `tools/call`), and `docs/RESEARCH.md`
   moves its research date to 2026-11-13.
 
+Catalogue additions from the 2026-11-14 candidate review.
+
+- One installable MCP server, launched through `scripts/smoke_mcp.py` at the
+  pinned version: `Ataraxy-Labs/sem` (pinned `npx -y @ataraxy-labs/sem@0.30.1
+  mcp`; `initialize` negotiated protocol `2025-11-25` against server `rmcp`
+  1.6.0 and 8 tools were listed, with no `tools/call`; entity-level diff,
+  impact, history, context and review verdicts over a change, recorded in
+  `delivery-workflows`).
+- Two reference-only entries, recorded from repository, package and registry
+  metadata only: `syrupy-project/syrupy` (pytest snapshot testing, the entry
+  the previous pass held back until the `--snapshot-update` workflow had been
+  reviewed; PyPI `7.0.0`) in `python-toolchain`, and `level09/enferno` (Flask
+  and Vue 3 framework that ships its own agent contract - `AGENTS.md`, an
+  `.agents/skills/enferno-dev` skill, an opt-in read-only `flask mcp` server
+  and `/llms.txt`) in `framework-best-practices`.
+- The catalog now holds 126 entries: 52 installable resources (24 skills, 6 rule
+  packs, 20 MCP servers, and 2 LSP bridges) and 74 references. Profiles and rule
+  dependencies are unchanged; no launcher or installer behaviour was touched.
+- `docs/CATALOG.md`, `docs/RESEARCH.md`, and both READMEs were updated in the
+  same change; `docs/RESEARCH.md` moves its research date to 2026-11-14 and
+  `docs/LSP.md` is untouched because this pass added no LSP entry.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,

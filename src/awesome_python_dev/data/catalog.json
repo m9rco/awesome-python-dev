@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-13",
+  "reviewed_at": "2026-11-14",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -3345,6 +3345,94 @@
       "notes": "Reference only, and the first debugger in this catalog: it is an interactive terminal program a developer drives (`pudb script.py`, `python -m pudb.run`, remote debugging over a terminal, or the bundled pytest integration), not a skill, rule pack, MCP server or language server that this catalog configures, and upstream publishes it on PyPI (`pudb` 2026.1, Python ~=3.10, release 2026-10-13) rather than as a pinnable launcher. It covers the inspection step the recorded checkers stop short of: `pytest`, `hypothesis`, `deptry`, `ruff`, `ty`, `pyright`, `bandit` and `semgrep` report what is wrong, the language servers and bridges navigate it, and pudb is where a failing frame is read line by line - including when a change that passed an agent's tests only fails at runtime. The urwid-based UI keeps the source, variables, stack and breakpoints on screen at once, with watch expressions, a pdb-style command line, theming, remote debugging and a `try-the-debugger.sh` in the repository; the package directory, `README.rst`, `pyproject.toml`, `manual-tests/` and the CI configuration were listed and the documentation skimmed, not audited. License caveat recorded deliberately: the GitHub API reports `NOASSERTION`, while the repository `LICENSE` file carries the MIT/X Consortium text verbatim with a differently worded preamble, so the SPDX value here comes from reading the file rather than from the API - this differs from a repository with no license file at all, which fails admission. Stars, push timestamp and the PyPI release were read from the API and PyPI. Nothing was installed and no session was debugged.",
       "repository": "inducer/pudb",
       "stars": 3254
+    },
+    {
+      "archived": false,
+      "category": "delivery-workflows",
+      "checked_at": "2026-11-14",
+      "description": "Entity-level git intelligence for coding agents over MCP: diff, impact, history, context and a review verdict are answered about functions, classes and methods rather than lines.",
+      "evidence": [
+        "https://api.github.com/repos/Ataraxy-Labs/sem",
+        "https://github.com/Ataraxy-Labs/sem/blob/main/README.md",
+        "https://github.com/Ataraxy-Labs/sem/blob/main/server.json",
+        "https://github.com/Ataraxy-Labs/sem/blob/main/skills/sem/SKILL.md",
+        "https://github.com/Ataraxy-Labs/sem/blob/main/docs/cloud-consent.html",
+        "https://github.com/Ataraxy-Labs/sem/blob/main/LICENSE-MIT",
+        "https://github.com/Ataraxy-Labs/sem/blob/main/LICENSE-APACHE",
+        "https://www.npmjs.com/package/@ataraxy-labs/sem/v/0.30.1",
+        "https://ataraxy-labs.github.io/sem/"
+      ],
+      "homepage": "https://ataraxy-labs.github.io/sem/",
+      "id": "sem",
+      "install": {
+        "type": "mcp",
+        "command": "npx",
+        "args": [
+          "-y",
+          "@ataraxy-labs/sem@0.30.1",
+          "mcp"
+        ],
+        "requirements": [
+          "npx"
+        ],
+        "version": "0.30.1",
+        "runtime": "Node.js >=20 for the wrapper, which downloads the matching release binary from GitHub Releases on first run (v0.30.1 darwin-arm64 tarball is 16.8 MB); stdio only, the Streamable HTTP transport is a documented preview; the server answers about the git repository it is started in, needs no index build, and keeps its SQLite entity cache outside the working tree (SEM_CACHE_DIR overrides the root); without a warm npm cache the first launch downloads both the wrapper and the release binary, which took about nine minutes behind a local proxy in this pass"
+      },
+      "kind": "mcp",
+      "last_pushed_at": "2026-11-14T09:54:56Z",
+      "license": "MIT OR Apache-2.0",
+      "name": "sem",
+      "notes": "Installable because upstream exposes the same verbs twice and the second surface is a documented stdio MCP server: `server.json` (MCP registry schema 2025-12-11) declares npm `@ataraxy-labs/sem` with the positional argument `mcp`, the README's `Use with AI agents (MCP)` section carries the tool table and the `claude mcp add sem -- sem mcp` line, and in this pass `npx -y @ataraxy-labs/sem@0.30.1 mcp` passed `initialize` and `tools/list` through the repository smoke script, reporting protocol `2025-11-25` from server `rmcp` 1.6.0 and 8 tools (`sem_find`, `sem_grep`, `sem_impact`, `sem_check`, `sem_certify`, `sem_diff`, `sem_graph`, `sem_history`); the launch that populated the npm cache took about nine minutes, so a first start behind a proxy should not be mistaken for a hang. The npm package is a thin wrapper around the release binary, so the pinnable version is the npm one while the executable comes from GitHub Releases; upstream also documents cargo, Homebrew, winget and `install.sh` routes. What it records is the change rather than the codebase: entity extraction over 32 languages with tree-sitter, so `sem diff` lists the functions and classes a commit changed, `sem impact` walks callers and tests forward from one entity, `sem certify` turns a commit range into what a human should review, `sem history` blames an entity across its renames, and `sem check` evaluates `.sem/promises/*.json` laws and exits non-zero on a violation (structural hashing separates formatting from logic, which is what makes the entity view survive a reformat). That is the lane this catalog was missing next to `hunk`: `code-review-graph` and `ripwire` answer questions about a codebase an agent must first index, `hunk` renders a diff for a human to read, and this is the machine-readable layer over the diff an agent asks while editing. Cloud-backed queries exist but are opt-in per repository with a documented consent flow, a local audit log and forget controls, `sem login` does not upload a repository, and telemetry defaults to record-nothing with `SEM_NO_TELEMETRY=1`/`DO_NOT_TRACK=1` forcing it off; none of that was exercised. Evidence read in this pass: repository metadata, README (commands, MCP, install, telemetry and cloud sections), `server.json`, the `skills/sem/SKILL.md` header, both license files, the release asset list, npm metadata for 0.30.1 and the docs site. Nothing beyond the smoke launch was installed or run: no `diff`, `impact`, `certify` or `check` was executed on any repository, no `.sem` promise was written, no cloud or telemetry state was changed and no agent session used the server. Stars and push time are the dated observation from the API.",
+      "repository": "Ataraxy-Labs/sem",
+      "stars": 3452
+    },
+    {
+      "archived": false,
+      "category": "python-toolchain",
+      "checked_at": "2026-11-14",
+      "description": "Snapshot testing for pytest: the first run records a value as a file in `__snapshots__/`, later runs assert against it, and the update workflow is the review gate for agent-generated output.",
+      "evidence": [
+        "https://api.github.com/repos/syrupy-project/syrupy",
+        "https://github.com/syrupy-project/syrupy/blob/main/README.md",
+        "https://github.com/syrupy-project/syrupy/blob/main/LICENSE",
+        "https://syrupy-project.github.io/syrupy/",
+        "https://pypi.org/project/syrupy/7.0.0/"
+      ],
+      "homepage": "https://syrupy-project.github.io/syrupy/",
+      "id": "syrupy",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-11T02:41:54Z",
+      "license": "MIT",
+      "name": "syrupy",
+      "notes": "Reference only, and the snapshot lane this catalog named as a gap in the 2026-11-13 pass and held until the update workflow had been read: it is a pytest plugin installed inside the project environment (`pip install syrupy`, `pyproject.toml` dev dependency), not a skill, rule pack, MCP server or language server that this catalog configures, and upstream publishes PyPI `syrupy` 7.0.0 (2026-11-11, Python >=3.11; the 6.x line still supports older interpreters) rather than a pinnable launcher. What it changes about testing an agent's work is where the expected value lives: instead of a literal a human typed, the expectation is a committed file under `__snapshots__/`, which makes a large structured value (a serializer output, a report, a data structure) reviewable as a diff and reproducible. The workflow caveat is why the entry waited: `--snapshot-update` rewrites existing snapshots to match whatever the code produced, so updating without reading the diff is exactly how a regression gets blessed, while `--snapshot-update-new-only` writes only missing snapshots and fails on mismatches - the mode an agent should be limited to - and `--snapshot-no-cleanup` keeps snapshots no longer asserted against, which is otherwise the default and the reason a stale expectation can disappear silently. Snapshots are per-test with `-m syrupy_snapshot` selecting the extension marker, `pytest-xdist` and parametrised tests are supported, and a missing snapshot fails rather than passing vacuously. Read in this pass: repository metadata, README (installation, usage, the flags table and the advanced OS-specific/xdist notes), the license file, the PyPI release metadata and the documentation site. Nothing was installed, no snapshot was recorded or updated and no test was run in any project.",
+      "repository": "syrupy-project/syrupy",
+      "stars": 905
+    },
+    {
+      "archived": false,
+      "category": "framework-best-practices",
+      "checked_at": "2026-11-14",
+      "description": "Flask 3 web framework whose agent contract ships in the repository: a root `AGENTS.md`, a framework skill at `.agents/skills/enferno-dev/`, and a read-only MCP server over routes, schema, migration revision and audit log.",
+      "evidence": [
+        "https://api.github.com/repos/level09/enferno",
+        "https://github.com/level09/enferno/blob/master/README.md",
+        "https://github.com/level09/enferno/blob/master/AGENTS.md",
+        "https://github.com/level09/enferno/blob/master/.agents/skills/enferno-dev/SKILL.md",
+        "https://github.com/level09/enferno/blob/master/.mcp.json",
+        "https://github.com/level09/enferno/blob/master/LICENSE",
+        "https://docs.enferno.io"
+      ],
+      "homepage": "https://enferno.io",
+      "id": "enferno",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-14T07:35:53Z",
+      "license": "MIT",
+      "name": "Enferno",
+      "notes": "The first framework in this catalog recorded because the framework itself publishes the agent surface rather than because tooling was wrapped around a project: a root `AGENTS.md` that points agents at the skill, a framework skill at `.agents/skills/enferno-dev/SKILL.md` with frontmatter covering blueprints, SQLAlchemy models and migrations, admin JSON APIs, the Vue 3 + Vuetify pages and dependency upgrades, a `.claude/skills` link for Claude Code that makes the same skill load automatically there, the `.mcp.json` that starts `uv run flask mcp`, and a `/llms.txt` route. Reference only because the unit here is a scaffold, not a pinnable artifact: the documented path is `git clone` plus `./setup.sh` (`git clone https://github.com/level09/enferno myapp`, one command for web/API GUI/mobile-app modes), the recorded install types do not include Python frameworks, and installing just the skill via `npx skills add level09/enferno` would leave a document that describes a framework the project does not contain - the same reason `brooks-lint` and `anti-slop` are references. It sits in `framework-best-practices` next to the pattern skills: `fastapi-patterns`, `django-patterns` and `frontend-patterns` are conventions an agent is told to follow, whereas here the conventions, the scaffolding and the checks come from one upstream the agent can be pointed at. What the stack is: Flask 3, SQLAlchemy 2.x with Alembic migrations, Flask-Security authentication with TOTP 2FA, passkeys and OAuth, an admin surface with an audit log, Celery tasks and Redis as extras, Vue 3 and Vuetify 4 vendored through `uv`-managed vendor assets with no frontend build step, plus an optional MCP extra where the server is read-only over the app's live state. The test suite is the part that matters for agent work: it asserts that protected routes reject anonymous users, that models and migrations agree, and that CSRF is enforced - checks an agent's own change has to survive rather than restating. Caution recorded deliberately: PyPI `enferno` 0.2 (2020) is an unrelated package by a different maintainer, so the install path is the repository and not the package name. Read in this pass: repository metadata, README, the root tree listing, `AGENTS.md`, the `.agents/skills` listing and the skill frontmatter, `.mcp.json`, the license file (MIT, 1071 bytes) and the documentation site (200). Nothing was installed, no application was scaffolded, no MCP server was started and no test suite was run.",
+      "repository": "level09/enferno",
+      "stars": 571
     }
   ],
   "profiles": {
