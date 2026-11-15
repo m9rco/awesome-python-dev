@@ -1,6 +1,6 @@
 # Research and provenance
 
-Research date: **2026-11-14**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
+Research date: **2026-11-15**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
 
 ## Patterns adopted
 
@@ -425,6 +425,27 @@ Reproduce with `uv run --no-project --python 3.12 --with mcp==2.3.0 python scrip
 On 2026-10-27, the exact pinned Serena v2.1.0 launcher completed `initialize` and `tools/list` on macOS using Python 3.13, an isolated `SERENA_HOME`, and a temporary Python project. It exposed 22 tools, including symbol search, reference search, and file diagnostics. Startup and discovery took about 35 seconds. No `tools/call` request was made, and the check ended before language-server initialization completed. This verifies process launch and MCP discovery, not symbol correctness or operation inside every supported agent UI. See [the complete recipe and verification boundaries](LSP.md#verification-recorded-for-this-recipe).
 
 MCP top-level package versions or Git source revisions are pinned. Their transitive dependency graphs are resolved by npm/uv at launch and are not fully locked by this catalog. Serena may download additional language-server dependencies when it activates a project. A registry version or Git revision pin should therefore not be described as a hermetic runtime. Skill/rule archives are checked against an exact recorded digest; an upstream archive byte change causes a verification failure until deliberately reviewed.
+
+### 2026-11-15 candidate review
+
+Five repositories were added as reference-only entries from a search over
+`gh api search/repositories` (recent creation and push dates, topic filters) and
+a web search for November 2026 agent-tooling releases. Stars, push timestamps,
+licences and file trees come from `gh api repos/<owner>/<repo>` and the
+`/contents` endpoint; homepages and documentation sites were checked for a 200
+response. Candidates that were inspected and skipped: `janestreet/agent_skills`
+(one non-development tutoring skill), `MiniMax-AI/mcode-stack` and
+`yonatangross/orchestkit` (skill collections already covered by the recorded
+ECC, Superpowers, agent-skills and wshobson entries), `D4Vinci/Scrapling`
+(browser/scraping MCP overlapping the recorded `seleniumbase` and browser
+entries), `qybaihe/bla` (release-obfuscation defence rather than a coding-agent
+toolkit), and `posit-dev/positron` (the API reports `NOASSERTION` for its
+licence). No installable recipe was added: `blackwell-systems/mcp-assert`,
+`kyy-logs/code-review-gate-skill`, `mokevnin/easement`,
+`matheuzgomes/gawain` and `ennajari/Snitch` are CLIs, skills or test runners
+whose upstream install paths are not one of this catalog's four pinnable
+types, and none was installed, started or run. Consequently no MCP smoke
+result is recorded for this date and `docs/LSP.md` is untouched.
 
 ## Refresh procedure
 

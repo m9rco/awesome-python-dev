@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "reviewed_at": "2026-11-14",
+  "reviewed_at": "2026-11-15",
   "tools": [
     {
       "id": "systematic-debugging",
@@ -3433,6 +3433,133 @@
       "notes": "The first framework in this catalog recorded because the framework itself publishes the agent surface rather than because tooling was wrapped around a project: a root `AGENTS.md` that points agents at the skill, a framework skill at `.agents/skills/enferno-dev/SKILL.md` with frontmatter covering blueprints, SQLAlchemy models and migrations, admin JSON APIs, the Vue 3 + Vuetify pages and dependency upgrades, a `.claude/skills` link for Claude Code that makes the same skill load automatically there, the `.mcp.json` that starts `uv run flask mcp`, and a `/llms.txt` route. Reference only because the unit here is a scaffold, not a pinnable artifact: the documented path is `git clone` plus `./setup.sh` (`git clone https://github.com/level09/enferno myapp`, one command for web/API GUI/mobile-app modes), the recorded install types do not include Python frameworks, and installing just the skill via `npx skills add level09/enferno` would leave a document that describes a framework the project does not contain - the same reason `brooks-lint` and `anti-slop` are references. It sits in `framework-best-practices` next to the pattern skills: `fastapi-patterns`, `django-patterns` and `frontend-patterns` are conventions an agent is told to follow, whereas here the conventions, the scaffolding and the checks come from one upstream the agent can be pointed at. What the stack is: Flask 3, SQLAlchemy 2.x with Alembic migrations, Flask-Security authentication with TOTP 2FA, passkeys and OAuth, an admin surface with an audit log, Celery tasks and Redis as extras, Vue 3 and Vuetify 4 vendored through `uv`-managed vendor assets with no frontend build step, plus an optional MCP extra where the server is read-only over the app's live state. The test suite is the part that matters for agent work: it asserts that protected routes reject anonymous users, that models and migrations agree, and that CSRF is enforced - checks an agent's own change has to survive rather than restating. Caution recorded deliberately: PyPI `enferno` 0.2 (2020) is an unrelated package by a different maintainer, so the install path is the repository and not the package name. Read in this pass: repository metadata, README, the root tree listing, `AGENTS.md`, the `.agents/skills` listing and the skill frontmatter, `.mcp.json`, the license file (MIT, 1071 bytes) and the documentation site (200). Nothing was installed, no application was scaffolded, no MCP server was started and no test suite was run.",
       "repository": "level09/enferno",
       "stars": 571
+    },
+    {
+      "archived": false,
+      "category": "build-mcp",
+      "checked_at": "2026-11-15",
+      "description": "Deterministic, wire-level test and lint harness for MCP servers: YAML assertions, schema rules, fuzzing and CI baselines over real stdio/SSE/HTTP handshakes.",
+      "evidence": [
+        "https://api.github.com/repos/blackwell-systems/mcp-assert",
+        "https://github.com/blackwell-systems/mcp-assert/blob/main/README.md",
+        "https://github.com/blackwell-systems/mcp-assert/blob/main/FEATURES.md",
+        "https://github.com/blackwell-systems/mcp-assert/blob/main/docs/index.md",
+        "https://github.com/blackwell-systems/mcp-assert/blob/main/pytest-plugin/README.md",
+        "https://github.com/blackwell-systems/mcp-assert/blob/main/LICENSE",
+        "https://blackwell-systems.github.io/mcp-assert/scorecard/"
+      ],
+      "homepage": "https://www.mcp-assert.com/",
+      "id": "mcp-assert",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-15T13:28:13Z",
+      "license": "MIT",
+      "name": "mcp-assert",
+      "notes": "Reference only: this is a test runner a project installs into its own environment, not a server a coding agent registers, and upstream distributes it several ways at once (npm, PyPI, Homebrew, Go install, Docker, snap, scoop, winget and an install script) without one pinnable launcher for this catalog to configure. It fills the verification gap next to `mcp-inspector` and `mcp-python-sdk`: the inspector is an interactive client a human opens when a handshake fails, and the SDK is what a server is written with, whereas this connects as a real client would - full `initialize`, `tools/list` and `tools/call` over stdio, SSE or HTTP - and asserts deterministic results declared in YAML. The README describes 24 static lint rules for agent usability with `--fix` schema suggestions (the repository description still says 14, so the README is the dated source), plus `audit` with schema-generated inputs, adversarial `fuzz`, `init` scaffolding, `run`, `ci` with thresholds, baselines, JUnit XML and a GitHub step summary, `coverage`, `snapshot`, `watch`, `intercept` and a `matrix` command over language servers. The same YAML suites are reused by the pytest, Vitest, Jest, Bun, PHPUnit and Go adapters, which is the Python-facing part of this entry. Upstream's published scorecard reports 4,794 schema issues (2,239 errors) across 55 of 102 scanned servers, including Serena, whose bridge is already recorded here; the most common failure is a parameter with no type definition. This repository shares the `blackwell-systems` organisation with the recorded `agent-lsp` bridge, but it is a different repository and a different lane. Read in this pass: API metadata, README, FEATURES.md, the docs index, the pytest plugin README, the MIT LICENSE, the tag list and the two linked sites (both returned 200). Nothing was installed, no MCP server was started, no assertion was run and the scorecard was not reproduced. Stars and push time are the dated API observation.",
+      "repository": "blackwell-systems/mcp-assert",
+      "stars": 26
+    },
+    {
+      "archived": false,
+      "category": "engineering-skills",
+      "checked_at": "2026-11-15",
+      "description": "Evidence-backed, static-first code review skill for Claude Code and Codex: four independent probes write JSON records and a machine-derived merge gate decides the outcome.",
+      "evidence": [
+        "https://api.github.com/repos/kyy-logs/code-review-gate-skill",
+        "https://github.com/kyy-logs/code-review-gate-skill/blob/main/README.md",
+        "https://github.com/kyy-logs/code-review-gate-skill/blob/main/README.zh-CN.md",
+        "https://github.com/kyy-logs/code-review-gate-skill/blob/main/skills/code-review-gate/SKILL.md",
+        "https://github.com/kyy-logs/code-review-gate-skill/blob/main/skills/code-review-gate-zh/SKILL.md",
+        "https://github.com/kyy-logs/code-review-gate-skill/blob/main/NEWS.md",
+        "https://github.com/kyy-logs/code-review-gate-skill/blob/main/VERSION",
+        "https://github.com/kyy-logs/code-review-gate-skill/blob/main/LICENSE"
+      ],
+      "homepage": "https://github.com/kyy-logs/code-review-gate-skill",
+      "id": "code-review-gate",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-15T10:58:43Z",
+      "license": "MIT",
+      "name": "Code Review Gate",
+      "notes": "Reference only. The documented install is `npx -y skills add ... --agent codex|claude-code` (Node.js 22.20+), with separate Python installers and a distinct release repository; the workflow also dispatches four fresh-context subagents, which not every client this catalog supports can do. A single pinned skill subtree has therefore not been verified for install, repeat-install and removal in a temporary project, and no recipe is recorded. It is the auditable counterweight to the review entries already here: `code-review-and-quality` states conventions, `open-code-review` needs a global npm CLI and an LLM provider key, and `security-review` is a security pass, whereas this skill requires every finding to point at a location, a contract or code path and a severity, runs four narrow probes (behaviour, tests, rules, impact), derives counts and blockers from JSON rather than prose, and gates the merge on source freshness, missing probes and open high findings - without a build, test run or coverage report, and without modifying the reviewed code. Both English and Chinese skill directories ship with `references/`, `scripts/` and `assets/`; the repository also mirrors `shared/scripts/`. Release v0.2.4 is tagged and described as stable, with three severity levels (older four-level records are incompatible), 116 offline pipeline, installation, bilingual and gate tests, and unusually explicit limits: the probes use the same model, there is no separate finding-verification stage, a passing gate is not CI or human approval, and two confirmed edge-case misses remain. Read in this pass: API metadata, both READMEs, the English and Chinese SKILL.md files, VERSION, NEWS.md, the MIT LICENSE, the skill directory listing, the `shared/scripts/` listing and the v0.2.4 tag object. Nothing was installed, no review was run and no gate was applied. Stars and push time are the dated API observation.",
+      "repository": "kyy-logs/code-review-gate-skill",
+      "stars": 504
+    },
+    {
+      "archived": false,
+      "category": "engineering-rules",
+      "checked_at": "2026-11-15",
+      "description": "Architecture quality gate for polyglot codebases: declared components, layers, public APIs and cycles are checked against real dependencies extracted from code, and drift fails the build.",
+      "evidence": [
+        "https://api.github.com/repos/mokevnin/easement",
+        "https://github.com/mokevnin/easement/blob/main/README.md",
+        "https://github.com/mokevnin/easement/blob/main/skills/easement/SKILL.md",
+        "https://github.com/mokevnin/easement/blob/main/docs/agent-setup.md",
+        "https://github.com/mokevnin/easement/blob/main/docs/README.md",
+        "https://github.com/mokevnin/easement/blob/main/AGENTS.md",
+        "https://github.com/mokevnin/easement/blob/main/LICENSE"
+      ],
+      "homepage": "https://github.com/mokevnin/easement",
+      "id": "easement",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-15T15:34:46Z",
+      "license": "MIT",
+      "name": "easement",
+      "notes": "Reference only, and recorded as much for its agent contract as for the checker: the unit is a Rust CLI installed through Homebrew, cargo, an install script or `mise.toml` (`\"github:mokevnin/easement\" = \"latest\"`), most languages also need a SCIP indexer plus project dependencies, and there is no pinned launcher for this catalog's four install types. What the upstream repository does ship is a real skill at `skills/easement/SKILL.md`, a Claude Code plugin directory, and a copy-paste setup prompt for Claude Code, Codex or Cursor that ends by writing three rules into the project's AGENTS.md/CLAUDE.md (consult the skill before adding a file or import, run `easement check` after changes, and never edit `easement.yml`, regenerate the baseline or add an `easement:disable` comment without asking a human). The checker extracts an import graph and fails on component boundaries, layers, public surfaces, cycles and coupling drift; each violation carries the rule's `because`, and `explain`, `propose`, `why`, `impact` and `review` let an agent ask where code belongs before writing it. Python is supported through SCIP, alongside Go, TypeScript, Rust, Java, C#, PHP and Ruby, with documented limits (tsconfig coverage, incomplete indexes, framework entry points) and `check --require-evidence` to fail CI when code could not be judged. This is a different lane from `archy` (Python import-graph assertions behind MCP) and `deptry` (declared versus imported dependencies): the policy here spans languages and is enforced in CI with a shrinking baseline and a diff mode. Upstream's own comparison names Import Linter for Python; that project is not in this catalog. Read in this pass: API metadata, README, the root tree, the skill frontmatter and body, the agent-setup and docs index pages, AGENTS.md, the MIT LICENSE and the v0.6.4 tag. Nothing was installed, no indexer was run, no policy was written and no check was executed. Stars and push time are the dated API observation.",
+      "repository": "mokevnin/easement",
+      "stars": 56
+    },
+    {
+      "archived": false,
+      "category": "python-toolchain",
+      "checked_at": "2026-11-15",
+      "description": "Python annotation gate: require explicit types on variables, parameters, returns and class attributes, then run ty or pyrefly on the same files.",
+      "evidence": [
+        "https://api.github.com/repos/matheuzgomes/gawain",
+        "https://github.com/matheuzgomes/gawain/blob/main/README.md",
+        "https://github.com/matheuzgomes/gawain/blob/main/docs/rules.md",
+        "https://github.com/matheuzgomes/gawain/blob/main/docs/configuration.md",
+        "https://github.com/matheuzgomes/gawain/blob/main/pyproject.toml",
+        "https://github.com/matheuzgomes/gawain/blob/main/.pre-commit-hooks.yaml",
+        "https://github.com/matheuzgomes/gawain/blob/main/LICENSE"
+      ],
+      "homepage": "https://github.com/matheuzgomes/gawain",
+      "id": "gawain",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-15T14:56:19Z",
+      "license": "MIT",
+      "name": "gawain",
+      "notes": "Reference only: it is a CLI inside the project environment (`uv tool install \"gawain[ty]\"` or `pip install \"gawain[pyrefly]\"`, or a pre-commit hook built from the repository source with Rust 1.97+), not a skill, rule pack, MCP server or language server this catalog configures. It closes a small but concrete gap between entries already recorded: `ty`, `pyrefly`, `pyright`, `basedpyright` and `ruff` infer types or check the ones present, and ruff's `ANN` rules ask for annotations on function signatures only. gawain is the presence gate - GW001 variables, GW002 parameters, GW003 returns, GW004 class attributes, plus `Final` and the `obvious`/strict modes - and it runs the chosen checker on the same files only after presence errors are cleared, exiting 0, 1 or 2. That ordering is what makes it useful for reviewing agent-written Python: an unannotated `dict[str, Any]`-shaped value is reported before any inference can quietly accept it. The `ty` extra pins 0.0.100 and `pyrefly` 1.4.1; upstream warns that ty is in beta and its diagnostics can change, and offers `--no-types` for the annotation pass alone, plus a documented suppression syntax and a benchmark on the CPython 3.14 standard library that is one machine's result rather than a claim reproduced here. Release v0.3.1 was tagged on 2026-11-15. Read in this pass: API metadata, README, docs/rules.md, docs/configuration.md, docs/benchmarks.md, pyproject.toml, the pre-commit hook definition, the MIT LICENSE and the tag list. Nothing was installed, no file was checked and no type checker was run. Stars and push time are the dated API observation.",
+      "repository": "matheuzgomes/gawain",
+      "stars": 40
+    },
+    {
+      "archived": false,
+      "category": "delivery-workflows",
+      "checked_at": "2026-11-15",
+      "description": "Deterministic detector for test tampering by coding agents: weakened assertions, skipped or deleted tests and runner config changes are flagged in Claude Code hooks, pre-commit and CI.",
+      "evidence": [
+        "https://api.github.com/repos/ennajari/Snitch",
+        "https://github.com/ennajari/Snitch/blob/master/README.md",
+        "https://github.com/ennajari/Snitch/blob/master/CLAUDE.md",
+        "https://github.com/ennajari/Snitch/blob/master/action.yml",
+        "https://github.com/ennajari/Snitch/blob/master/.pre-commit-hooks.yaml",
+        "https://github.com/ennajari/Snitch/blob/master/pyproject.toml",
+        "https://github.com/ennajari/Snitch/blob/master/LICENSE",
+        "https://ennajari.github.io/Snitch/"
+      ],
+      "homepage": "https://ennajari.github.io/Snitch/",
+      "id": "snitch",
+      "install": null,
+      "kind": "reference",
+      "last_pushed_at": "2026-11-12T21:38:15Z",
+      "license": "MIT",
+      "name": "Snitch",
+      "notes": "Reference only, with an early-maturity caveat recorded deliberately: the upstream README labels the project 'status: early' and the repository had 4 stars at inspection. Its four delivery routes - a Claude Code/Codex plugin (`/plugin install snitch@snitch`), `snitch-engine` on PyPI or `uvx`, a GitHub Action and a pre-commit hook - are all real and documented, but none is a pinnable catalog recipe and no install, hook or action was executed in this pass. It answers a question the catalog's testing entries do not: `verification-before-completion` instructs an agent to verify, and `pytest`, `hypothesis`, `schemathesis` and `syrupy` produce evidence, but none checks whether an agent made the evidence green by weakening `assert total == 42`, marking a test `skip`, deleting tests, or adding `-k` to `pytest.ini`. Snitch is an external deterministic detector over (before, after): an inventory pass using the project's own `pytest --collect-only`, AST rules for weakened or self-fulfilled assertions, and rule checks for runner and CI config, `conftest.py` report hooks and `except: pass` around changed logic. One engine backs three adapters (live plugin hooks, the Action re-checking the PR diff outside the agent's reach, and pre-commit), with exit codes 0/1/2/3 and an optional strict mode. Documented limits matter here: detectors cannot read the user's request, an optional LLM judge is off by default, an incomplete check passes with a warning unless `--strict`, and the 'tests pass but never ran' warning is not yet available for Codex. Read in this pass: API metadata, README, CLAUDE.md, action.yml, the pre-commit hook definition, pyproject.toml, the plugin manifest listing, the MIT LICENSE and the docs site (200). Nothing was installed, no hook fired, no test was collected and no receipt was produced. Stars and push time are the dated API observation.",
+      "repository": "ennajari/Snitch",
+      "stars": 4
     }
   ],
   "profiles": {
