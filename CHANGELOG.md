@@ -353,6 +353,27 @@ Catalogue additions from the 2026-11-14 candidate review.
   same change; `docs/RESEARCH.md` moves its research date to 2026-11-14 and
   `docs/LSP.md` is untouched because this pass added no LSP entry.
 
+Catalogue additions from the 2026-11-15 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `mcp-assert`
+  (`build-mcp`, wire-level YAML assertions and schema linting for MCP servers,
+  26 stars), `code-review-gate` (`engineering-skills`, four-probe
+  evidence-backed review with a JSON-derived merge gate, 504 stars),
+  `easement` (`engineering-rules`, cross-language architecture gate with a
+  bundled agent skill and AGENTS.md setup prompt, 56 stars), `gawain`
+  (`python-toolchain`, explicit-annotation gate before ty or pyrefly, 40
+  stars) and `snitch` (`delivery-workflows`, deterministic detection of
+  agent test tampering, 4 stars).
+- All five are reference-only: their install paths are CLI/package/plugin
+  routes that this catalog cannot pin, and no install, MCP handshake, hook or
+  check was executed. Stars and `last_pushed_at` are the dated `gh api`
+  observation; no launcher, profile or installer behaviour was changed.
+- The catalog now holds 131 entries: 52 installable resources (24 skills, 6
+  rule packs, 20 MCP servers, and 2 LSP bridges) and 79 references.
+  `docs/CATALOG.md`, `docs/RESEARCH.md` and both READMEs were updated in the
+  same change; `docs/LSP.md` is untouched because this pass added no LSP entry.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
