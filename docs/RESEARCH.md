@@ -1,6 +1,6 @@
 # Research and provenance
 
-Research date: **2026-11-15**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
+Research date: **2026-11-16**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
 
 ## Patterns adopted
 
@@ -446,6 +446,34 @@ licence). No installable recipe was added: `blackwell-systems/mcp-assert`,
 whose upstream install paths are not one of this catalog's four pinnable
 types, and none was installed, started or run. Consequently no MCP smoke
 result is recorded for this date and `docs/LSP.md` is untouched.
+
+### 2026-11-16 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over recent creation and push dates and topic
+filters (MCP, coding-agent skills, LSP bridge, Python packaging), plus web
+searches for November 2026 agent-tooling releases. Stars, push timestamps, SPDX
+licence identifiers and default branches come from `gh api
+repos/<owner>/<repo>`; every GitHub blob URL recorded in `evidence` was
+re-checked against the `/contents` endpoint on the recorded branch (35 links,
+all present). Homepages and documentation sites were checked for a 200
+response. Two actively pushed repositories (`wheelgap/wheelgap` and
+`flisk-sh/flisk`) were refreshed to their later push timestamps immediately
+before the write.
+
+Candidates inspected and skipped: `vetcoders/mcp-server-semgrep` (a thin MCP
+wrapper over `semgrep`, already recorded), `Lethe044/agentskill-kit` (skill
+lint, scan and audit already covered by `agnix`, `skillsaw`, `skillspector` and
+`skillevaluator`), `yriveiro/python-mcp` (0 stars, an aggregate of checkers
+already in the catalog), `aws-samples/sample-apex-skills` (an AWS-specific
+skill collection, and skill collections are already covered), browser and
+scraping MCP servers, and the many freshly created 0-star, unlicensed or
+`NOASSERTION` repositories returned by the recency queries. No installable
+recipe was added: `pyscn`, `wheelgap`, `agentic-radar`, `flisk` and `Nreki`
+ship through CLI, npm or plugin routes with unpinned versions rather than one
+of this catalog's four pinnable types, and none was installed, started or run.
+Consequently no MCP smoke result is recorded for this date, `docs/LSP.md` is
+untouched and the count of `kind: lsp` entries remains 18.
 
 ## Refresh procedure
 
