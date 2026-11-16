@@ -374,6 +374,31 @@ Catalogue additions from the 2026-11-15 candidate review.
   `docs/CATALOG.md`, `docs/RESEARCH.md` and both READMEs were updated in the
   same change; `docs/LSP.md` is untouched because this pass added no LSP entry.
 
+Catalogue additions from the 2026-11-16 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `pyscn`
+  (`python-toolchain`, CFG-based dead code, clone, complexity and coupling
+  analysis of AI-written Python with Agent Skills and an MCP server, 1,109
+  stars), `wheelgap` (`python-toolchain`, prebuilt-wheel availability for a
+  target platform from a lockfile, 3 stars), `agentic-radar`
+  (`security-tooling`, agentic-workflow graph with OWASP LLM and Agentic AI
+  threat mapping, 1,070 stars), `flisk` (`delivery-workflows`, one-command
+  local multi-service runtime with 24 MCP tools and bundled skills, 50 stars)
+  and `nreki` (`mcp-ecosystem`, RAM-side LSP edit validation and auto-heal
+  before a file is written, 11 stars).
+- All five are reference-only: their install paths are CLI, package or plugin
+  routes this catalog cannot pin, and no install, MCP handshake, hook, scan or
+  runtime check was executed. All 35 recorded GitHub blob evidence links were
+  re-checked against the `/contents` endpoint; stars and `last_pushed_at` are
+  the dated `gh api` observation. No launcher, profile or installer behaviour
+  was changed.
+- The catalog now holds 136 entries: 52 installable resources (24 skills, 6
+  rule packs, 20 MCP servers, and 2 LSP bridges) and 84 references.
+  `docs/CATALOG.md`, `docs/RESEARCH.md` and both READMEs were updated in the
+  same change; `docs/LSP.md` is untouched because this pass added no
+  `kind: lsp` entry.
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
