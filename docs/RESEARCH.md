@@ -1,6 +1,6 @@
 # Research and provenance
 
-Research date: **2026-11-16**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
+Research date: **2026-11-17**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
 
 ## Patterns adopted
 
@@ -474,6 +474,48 @@ ship through CLI, npm or plugin routes with unpinned versions rather than one
 of this catalog's four pinnable types, and none was installed, started or run.
 Consequently no MCP smoke result is recorded for this date, `docs/LSP.md` is
 untouched and the count of `kind: lsp` entries remains 18.
+
+### 2026-11-17 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over recent creation and push dates and topic
+and keyword filters (coding-agent skills, MCP servers, LSP bridges, Python
+testing and packaging, security scanning and runtime guardrails), plus a web
+search for November 2026 agent-tooling releases. Stars, push timestamps, SPDX
+licence identifiers, archive status and default branches come from
+`gh api repos/<owner>/<repo>`; every GitHub blob URL recorded in `evidence`
+was validated against the repository's recursive git tree on `main` and then
+re-checked against the `/contents` endpoint (45 links, all present, with a
+retry for transient 404s), and the five repositories were refreshed to their
+final push timestamps immediately before the write.
+
+The five entries fill lanes the catalog did not hold. `invaris-agentsec`
+(`security-tooling`) sends adversarial inputs to a live agent over HTTP or MCP
+rather than scanning an artefact, while `tego` (`security-tooling`) enforces a
+written file, program and host contract on an agent process from outside it
+through Landlock, seccomp, BPF and cgroups. `kith` (`delivery-workflows`)
+coordinates several agents writing one repository at once with scoped claims,
+isolated worktrees and resource mutexes. `qikly` (`python-toolchain`) scores a
+Python test suite by planting faults in a throwaway copy of the code. `techne`
+(`mcp-ecosystem`) is a checked-navigation MCP server whose ADR-0003 states the
+evidence behind every answer, so an agent can distinguish an empty list that
+proves absence from one that proves nothing.
+
+Candidates inspected and skipped: threat-modelling skill and prompt
+collections already covered by `mantis` and `trailofbits-skills`
+(`jmanico/grim-prompter`); codebase-map and call-graph MCP servers overlapping
+`code-review-graph`, `chunkhound`, `graphify`, `ripwire` and `roam-code`
+(`aileron-tech/wingbox`, `coffeecoproject/layermap`, `xtelos/ripple`,
+`aahlijia/dekko`); browser and scraping MCP servers; release-obfuscation
+defence rather than a coding-agent toolkit (`qybaihe/bla`); a large
+self-describing verification harness whose README opens with instructions to
+an agent and reports its own contract version (`HLIntel/Headron`); and the
+many freshly created 0-star, unlicensed or `NOASSERTION` repositories returned
+by the recency queries. No installable recipe was added: all five ship through
+CLI, PyPI, npm, Homebrew or plugin routes with unpinned versions rather than
+one of this catalog's four pinnable types, and none was installed, started or
+run. Consequently no MCP smoke result is recorded for this date, `docs/LSP.md`
+is untouched and the count of `kind: lsp` entries remains 18.
 
 ## Refresh procedure
 
