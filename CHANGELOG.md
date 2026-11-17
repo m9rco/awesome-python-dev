@@ -399,6 +399,32 @@ Catalogue additions from the 2026-11-16 candidate review.
   same change; `docs/LSP.md` is untouched because this pass added no
   `kind: lsp` entry.
 
+Catalogue additions from the 2026-11-17 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `invaris-agentsec`
+  (`security-tooling`, adversarial testing of a running agent over HTTP or MCP,
+  26 stars), `tego` (`security-tooling`, kernel-enforced file, program and host
+  contract on an agent process with a hash-chained run ledger, 25 stars),
+  `kith` (`delivery-workflows`, scoped claims, isolated worktrees and mutexes
+  for parallel coding agents, 4 stars), `qikly` (`python-toolchain`, mutation
+  scoring of an existing Python test suite, 19 stars) and `techne`
+  (`mcp-ecosystem`, checked IDE-grade navigation with evidence behind every
+  answer, 3 stars).
+- All five are reference-only: their install paths are CLI, package, Homebrew
+  or plugin routes this catalog cannot pin, and no install, MCP handshake,
+  hook, scan, mutation run or kernel behaviour check was executed. All 45
+  recorded GitHub blob evidence links were validated against each repository's
+  recursive git tree and re-checked against the `/contents` endpoint on
+  `main`; stars and `last_pushed_at` are the dated `gh api` observation. No
+  launcher, profile or installer behaviour was changed.
+- The catalog now holds 141 entries: 52 installable resources (24 skills, 6
+  rule packs, 20 MCP servers, and 2 LSP bridges) and 89 references.
+  `docs/CATALOG.md`, `docs/RESEARCH.md` and both READMEs were updated in the
+  same change; `docs/LSP.md` is untouched because this pass added no
+  `kind: lsp` entry.
+
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
