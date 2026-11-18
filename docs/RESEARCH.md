@@ -1,6 +1,6 @@
 # Research and provenance
 
-Research date: **2026-11-17**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
+Research date: **2026-11-18**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
 
 ## Patterns adopted
 
@@ -516,6 +516,57 @@ CLI, PyPI, npm, Homebrew or plugin routes with unpinned versions rather than
 one of this catalog's four pinnable types, and none was installed, started or
 run. Consequently no MCP smoke result is recorded for this date, `docs/LSP.md`
 is untouched and the count of `kind: lsp` entries remains 18.
+
+### 2026-11-18 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over recent creation and push dates, topic and
+keyword filters (coding-agent skills and rules, MCP servers, LSP bridges, Python
+testing, packaging and debugging, agent observability and cost governance,
+security scanning), plus web searches for November 2026 agent-tooling releases.
+Stars, push timestamps, SPDX licence identifiers, archive status and default
+branches come from `gh api repos/<owner>/<repo>`, refreshed immediately before
+the write: the search API's `stargazers_count` again returned implausible values
+(467,722, 79,888, 210,886) for unrelated repositories, so each candidate was
+re-queried singly. Every GitHub blob URL recorded in `evidence` was validated
+against the repository's recursive git tree on `main` and re-checked against the
+`/contents` endpoint (56 links, all present).
+
+The five entries fill lanes the catalog did not hold. `kikimimi`
+(`delivery-workflows`) records an agent's live token cost, stuck-agent retries
+and the context tax of unused MCP servers and skills into local Parquet, which
+no recorded workflow entry measures. `cap-evolve` (`skill-ecosystem`) closes the
+loop on skill quality by rewriting prompts, tool code and skill packages from
+failed evaluation traces under a validation-only significance gate, where
+`skillevaluator` scores and `skillsaw` lints but neither edits. `acr`
+(`engineering-rules`) is a package manager for agent instructions with
+versioned adapters and byte-identical preservation of user-owned files, rather
+than a single-source compiler like `ruler` or `ai-rulez`. `backendskills`
+(`framework-best-practices`) is the first entry in that category to ship a
+reproducible controlled experiment over 150 agent runs with hidden checks and
+published negative results. `skillware` (`skill-ecosystem`) treats a skill as a
+versioned Python module with a typed contract, executable effect and an offline
+assurance suite, instead of a Markdown instruction file.
+
+Candidates inspected and skipped: another single-source rule sync tool
+(`Chemaclass/agnostic-ai`, `sensetive5/tunestra`) overlapping `ruler` and
+`ai-rulez`; architecture-drift plugins overlapping `easement`
+(`MotleyAI/living-architecture`); agent-desktop and multi-agent orchestration
+workspaces outside this catalog's toolkit scope (`SirAllap/agentglass`,
+`KettuAI/Kettu`, `intent-hq/intent`); skill and MCP security scanners already
+covered by `skillspector` and `skillsaw` (`YusufSizmaz/bekci`,
+`famclaw/honeybadger`); codebase-map and call-graph servers overlapping
+`graphify`, `chunkhound` and `code-review-graph` (`aileron-tech/wingbox`,
+`namiq-ai/devkb`, `GeRiY/callgraph`); thin skill-lint wrappers
+(`TheColliery/CoalMine`, `jasveerai88/skill-claims`); a version-specific
+package-docs MCP server whose last push was 2025-06-19 and which overlaps
+`context7` (`marckrenn/rtfmbro-mcp`); repositories with `NOASSERTION` or no
+licence, and the many freshly created 0-star or self-promotional results. No
+installable recipe was added: all five ship through unpinned CLI, PyPI, npm,
+Homebrew, Go or plugin routes rather than one of this catalog's four pinnable
+types, and none was installed, started or run. Consequently no MCP smoke result
+is recorded for this date, `docs/LSP.md` is untouched and the count of
+`kind: lsp` entries remains 18.
 
 ## Refresh procedure
 

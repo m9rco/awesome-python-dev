@@ -425,6 +425,34 @@ Catalogue additions from the 2026-11-17 candidate review.
   `kind: lsp` entry.
 
 
+Catalogue additions from the 2026-11-18 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `kikimimi`
+  (`delivery-workflows`, live agent token cost, stuck-agent thrash and MCP/skill
+  context tax in local Parquet, 4 stars), `cap-evolve` (`skill-ecosystem`,
+  eval-driven optimization of prompts, tools and skill packages behind a
+  held-out significance gate, 70 stars), `acr` (`engineering-rules`, a package
+  manager for agent instructions with byte-identical preservation of user-owned
+  files, 9 stars), `backendskills` (`framework-best-practices`, backend
+  correctness skills with a reproducible 150-run hidden-check benchmark, 60
+  stars) and `skillware` (`skill-ecosystem`, versioned Python skill modules with
+  typed contracts and offline assurance suites, 193 stars).
+- All five are reference-only: their install paths are unpinned CLI, PyPI, npm,
+  Homebrew, Go or plugin routes this catalog cannot pin, and no install, MCP
+  handshake, hook, benchmark, optimization loop or kernel behaviour check was
+  executed. All 56 recorded GitHub blob evidence links were validated against
+  each repository's recursive git tree and re-checked against the `/contents`
+  endpoint on `main`; stars and `last_pushed_at` are the dated `gh api`
+  observation refreshed immediately before the write. No launcher, profile or
+  installer behaviour was changed.
+- The catalog now holds 146 entries: 52 installable resources (24 skills, 6
+  rule packs, 20 MCP servers, and 2 LSP bridges) and 94 references.
+  `docs/CATALOG.md`, `docs/RESEARCH.md` and both READMEs were updated in the
+  same change; `docs/LSP.md` is untouched because this pass added no
+  `kind: lsp` entry.
+
+
 ## npm shell 0.1.1 — 2026-10-28
 
 - Honor HTTP/HTTPS proxy environment variables for GitHub runtime downloads,
