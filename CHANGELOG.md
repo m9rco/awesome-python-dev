@@ -512,3 +512,30 @@ Initial release of a curated AI development toolkit and project-local installer.
 - English and Chinese documentation, contribution templates, and cross-platform CI.
 
 MCP registration and local integrity checks are separate from live coding-agent validation. Protocol smoke tests cover initialization and tool discovery only; see [research evidence](docs/RESEARCH.md).
+
+
+Catalogue additions from the 2026-11-19 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `eval-view`
+  (`python-toolchain`, golden-baseline regression testing of an agent's
+  tool-call trajectory plus MCP contract drift checks, 142 stars),
+  `trajectory-ir` (`delivery-workflows`, portable hash-verifiable agent
+  execution trajectory IR with sealed plans and signed `.tir` packages,
+  32 stars), `signet` (`skill-ecosystem`, signed and transparency-logged
+  skill/agent publication registry with a read-only MCP verification plane,
+  132 stars), `agent-airlock` (`security-tooling`, Pydantic-strict in-process
+  contract for agent tool calls with MCP CVE guards, 17 stars) and
+  `phantom-secrets` (`security-tooling`, `.env` placeholder and local-proxy
+  credential isolation for coding agents with an MCP server, 20 stars).
+- Catalog grows from 146 to 151 entries: 52 installable/configurable
+  integrations and 99 reference-only tools. The installable counts and the
+  18 LSP entries are unchanged; no recipe, adapter, profile, website template
+  or release asset was modified.
+- Stars, push timestamps, licences and archive flags are dated
+  `gh api repos/<owner>/<repo>` observations refreshed before the write. All
+  59 GitHub blob links in the five evidence lists were checked against each
+  repository's recursive git tree and the `/contents` endpoint. No upstream
+  package, binary, hook, proxy or MCP server was installed, configured or run,
+  so no MCP smoke result is recorded for this date, `docs/LSP.md` is untouched
+  and the count of `kind: lsp` entries remains 18.

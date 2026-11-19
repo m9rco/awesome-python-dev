@@ -1,6 +1,6 @@
 # Research and provenance
 
-Research date: **2026-11-18**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
+Research date: **2026-11-19**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
 
 ## Patterns adopted
 
@@ -578,3 +578,58 @@ Updates are curated and pinned. Regenerating installed instructions uses the cat
 3. For a skill or rule pack, choose a full commit, download its archive, compute SHA-256, and check the selected directories/files and root license. For rules, review scopes, shared dependencies, relative links, portable transformations, and activated instruction size.
 4. For MCP or an LSP bridge, verify the exact registry version or Git revision, binary entry point, supported runtime, and documented configuration. Test the server with a compatible client before expanding support claims. Keep native LSP servers and project scanners reference-only until a separate integration is deliberately implemented.
 5. Update `catalog.json`, `CATALOG.md`, this research record, and relevant migration/setup documents in the same change, then exercise preview/install/repeat-install/update/remove in a temporary project.
+
+### 2026-11-19 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over recent creation and push dates, topic and
+keyword filters (coding-agent skills and rules, MCP servers, LSP bridges, Python
+testing, packaging and debugging, agent trace replay and verification, skill
+supply-chain signing, secret hygiene and cost governance), plus web searches for
+November 2026 agent-tooling releases. Stars, push timestamps, SPDX licence
+identifiers, archive status and default branches come from `gh api
+repos/<owner>/<repo>`, refreshed immediately before the write; the search API's
+`stargazers_count` was again treated only as a discovery signal, so every
+candidate was re-queried singly. Every GitHub blob URL recorded in `evidence`
+was validated against the repository's recursive git tree on `main` and
+re-checked against the `/contents` endpoint (59 links, all present). No
+upstream package, binary, hook or MCP server was installed, configured or run.
+
+The five entries fill lanes the catalog did not hold. `eval-view`
+(`python-toolchain`) snapshots an agent's whole tool-call trajectory as a golden
+baseline and also freezes an external MCP server's tool definitions to detect
+interface drift, where `syrupy` snapshots Python values and `mcp-assert` tests
+wire-level handshakes. `trajectory-ir` (`delivery-workflows`) is a
+runtime-independent, content-hash-verifiable IR for decisions and tool calls
+with sealed plans, fail-closed effect classes and signed `.tir` packages, a
+portable record rather than the process-level ledger `tego` keeps. `signet`
+(`skill-ecosystem`) supplies the supply-chain lane the previous pass asked for:
+signed, transparency-logged, immutable skill and agent publications with a
+read-only MCP verification plane and revocation gates, where `acr` is a package
+manager and `skillspector` a scanner. `agent-airlock` (`security-tooling`) puts a
+Pydantic-strict contract at the in-process boundary where a model's arguments
+reach a Python tool, including MCP CVE guards and shell/installer argument
+sinks. `phantom-secrets` (`security-tooling`) keeps live credentials out of the
+repository an agent reads at all, replacing `.env` values with placeholders and
+injecting the real secret only from a loopback proxy, instead of scanning for a
+leak afterwards as `gitleaks` does.
+
+Candidates inspected and skipped: another local multi-agent telemetry collector
+(`alibaba/loongsuite-pilot`) overlapping `kikimimi`'s cost and retry accounting;
+a token-cost dashboard (`getagentseal/codeburn`) in the same lane; several
+skill/MCP security scanners already covered by `skillspector` and `skillsaw`
+(`snyk/agent-scan`, `Tencent/AI-Infra-Guard`, `Berserk-hub150/skillhawk`,
+`pezhik/skilltotal`, `saurabh-yergattikar/ShieldMCP`); agent regression suites
+overlapping the same snapshot lane (`srpadmanabhuni/agentest`,
+`digline/digline`, `RicardoRB/ward-ai`); an agent audit database with session
+replay overlapping the trajectory lane (`ZIZKA-AI-SL/ZizkaDB`); a second
+sign-and-pin tool with only one star and three code files (`askalf/truecopy`);
+guardrail-hook and skill-collection bundles already dense in the catalog
+(`tillmeier/claude-code-guardrails`, `yonatangross/orchestkit`,
+`first-fluke/oh-my-agent`, `melodic-software/claude-code-plugins`); and
+`PrefectHQ/fastmcp`, which is the same repository as the recorded `jlowin/fastmcp`
+entry after a transfer. Archived repositories and entries with an unlicensed or
+NOASSERTION SPDX value were not considered. As in the previous pass, no
+qualified recent Python coverage, debugging or packaging project and no new LSP
+bridge appeared; the added value this round is in verification, signing and
+credential hygiene rather than those lanes.
