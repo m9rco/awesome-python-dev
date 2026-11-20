@@ -539,3 +539,29 @@ Catalogue additions from the 2026-11-19 candidate review.
   package, binary, hook, proxy or MCP server was installed, configured or run,
   so no MCP smoke result is recorded for this date, `docs/LSP.md` is untouched
   and the count of `kind: lsp` entries remains 18.
+
+
+Catalogue additions from the 2026-11-20 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `skillcrew`
+  (`skill-ecosystem`, a governed team Git registry that keeps Agent Skills
+  pinned and updated across agents, 39 stars), `prod-code` (`mcp-ecosystem`,
+  remote LAN code-intelligence gateway exposing MCP tools to agents and an LSP
+  server to editors, 8 stars), `rulebook` (`engineering-rules`, a macOS app
+  that finds, compares, merges and audits CLAUDE.md and AGENTS.md across
+  projects, 24 stars), `stalemap` (`framework-best-practices`, dependency API
+  changes after a model's training cutoff written into agent instruction files,
+  106 stars) and `ctxray` (`delivery-workflows`, static harness-loadout
+  inspection with per-agent CI tests, 0 stars).
+- Catalog grows from 151 to 156 entries: 52 installable/configurable
+  integrations and 104 reference-only tools. The installable counts and the
+  18 LSP entries are unchanged; no recipe, adapter, profile, website template
+  or release asset was modified.
+- Stars, push timestamps, licences and archive flags are dated
+  `gh api repos/<owner>/<repo>` observations refreshed before the write. All
+  64 GitHub blob links in the five evidence lists were checked against each
+  repository's recursive git tree and the `/contents` endpoint. No upstream
+  package, binary, hook, application, gateway or MCP server was installed,
+  configured or run, so no MCP smoke result is recorded for this date,
+  `docs/LSP.md` is untouched and the count of `kind: lsp` entries remains 18.
