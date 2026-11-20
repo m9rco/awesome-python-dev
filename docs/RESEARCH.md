@@ -1,6 +1,6 @@
 # Research and provenance
 
-Research date: **2026-11-19**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
+Research date: **2026-11-20**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
 
 ## Patterns adopted
 
@@ -633,3 +633,66 @@ NOASSERTION SPDX value were not considered. As in the previous pass, no
 qualified recent Python coverage, debugging or packaging project and no new LSP
 bridge appeared; the added value this round is in verification, signing and
 credential hygiene rather than those lanes.
+
+### 2026-11-20 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over recent creation and push dates, topic and
+keyword filters (coding-agent skills and rules, MCP servers, LSP bridges, Python
+testing, packaging and debugging, skill version distribution, rule-file quality,
+agent harness loadout and dependency knowledge), plus web searches for November
+2026 agent-tooling releases. Stars, push timestamps, SPDX licence identifiers,
+archive status and default branches come from `gh api repos/<owner>/<repo>`,
+refreshed immediately before the write; as in the previous passes the search
+API's `stargazers_count` was treated only as a discovery signal and every
+candidate was re-queried singly. Every GitHub blob URL recorded in `evidence`
+was validated against the repository's recursive git tree on its default branch
+(`main`, or `master` for `MairwunNx/ctxray`) and re-checked against the
+`/contents` endpoint: 64 blob links, all present. No upstream package, binary,
+hook, application, gateway or MCP server was installed, configured or run.
+
+The five entries fill lanes the catalog did not hold. `skillcrew`
+(`skill-ecosystem`) distributes one governed Git registry of Agent Skills to
+every agent on a team, with per-team required/recommended/deprecated/blocked
+statuses, a session-start hook and timer that sync without developer action,
+and CI validation of pins - where `acr` packages a repository once, `ai-rulez`
+and `ruler` compile one local source, `signet` signs publication snapshots and
+`skills-cli` merely installs folders. `prod-code` (`mcp-ecosystem`) moves
+language servers, builds and tests onto a remote LAN gateway and exposes them
+to agents as native MCP tools and to editors as a drop-in LSP server, a fleet
+and worktree-isolation angle the local MCP-to-LSP bridges (`serena`,
+`agent-lsp`, `mcpls`, `lsp-mcp-server`, `lspyx`) do not cover; it is categorised
+as `mcp-ecosystem` like `nreki` and `techne` so the '18 LSP entries' statement
+stays accurate. `rulebook` (`engineering-rules`) is a native macOS application
+that finds, classifies, compares, merges and audits the `CLAUDE.md` and
+`AGENTS.md` files scattered across projects, where `agnix` lints them with
+rules and `ruler`/`ai-rulez`/`acr` generate them from one source. `stalemap`
+(`framework-best-practices`) derives which dependency APIs changed after a
+model's training cutoff by diffing `.d.ts` files, changelogs and upgrade
+guides, writes a bounded notes block into `AGENTS.md`/`CLAUDE.md`, and offers
+an edit-time type-check guard and an MCP `search_changes` tool - a different
+question from `deptry`, `wheelgap`, `osv-scanner`, `pip-audit` or `context7`.
+`ctxray` (`delivery-workflows`) inspects the static loadout each harness loads
+(rules, skills, MCP tools, system prompt, token cost and why each loaded) and
+asserts it in CI with `*.ctxray.ts` tests and model-free policy layers, rather
+than recording a runtime trajectory or cost as `kikimimi`, `eval-view` and
+`trajectory-ir` do.
+
+Candidates inspected and skipped: `sineframe/m3` and `pdbethke/corralai`,
+whose GitHub SPDX value is `NOASSERTION` even though the m3 repository carries
+Apache-2.0 licence text - this catalog excludes unrecognised SPDX values;
+`afurmanov/harness-profiler` and `tokensafe-dev/tokensafe`, which overlap the
+already dense runtime trace/cost lane (`kikimimi`, `eval-view`, `trajectory-ir`)
+and the context-compression lane (`headroom`); a quality-ranked skill directory
+(`the911fund/skill-of-skills`) overlapping `skillevaluator` and
+`claude-plugins-official`; `Qsnh/skillsgist` (last pushed 2026-10-21) and
+`slgobinath/java-index` in the same discovery/index lane; `x18n-dev/x18n` and
+`polylint/skif`, which are i18n and general linting tools outside this
+catalog's agent-toolkit scope; `0xmortuex/impact-mcp` (a single commit, no
+substantive docs beyond a README); and a Selenium QA MCP for Python and Java
+(`K11-Software-Solutions/k11techlab-selenium-qa-mcp`), whose locator and
+story-to-test lane is already close to `seleniumbase` and the recorded Python
+testing entries. Archived repositories and entries with an unlicensed or
+NOASSERTION SPDX value were not considered. All five additions are
+reference-only, so the 52 installable/configurable integrations, the 18
+`kind: lsp` entries, the profiles and the source pins are unchanged.
