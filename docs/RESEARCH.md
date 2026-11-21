@@ -1,6 +1,6 @@
 # Research and provenance
 
-Research date: **2026-11-20**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
+Research date: **2026-11-21**. Repository metadata was fetched with `gh api repos/<owner>/<repo>`; package versions came from the npm and PyPI registries. The manifest records the snapshot date, repository stars, latest push timestamp, license, and source links. Stars belong to whole repositories: the 24 skill entries come from six upstream repositories, and the six ECC rule packs share the ECC repository snapshot. A high star count is not an independent quality score for every skill or rule.
 
 ## Patterns adopted
 
@@ -694,5 +694,73 @@ substantive docs beyond a README); and a Selenium QA MCP for Python and Java
 story-to-test lane is already close to `seleniumbase` and the recorded Python
 testing entries. Archived repositories and entries with an unlicensed or
 NOASSERTION SPDX value were not considered. All five additions are
+reference-only, so the 52 installable/configurable integrations, the 18
+`kind: lsp` entries, the profiles and the source pins are unchanged.
+
+
+### 2026-11-21 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over creation and push dates, topics and keywords
+(coding-agent skills and rules, MCP servers, LSP bridges, Python coverage,
+debugging and packaging, agent session continuity, test diagnosis and rule-file
+quality), plus web searches for November 2026 agent-tooling releases. Stars,
+push timestamps, SPDX licence identifiers, archive flags, fork status and
+default branches come from `gh api repos/<owner>/<repo>`, refreshed immediately
+before the write; as in every previous pass the search API's `stargazers_count`
+was treated only as a discovery signal (values such as 472,360 or 98,511 for
+young repositories appeared again) and every candidate was re-queried singly.
+Every GitHub blob URL recorded in `evidence` was validated against the
+repository's recursive git tree on `main` and re-checked against the `/contents`
+endpoint: 60 blob links, all present. No upstream package, binary, application,
+server, language server or MCP server was installed, configured or run.
+
+The five entries fill lanes the catalog did not hold. `playwright-e2e`
+(`python-toolchain`) runs Playwright and pytest suites over MCP, reads the page
+as captured in the Playwright trace at the failure, proposes a locator proven
+unique on that page, applies it, re-runs and reverts a fix that stays red, with
+a heal guard that blocks an edit making the test assert less - where `snitch`
+detects tampering after the fact and `seleniumbase` only drives a browser.
+`testdesk` (`delivery-workflows`) is a desktop test runner that doubles as a
+local stdio MCP server and keeps a separate queue, history and diagnostics for
+each registered project across ten test tools, an orchestration angle none of
+the single-suite or in-project checkers covers. `sessionflow`
+(`delivery-workflows`) normalises nine on-disk coding-agent session formats
+into one local SQLite index and builds provenance-linked handoff bundles,
+distinct from `hippo-memory` (stored memory), `kikimimi` (runtime cost) and
+`trajectory-ir` (a portable trajectory format). `symbolhop` (`mcp-ecosystem`)
+is the read-only LSP bridge the previous passes found empty: five exact
+navigation and diagnostic questions answered from language servers already on
+PATH, with no dependencies, network or shell, categorised as `mcp-ecosystem`
+like `nreki`, `techne` and `prod-code` so the '18 LSP entries' statement stays
+accurate. `mothersauce` (`python-skills`) serves 26 typed, tested Python 3.15
+production recipes, each with a runnable demo and when-not-to-use notes, over
+MCP, a Claude Code plugin, a skill or the CLI, where the recorded Python
+entries state conventions or check structure rather than supply executable
+examples.
+
+Candidates inspected and skipped: instruction-file compilers from one source
+(`niksavis/basicly`, `hackmagic/guidance-runtime`, `jayweihung/agentkit`) and
+context-loadout CI (`SatyamSingh-Git/ctxlock`), all overlapping `ruler`,
+`ai-rulez`, `acr` and `ctxray`; install-time plugin and skill auditors
+(`battlettt/plugin-warden`, `nabeerabaig/mcpwn`, `montbaga/agent-customs`)
+already covered by `skillspector`, `skillsaw` and `agent-airlock`; code-graph
+and codebase-map servers (`Revanthshalon/semantic-workbench`,
+`d3vn0mi/hakutaku`, `syncable-dev/dsh-plugin-memtrace`) in the lane of
+`codebase-memory-mcp`, `chunkhound` and `code-review-graph`; terminal-output
+compaction (`shenald-dev/termlens`) overlapping `headroom`; time-travel and
+trajectory debuggers (`test-bit-sys/agentbisect`, `soulboy06/forktape`,
+`RitikPatill/mcp-trace-studio`) overlapping `eval-view`, `trajectory-ir` and
+`kikimimi`; a ty-only Python LSP bridge (`tvproductions/gz-mcp-lsp`) whose
+README states its milestone remains unaccepted and whose lane is now covered
+by `symbolhop`; verification skills (`Tim-rppl/trust-pyramid`) overlapping
+`verification-before-completion` and `snitch`; a design-pattern MCP with a
+372 MB tree (`olk/design-pattern-mcp`); and a same-day empty repository
+(`DefineFuture/capalens-check`, size 0). Archived repositories and entries
+with an unlicensed or NOASSERTION SPDX value were not considered. As in the
+previous five passes, no qualified recent Python coverage, packaging or
+dedicated debugger project appeared; the added value this round is in test
+diagnosis, multi-project test orchestration, cross-agent continuity, a real
+read-only LSP bridge and executable Python practice. All five additions are
 reference-only, so the 52 installable/configurable integrations, the 18
 `kind: lsp` entries, the profiles and the source pins are unchanged.

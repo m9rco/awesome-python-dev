@@ -565,3 +565,30 @@ Catalogue additions from the 2026-11-20 candidate review.
   package, binary, hook, application, gateway or MCP server was installed,
   configured or run, so no MCP smoke result is recorded for this date,
   `docs/LSP.md` is untouched and the count of `kind: lsp` entries remains 18.
+
+
+Catalogue additions from the 2026-11-21 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `playwright-e2e`
+  (`python-toolchain`, an MCP server and Agent Skill that runs, diagnoses,
+  fixes and re-verifies failing Playwright and pytest tests, 6 stars),
+  `testdesk` (`delivery-workflows`, a desktop test runner and stdio MCP
+  server with a per-project queue and history, 0 stars), `sessionflow`
+  (`delivery-workflows`, one local SQLite index over nine coding agents'
+  session formats with provenance-linked handoff bundles, 7 stars),
+  `symbolhop` (`mcp-ecosystem`, five read-only LSP navigation tools for
+  terminal agents with no dependencies or network, 2 stars) and
+  `mothersauce` (`python-skills`, 26 typed, tested Python 3.15 recipes
+  served over MCP, a plugin and a skill, 0 stars).
+- Catalog grows from 156 to 161 entries: 52 installable/configurable
+  integrations and 109 reference-only tools. The installable counts and the
+  18 LSP entries are unchanged; no recipe, adapter, profile, website template
+  or release asset was modified.
+- Stars, push timestamps, licences and archive flags are dated
+  `gh api repos/<owner>/<repo>` observations refreshed before the write. All
+  60 GitHub blob links in the five evidence lists were checked against each
+  repository's recursive git tree and the `/contents` endpoint. No upstream
+  package, binary, application, server or language server was installed,
+  configured or run, so no MCP smoke result is recorded for this date,
+  `docs/LSP.md` is untouched and the count of `kind: lsp` entries remains 18.
