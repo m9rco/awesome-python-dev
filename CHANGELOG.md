@@ -592,3 +592,30 @@ Catalogue additions from the 2026-11-21 candidate review.
   package, binary, application, server or language server was installed,
   configured or run, so no MCP smoke result is recorded for this date,
   `docs/LSP.md` is untouched and the count of `kind: lsp` entries remains 18.
+
+Catalogue additions from the 2026-11-22 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `heki`
+  (`python-toolchain`, a Python side-effect and mutation checker with
+  certified exact rules, an LSP server and an Agent Skill, 1 star),
+  `codecov-rust-mcp` (`python-toolchain`, Codecov patch coverage and missed
+  changed lines over MCP, 3 stars), `python-upgrade-runner`
+  (`python-toolchain`, a staged Python version upgrade skill with 161
+  standard-library removal rules, 0 stars), `mcp-doctor` (`build-mcp`,
+  validation, lint, conversion and handshake tests for nine MCP client
+  config dialects, 0 stars) and `mcp-spy` (`mcp-ecosystem`, record, replay,
+  mock and policy-gate the MCP traffic a real agent sends, 0 stars).
+- Catalog grows from 161 to 166 entries: 52 installable/configurable
+  integrations and 114 reference-only tools. The installable counts and the
+  18 LSP entries are unchanged; no recipe, adapter, profile, website template
+  or release asset was modified.
+- Stars, push timestamps, licences and archive flags are dated
+  `gh api repos/<owner>/<repo>` observations refreshed before the write. All
+  69 GitHub blob links in the five evidence lists were checked against each
+  repository's recursive git tree and the `/contents` endpoint; one
+  repository defaults to `dev` rather than `main`, and its evidence uses that
+  ref. No upstream package, binary, application, server or language server
+  was installed, configured or run, so no MCP smoke result is recorded for
+  this date, `docs/LSP.md` is untouched and the count of `kind: lsp` entries
+  remains 18.

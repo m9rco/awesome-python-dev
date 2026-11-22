@@ -764,3 +764,81 @@ diagnosis, multi-project test orchestration, cross-agent continuity, a real
 read-only LSP bridge and executable Python practice. All five additions are
 reference-only, so the 52 installable/configurable integrations, the 18
 `kind: lsp` entries, the profiles and the source pins are unchanged.
+
+### 2026-11-22 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over creation and push dates, topics and keywords
+(coding-agent skills and rules, MCP servers, LSP bridges, Python static
+analysis, coverage, packaging, debugging and version migration, MCP traffic
+observability, rule-pack quality and agent configuration validation), plus web
+searches for November 2026 agent-tooling releases. Stars, push timestamps,
+SPDX licence identifiers, archive flags, fork status and default branches come
+from `gh api repos/<owner>/<repo>`, refreshed immediately before the write; as
+in every previous pass the search API's `stargazers_count` was treated only as
+a discovery signal (values such as 9,554, 3,852, 2,076 and 488 for young
+repositories appeared again) and every candidate was re-queried singly. Every
+GitHub blob URL recorded in `evidence` was validated against the repository's
+recursive git tree on its default branch and re-checked against the `/contents`
+endpoint: 69 blob links, all present. Note that `codecov-rust-mcp` uses `dev`
+as its default branch, so its evidence links are pinned to that ref rather
+than `main`. No upstream package, binary, application, server, language
+server or MCP server was installed, configured or run.
+
+The five entries fill lanes the catalog did not hold. `heki`
+(`python-toolchain`) is the Python static-analysis gap the previous six
+passes found empty: a Rust checker that follows side effects and mutations
+across calls, reporting blocking I/O two helpers below an `async def`,
+database statements inside loops and quadratic patterns over 44 rules, with
+exact reports certified against a 378-package corpus and a frozen holdout,
+JSON/SARIF output, a native language server and an experimental Agent Skill.
+`codecov-rust-mcp` (`python-toolchain`) is the coverage lane: four MCP tools
+over stdio or Streamable HTTP expose Codecov PR patch totals, exact missed
+changed lines, commit totals and per-file line reports, so an agent can ask
+which lines a change left uncovered instead of only running or scoring tests.
+`python-upgrade-runner` (`python-toolchain`) is the version-migration lane the
+previous pass recommended: a staged Agent Skill with a passing baseline, a
+scan of 161 standard-library removals for Python 3.8 to 3.14 and a recorded
+test result per stage, refusing success claims for an interpreter the suite
+never ran on. `mcp-doctor` (`build-mcp`) validates the client configuration
+file itself across nine agent dialects with per-client JSON schemas, golden
+fixtures, field-drop reporting, two non-semantic lint fixes and a real
+initialize handshake - a level below `mcp-inspector` (driving a server) and
+`mcp-assert` (asserting over handshakes). `mcp-spy` (`mcp-ecosystem`) records
+what a real agent actually sent on the wire, pairing requests, responses,
+notifications and stderr with timings and token estimates in a local SQLite
+log, then replays, mocks, schema-checks and gates those calls with a
+hash-chained audit trail, distinct from `kikimimi` (runtime cost), `ctxray`
+(static loadout), `eval-view` (trajectory baseline) and `trajectory-ir`
+(portable trajectory format).
+
+Candidates inspected and skipped: rule-pack compilers and guardrail
+distributors (`mde-pach/claude-forge`) overlapping `ai-rulez`, `ruler`, `acr`
+and `ctxray`; MCP security scanners (`devlab-group/mcp-scanner`) in the lane
+of `skillspector`, `skillsaw` and `agentic-radar`; MCP snapshot, cassette and
+schema-drift test harnesses (`pie527645-cloud/mcp-cassette`,
+`louisnguyen2005/mcp-regress`, `celaldrg/mcpsnap`,
+`AgnetAcount/schemaguard`, `snowyLumiere/mcp-chaoswalk`,
+`balasaikunapareddi/agent-eval-harness`) overlapping `mcp-assert`,
+`eval-view` or the newly recorded `mcp-spy`; a reliability/fault-injection
+engine (`aliengineering-byte/resilireplay`) whose default-branch commits stop
+at 2026-09-04 and whose lane is covered by `mcp-assert`; codebase-map and
+definition-index tools (`okamyuji/ferrindex`, `myoo-ai/cli`) and another
+universal MCP-to-LSP bridge (`AbysmalBiscuit/mcpls`) overlapping
+`chunkhound`, `symbolhop` and the existing `mcpls` entry; a skill discovery
+catalogue (`devohmycode/Skills-Atlas`) overlapping `skillcrew` and
+`skills-cli`; a pre-alpha native Linux debugger (`icp4u/xodb`) whose README
+states it began as a 24-hour challenge project and is off-scope for Python
+and Web development; AGENTS.md generators, single-source rule compilers and
+loadout CI tools already covered by `ruler`, `ai-rulez`, `acr` and `ctxray`;
+and a guarded dev-tools MCP server (`alexgeorghiou/mcp-devtools-server`) with
+an empty tree (size 0). Repositories with an unlicensed or NOASSERTION SPDX
+value (`chaudharyvivek1/cutforge`, `leonardo-moraes360/toolbelt`,
+`wangwanjie/Lumen`, `Innei/ryugi`, `wuyoscar/AISafetyHot`) were excluded under
+the rule recorded on 2026-11-20, as were archived repositories. As in the
+previous six passes, no qualified recent Python packaging or dedicated
+debugger project appeared; the added value this round is in Python effect
+analysis, coverage facts, interpreter migration and two distinct MCP
+configuration/transport validation layers. All five additions are
+reference-only, so the 52 installable/configurable integrations, the 18
+`kind: lsp` entries, the profiles and the source pins are unchanged.
