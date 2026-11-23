@@ -842,3 +842,101 @@ analysis, coverage facts, interpreter migration and two distinct MCP
 configuration/transport validation layers. All five additions are
 reference-only, so the 52 installable/configurable integrations, the 18
 `kind: lsp` entries, the profiles and the source pins are unchanged.
+
+### 2026-11-23 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over recent creation and push dates, topics and
+keywords (coding-agent skills and rules, MCP servers, LSP bridges, Python
+packaging, debugging, coverage and version migration, rule-pack quality,
+MCP server regression and observability, agent cost attribution and skill
+supply-chain tooling), plus web searches for November 2026 agent-tooling
+releases. Stars, push timestamps, SPDX licence identifiers, archive flags and
+default branches come from `gh api repos/<owner>/<repo>`, refreshed
+immediately before the write; the search API's `stargazers_count` was used
+only as a discovery signal and every candidate was re-queried singly. Every
+GitHub blob URL recorded in `evidence` was validated against the repository's
+recursive git tree on its default branch and re-checked against the
+`/contents` endpoint: 69 blob links, all present. One tooling detail worth
+recording: passing `-f ref=<branch>` to `gh api` on a GET `/contents` request
+makes the CLI send the value as a request body and returns a spurious HTTP
+404 for a file that exists, so this pass put `?ref=<branch>` in the URL
+instead; a first verification run that used the `-f` form reported 69 false
+misses and was aborted before anything was written. No upstream package,
+binary, application, server, language server or MCP server was installed,
+configured or run. Branch name, `checked_at` and every document date are
+2026-11-23 CST; this pass did not cross midnight.
+
+The five entries fill lanes the catalog did not hold. `pydantic-ai-skills`
+(`python-skills`, 382 stars) is the first entry to make Agent Skills a
+capability of a Python agent framework rather than a folder a client reads:
+progressive disclosure of `SKILL.md` packages, filesystem and programmatic
+skills, remote registries, bundled-file execution, hooks and a sandbox, with
+an explicit comparison against `pydantic-ai-harness`. `mipcode`
+(`python-toolchain`, 2 stars) checks a Python change for *other files* it
+left inconsistent - a caller missing a newly required argument, a wrapper
+that does not forward a new option, an override that no longer matches its
+base - which is a different question from `heki` (side effects), `pyscn`
+(dead code), `deptry` (declared dependencies) or `archy` (import graph), and
+ships a source-only `mip-delta`, an Agent Skill and an MCP server.
+`python-package-template` (`python-toolchain`, 2 stars) finally closes the
+Python packaging gap that seven consecutive passes found empty: a template
+that starts a PEP 621 src-layout package with strict typing, nine configured
+checks, CI and release workflows, a man page and a bootstrap agent skill,
+rather than more guidance prose or recipes. `devlogs` (`python-toolchain`, 0
+stars) opens the runtime-debugging lane: a drop-in Python `logging.Handler`
+that indexes development logs in OpenSearch and exposes search over MCP, so
+an agent can read real tracebacks itself. `prefix-cache-audit`
+(`delivery-workflows`, 0 stars) attributes lost prompt-prefix cache hits to
+the exact prompt segment that broke them and prices a canonical-ordering
+recovery, with seeded synthetic traces that score the instrument itself;
+`kikimimi` records runtime token cost, `ctxray` inspects a static loadout and
+`eval-view` snapshots trajectories, but none diagnoses cache reuse.
+
+Candidates inspected and skipped: repositories with no detected SPDX licence
+or `NOASSERTION`, including `ScottAlbertine/JuneBug` (an MCP server that lets
+an LLM drive a Python debugger, which would have filled the dedicated-debugger
+gap but ships with no licence and is excluded under the rule recorded on
+2026-11-20), `antheo-design/skills`, `Vieeeeeee/wibi-style`,
+`vittoriocompagno/memtwig`, `sineframe`-style unlicensed results and the
+many 0-star self-promotional skill dumps; remote MCP audit, smoke-test and
+upgrade-comparison tools (`atr-one/mcp-probe`,
+`simplymanas/mcp-master-tester`, `soft2u/mcp-upgrade-check`,
+`dungfundopt/mcp-schema-fuzzer`, `RitikPatill/mcp-trace-studio`) overlapping
+`mcp-assert`, `mcp-doctor` and `mcp-spy` (mcp-probe's tool-catalog
+context-cost estimate is the most interesting of these but the handshake,
+schema lint, scenario assertions and CI baseline still sit in the same lane);
+usage-based skill-context pruning (`0718lol/skill-slim`) overlapping
+`ctxray`, `skillsaw` and `skillevaluator`; AI-written-code and code-smell
+linters (`VoidH4x0r/slopgate`, `cheickmec/smellcheck`) overlapping `heki`,
+`pyscn`, `snitch` and `playwright-e2e`; pre-PR verification skills
+(`0718lol/pr-test-receipt`) overlapping `verification-before-completion` and
+`snitch`; agent-evaluation harnesses (`alexaiarchitect/claude-agent-sdk-skills`,
+`EnderZhou/agent-skill-publisher`, `cerredz/Vidbyte-SDK`) overlapping
+`eval-view` and the agent-eval lane already rejected on 2026-11-19;
+codebase-map and semantic-graph servers (`Luqueee/kivgraph`,
+`aileron-tech/wingbox`, `grahambrooks/symgraph`, `IVRZ-da/agentiker-code-intel`,
+`myoo-ai/cli`) overlapping `graphify`, `chunkhound` and `symbolhop`;
+scanner-result aggregation and prioritisation (`draugr-dev/draugr`,
+`Ricardoarangob26/xolotl`) under the aggregation rule recorded on
+2026-11-16; repository-health and general log/observability products
+(`m4bwav/everkeep`, `tracepanel/django-tracepanel`, `marrrkkk/stacknext`)
+outside this catalog's toolkit scope or in lanes already covered by
+`testdesk` and `playwright-e2e`; call-level cost attribution
+(`My16210/agentcost`, `dok4everak47/dsh-trace`) overlapping `kikimimi`; and
+thin one-commit or empty-tree projects (`swaits/sisi`, created on the review
+day, `0718lol/pr-test-receipt` with an empty size) plus the many rule,
+skill and hook bundles (`sacuadros/agent-harness`, `jrechet/harness-ai`,
+`ericfurspan/mentat`, `regulad/skills`, `JAdshead/toolkit`,
+`interias/agent-skills`) that repeat the already dense single-source rule
+compiler and skill-collection lanes. Web results also surfaced FastMCP 4.2.0
+(server-side skills, 2026-11-13) and `marckrenn/rtfmbro-mcp`; both are
+already represented by the existing `fastmcp` and `context7` entries, so no
+new entry was created for a release of a catalogued repository. As in the
+previous pass, no qualified dedicated Python debugger with a clear licence
+appeared; the added value this round is in Python framework skills,
+cross-file contract consistency, greenfield packaging, runtime-log
+debugging and a narrowly defined prompt-cache cost instrument. All five
+additions are reference-only, so the 52 installable/configurable
+integrations, the 18 `kind: lsp` entries, the profiles and the source pins
+are unchanged.

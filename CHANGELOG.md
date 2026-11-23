@@ -619,3 +619,34 @@ Catalogue additions from the 2026-11-22 candidate review.
   was installed, configured or run, so no MCP smoke result is recorded for
   this date, `docs/LSP.md` is untouched and the count of `kind: lsp` entries
   remains 18.
+
+Catalogue additions from the 2026-11-23 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `pydantic-ai-skills`
+  (`python-skills`, Agent Skills for Pydantic AI with progressive disclosure,
+  remote registries, bundled-file execution and a sandbox, 382 stars),
+  `mipcode` (`python-toolchain`, a source-only Python delta check naming the
+  other files a change left inconsistent, 2 stars),
+  `python-package-template` (`python-toolchain`, a greenfield PEP 621
+  template with nine checks, CI, releases and a bootstrap agent skill, 2
+  stars), `devlogs` (`python-toolchain`, runtime application logs searchable
+  by an agent over MCP, 0 stars) and `prefix-cache-audit`
+  (`delivery-workflows`, first-divergence attribution of lost prompt-prefix
+  cache hits with a counterfactual replay, 0 stars).
+- Catalog grows from 166 to 171 entries: 52 installable/configurable
+  integrations and 119 reference-only tools. The installable counts and the
+  18 LSP entries are unchanged; no recipe, adapter, profile, website template
+  or release asset was modified.
+- Stars, push timestamps, licences and archive flags are dated
+  `gh api repos/<owner>/<repo>` observations refreshed before the write. All
+  69 GitHub blob links in the five evidence lists were checked against each
+  repository's recursive git tree and the `/contents` endpoint on `main`;
+  the `/contents` check uses a `?ref=main` query string because passing
+  `-f ref=main` to `gh api` on a GET returns a spurious 404. Candidates with
+  no SPDX licence or `NOASSERTION` were excluded under the 2026-11-20 rule,
+  including a Python-debugger MCP server that would otherwise have filled
+  the last toolchain gap. No upstream package, binary, application, server,
+  language server or MCP server was installed, configured or run, so no MCP
+  smoke result is recorded for this date, `docs/LSP.md` is untouched and the
+  count of `kind: lsp` entries remains 18.
