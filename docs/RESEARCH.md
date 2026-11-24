@@ -940,3 +940,111 @@ debugging and a narrowly defined prompt-cache cost instrument. All five
 additions are reference-only, so the 52 installable/configurable
 integrations, the 18 `kind: lsp` entries, the profiles and the source pins
 are unchanged.
+
+### 2026-11-24 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over recent creation and push dates, topics and
+keywords (coding-agent skills and rules, MCP servers, LSP bridges, Python
+coverage, packaging, debugging and version migration, rule-pack quality,
+MCP server regression and observability, agent cost attribution and skill
+supply-chain tooling), plus web searches for November 2026 agent-tooling
+releases. Stars, push timestamps, SPDX licence identifiers, archive flags and
+default branches come from `gh api repos/<owner>/<repo>`, refreshed
+immediately before the write; the search API's `stargazers_count` was used
+only as a discovery signal and every candidate was re-queried singly. Every
+GitHub blob URL recorded in `evidence` was validated against the repository's
+recursive git tree on its default branch and re-checked against the
+`/contents` endpoint with `?ref=` in the URL query string: 75 blob links, all
+present. One default branch in this batch is `master` (`trace2rules`), so its
+evidence links use that ref rather than `main`. No upstream package, binary,
+application, server, language server or MCP server was installed, configured
+or run. Branch name, `checked_at`, `reviewed_at` and every document date are
+2026-11-24 CST; this pass did not cross midnight.
+
+The five entries open lanes the catalog did not hold. `library-skills`
+(`skill-ecosystem`, 850 stars) is the first entry to source Agent Skills from
+inside the exact installed version of a library: it scans a project's Python
+or JavaScript dependencies for skills the library authors shipped, installs
+them as relative symlinks, repairs stale managed links and removes only the
+links it created. `stalemap` diffs dependency APIs after a model cutoff and
+writes notes into AGENTS.md, `skills-cli` installs skill folders from GitHub
+and `skillcrew`/`signet`/`acr` govern registries and packages; none keeps a
+skill byte-aligned with the installed package version, and FastAPI 0.162.2
+and Streamlit now ship skills this CLI can place. `modern-web-guidance`
+(`framework-best-practices`, 25,796 stars) is the first browser-vendor corpus
+in the catalog: skills stewarded by the Chrome, Edge, Firefox and MDN teams
+with compatibility data over 269 web features, a `search`/`retrieve` CLI, a
+`legacy-scan` that finds outdated patterns in a real codebase and an eval
+dashboard; it addresses web development directly rather than the Python
+toolchain, and is distinct from `stalemap` (dependency API drift),
+`backendskills` (backend correctness) and ECC's `frontend-patterns`.
+`woolly` (`engineering-rules`, 14 stars) fills the rule-pack quality lane that
+several passes found empty: it binds each line of CLAUDE.md, AGENTS.md, Cursor
+rules and agent memory to the code it names, re-checks it against git history
+on every commit, reports the commit that invalidated it and offers
+`woolly check --fix`, where `rulebook` only classifies instruction files and
+`hippo-memory` decays recalled memories. `crapkit` (`python-toolchain`, 1
+star) joins per-function cyclomatic complexity with branch coverage from a
+project's own coverage.py artifact into a CRAP score, a churn-ranked worklist
+and a ratchet commit gate exposed over CLI, MCP and a GitHub Action;
+`codecov-rust-mcp` reports Codecov facts and `pyscn`/`heki` analyse source
+statically, but none gates a commit on combined complexity and uncovered
+risk. `trace2rules` (`engineering-rules`, 6 stars) measures rules against
+behaviour instead of structure: it ingests agent trajectories into DuckDB,
+marks each AGENTS.md rule observed, compliant, violated, unobserved or
+already enforced by CI/pre-commit, then validates a proposed rules file
+against the same sessions; `eval-view` snapshots trajectories as golden
+baselines and `sessionflow` indexes sessions for handoff, but neither audits
+whether a written rule was followed.
+
+Candidates inspected and skipped: repositories with no detected SPDX licence
+or `NOASSERTION`, and the many 0-star self-promotional skill and rule dumps
+(`arquivomentodedados-lab/claude-code-essentials`, `RumaSU/agents-md`,
+`TaheBenSaid/agent-rules-starter`, `khasky/silverback`,
+`stvdn/agents-md-template`, `fsodano/writing-skills`); single-source rule
+compilers and correction-to-rule loops (`SatyamSingh-Git/ctxlock`,
+`Shine-5705/adaply-loop`, `ReviewDebtZero/rd0-trellis`,
+`MohitBhatnnagar/coding-agent-config`, `abca12a/gate-first`) overlapping
+`ruler`, `ai-rulez`, `acr`, `ctxray` and the rule-pack lane; skill lint and
+discovery (`yqecea/skill-doctor`, `humle93/mcp-index`,
+`ATLURI0001/Mcp-Server-Atlas`, `Caqil/mcp-servers-dataset`,
+`hostedmcphq/mcp-servers-dataset`, `Asugawara/agent-radar`) overlapping
+`agnix`, `skillsaw`, `skillevaluator`, `skills-cli` and `skillcrew`; MCP
+server audit, grading and smoke tools (`DcodeNischal/mcp-check`,
+`isokron-ai/mcp-check-registry`, `RitikPatill/mcp-trace-studio`,
+`seaworld008/ai-test-workbench`) overlapping `mcp-assert`, `mcp-doctor` and
+`mcp-spy`; skill and MCP supply-chain signing and scanning
+(`lanbass869-cell/canari`, `TAM-DS/deadbolt`, `ElmatadorZ/Genesis-security`,
+`CorvexDevelops/ai-security-rules`) overlapping `signet`, `skillspector`,
+`invaris-agentsec` and `agent-airlock`; codebase maps and code-index MCP
+servers (`Thatgfsj/codeidx`, `cylewitruk/lodestone`,
+`lnmunhoz/agent-instructions-map`) overlapping `chunkhound`, `graphify`,
+`symbolhop` and `ctxray`; time-travel replay and trajectory stores
+(`Benni-OS/agent-trace-replay`, `nagarjunak-pixel/tracegit`,
+`kfairley9999/agentreplay`, `creativeuncommons/AgentTrace`) overlapping
+`trajectory-ir` and `eval-view`; multi-agent desktop workspaces and terminal
+dashboards (`koorchik/swarmy`, `renjiegod/dsh-godbot`,
+`flyingriverhorse/Koloni`, `Sumeet-basfore/ilvuno-code`,
+`santigonzalezballbe-arch/CoDev`) outside this catalog's toolkit scope;
+browser and scraping MCP servers (`nhrbuilds/flashbrowse`,
+`xy-tuoren/browserpilot`, `TomSzenessy/RelayBrowser`) overlapping
+`chrome-devtools` and `playwright`; platform-specific skill libraries
+(`SAP/ai-skills-library`, `anasAsh/Sibawayh`) under the rule recorded on
+2026-11-16; and domain-specific MCP servers for legal, telecom, NAS, SAP,
+CAD and gaming APIs, which are outside the Python and Web development focus.
+Two LSP-bridge candidates appeared (`qompassai/theodolite`, 0 stars, and
+`AbysmalBiscuit/mcpls`, 0 stars) but were left out: both are unreleased,
+self-reported Rust studies whose READMEs describe machine-local verification
+and pinned server sessions rather than a documented integration, and the
+catalog already holds 18 `kind: lsp` entries including `symbolhop`;
+`padrisimo/mcp-wasm-sandbox` (a Wasmtime sandbox for agent-generated tools)
+was likewise left as a phase-2 research preview. `jabbott-iii/Grimoire`
+explicitly states no version has been released, so its install commands do
+not yet work. Web results also surfaced `shadcn/improve`,
+`backnotprop/plannotator` and `addysosmani/agent-skills`; the first two are
+plan/review workspaces rather than toolkits and the last is already
+represented by `code-review-and-quality` and
+`observability-and-instrumentation`. All five additions are reference-only,
+so the 52 installable/configurable integrations, the 18 `kind: lsp` entries,
+the profiles and the source pins are unchanged.
