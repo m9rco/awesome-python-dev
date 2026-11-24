@@ -650,3 +650,32 @@ Catalogue additions from the 2026-11-23 candidate review.
   language server or MCP server was installed, configured or run, so no MCP
   smoke result is recorded for this date, `docs/LSP.md` is untouched and the
   count of `kind: lsp` entries remains 18.
+
+Catalogue additions from the 2026-11-24 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `library-skills`
+  (`skill-ecosystem`, version-matched Agent Skills shipped inside installed
+  Python/JavaScript library packages as managed symlinks, 850 stars),
+  `modern-web-guidance` (`framework-best-practices`, browser-vendor skills
+  with compatibility data and a legacy-pattern scan, 25,796 stars), `woolly`
+  (`engineering-rules`, flag instruction-file lines that name code a commit
+  removed and rewrite them, 14 stars), `crapkit` (`python-toolchain`, CRAP
+  scores from complexity and coverage.py with a ratchet commit gate over CLI,
+  MCP and a GitHub Action, 1 star) and `trace2rules` (`engineering-rules`,
+  audit AGENTS.md rules against real agent sessions and mine evidence-backed
+  proposals, 6 stars).
+- Catalog grows from 171 to 176 entries: 52 installable/configurable
+  integrations and 124 reference-only tools. The installable counts and the
+  18 LSP entries are unchanged; no recipe, adapter, profile, website template
+  or release asset was modified.
+- Stars, push timestamps, licences and archive flags are dated
+  `gh api repos/<owner>/<repo>` observations refreshed before the write. All
+  75 GitHub blob links in the five evidence lists were checked against each
+  repository's recursive git tree and the `/contents` endpoint, with
+  `?ref=<branch>` in the URL query string; `trace2rules` uses `master` as its
+  default branch. Candidates with no SPDX licence or `NOASSERTION` were
+  excluded under the 2026-11-20 rule. No upstream package, binary,
+  application, server, language server or MCP server was installed,
+  configured or run, so no MCP smoke result is recorded for this date,
+  `docs/LSP.md` is untouched and the count of `kind: lsp` entries remains 18.
