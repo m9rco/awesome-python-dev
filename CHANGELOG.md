@@ -679,3 +679,34 @@ Catalogue additions from the 2026-11-24 candidate review.
   application, server, language server or MCP server was installed,
   configured or run, so no MCP smoke result is recorded for this date,
   `docs/LSP.md` is untouched and the count of `kind: lsp` entries remains 18.
+
+
+Catalogue additions from the 2026-11-25 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `mcp-ade`
+  (`mcp-ecosystem`, a headless MCP server orchestrating 52 LSP servers, nine
+  DAP debug adapters and BSP build targets with a Python Pyright/debugpy
+  extension, 0 stars, EPL-2.0, an Eclipse Foundation project proposal),
+  `pkgtruth` (`python-toolchain`, npm and PyPI package-name ground truth for
+  hallucinated and slopsquatted dependencies, 4 stars), `agentcheck`
+  (`security-tooling`, hidden prompt injection in CLAUDE.md, AGENTS.md and
+  MCP configs, 5 stars), `verdict-qa` (`delivery-workflows`, hash-chained QA
+  finding memory with regression ranking and a read-only contract, 33 stars)
+  and `context-inspector` (`delivery-workflows`, a live six-component context
+  window token budget for OpenChamber and OpenCode, 5 stars).
+- Catalog grows from 176 to 181 entries: 52 installable/configurable
+  integrations and 129 reference-only tools. The installable counts and the
+  18 LSP entries are unchanged; no recipe, adapter, profile, website template
+  or release asset was modified.
+- Stars, push timestamps, licences and archive flags are dated
+  `gh api repos/<owner>/<repo>` observations refreshed before the write. All
+  78 GitHub blob links in the five evidence lists were checked against each
+  repository's recursive git tree and the `/contents` endpoint, with
+  `?ref=main` in the URL query string; every candidate in this batch uses
+  `main` as its default branch. Candidates with no SPDX licence or
+  `NOASSERTION` were excluded under the 2026-11-20 rule. No upstream package,
+  binary, application, server, language server, debug adapter or MCP server
+  was installed, configured or run, so no MCP smoke result is recorded for
+  this date and `docs/LSP.md` is untouched; the count of `kind: lsp` entries
+  remains 18.

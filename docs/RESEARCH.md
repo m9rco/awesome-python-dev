@@ -1048,3 +1048,127 @@ represented by `code-review-and-quality` and
 `observability-and-instrumentation`. All five additions are reference-only,
 so the 52 installable/configurable integrations, the 18 `kind: lsp` entries,
 the profiles and the source pins are unchanged.
+
+
+### 2026-11-25 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over recent push dates, topics and keywords
+(coding-agent skills and rules, MCP servers, LSP and DAP bridges, Python
+packaging, coverage and debugging, dependency trust gates, context-window
+accounting, QA regression gates and skill supply chain), plus two web
+searches for November 2026 official agent-tooling and LSP-bridge releases.
+Stars, push timestamps, SPDX licence identifiers, archive flags and default
+branches come from `gh api repos/<owner>/<repo>`, refreshed immediately
+before the write; the search API's `stargazers_count` was used only as a
+discovery signal (this pass again returned impossible values such as 99,823
+and 50,310) and every candidate was re-queried singly. Every GitHub blob URL
+recorded in `evidence` was validated against the repository's recursive git
+tree on its default branch and re-checked against the `/contents` endpoint
+with `?ref=main` in the URL query string: 78 blob links, all present. All
+five default branches are `main`. No upstream package, binary, application,
+server, language server, debug adapter or MCP server was installed,
+configured or run. Branch name, `checked_at`, `reviewed_at` and every
+document date are 2026-11-25 CST; this pass did not cross midnight.
+
+The five entries open lanes the catalog did not hold. `mcp-ade`
+(`mcp-ecosystem`, 0 stars, EPL-2.0) is the first bridge here to run the
+Debug Adapter Protocol and Build Server Protocol next to LSP: 47 declarative
+extensions cover 52 language servers and nine debug adapters, the Python
+extension pairs Pyright with `debugpy`, and web work is covered by the
+HTML/CSS/JSON, Vue, Svelte and Angular extensions. `agent-lsp`, `mcpls`,
+`symbolhop`, `nreki` and `prod-code` stop at navigation, diagnostics or
+pre-write type checks, so DAP-backed Python debugging - the gap left open on
+2026-11-23 when `ScottAlbertine/JuneBug` had no licence - is now reachable
+without a graphical IDE. The repository is an Eclipse Foundation project
+proposal in community review, so the notes state that caveat. `pkgtruth`
+(`python-toolchain`, 4 stars) checks the package name itself against npm and
+PyPI registry ground truth before an install command reaches a lockfile:
+hallucinated names, confusable decoys, deprecated shims and npm security
+placeholders, with a weekly regenerated census of 242 well-known packages.
+`pip-audit`, `osv-scanner`, `mustel`, `deptry` and `wheelgap` all audit names
+that already resolve, for CVEs, declared-versus-used imports or wheel
+availability. `agentcheck` (`security-tooling`, 5 stars) targets instruction
+files a project already commits rather than third-party skill packages: 15
+named rules decode invisible Unicode Tag characters, bidi overrides,
+zero-width text, homoglyphs, HTML-comment instructions and exfiltration
+endpoints across more than 20 CLAUDE.md, AGENTS.md, Cursor rules and MCP
+config surfaces, with benign/malicious fixtures and SARIF output;
+`skillspector` scans packages before installation, `invaris-agentsec`
+red-teams a running agent and `phantom-secrets` guards credentials.
+`verdict-qa` (`delivery-workflows`, 33 stars) governs the lifecycle of QA
+conclusions instead of agent behaviour: stable finding IDs with ages,
+`NEW/STILL_OPEN/RESOLVED/REGRESSED` deltas, five evidence-graded red-test
+classifications, flake quarantine with an expiry, four possible verdicts, an
+immutable hashed contract and a read-only hook, plus a published record of
+the tester's own misses; `eval-view` snapshots trajectories, `mcp-assert`
+tests MCP wire handshakes, `playwright-e2e` repairs failing tests and
+`snitch` catches weakened assertions. `context-inspector`
+(`delivery-workflows`, 5 stars) measures a running session's context window
+split into six live token budgets - MCP schemas, native tools, registered
+skills, system and AGENTS.md rules, DCP pruning records and conversation
+payloads - next to cache-hit and auto-compaction thresholds, where `ctxray`
+is a static CI assertion, `headroom` compresses tool output, `kikimimi`
+records cost offline and `prefix-cache-audit` prices lost cache hits.
+
+Candidates inspected and skipped: repositories with no SPDX licence or
+`NOASSERTION` (`host452b/polish`, `assafsela-ai/Skills`,
+`rhesis-ai/skills`, `Bencibr/bugx`, `Adit12T/ai-eval`, `eboye/eboye-vue-grid`,
+`Ashwin-RN/agent-bridge`, `Iapa/ctxview`, `bluelovers/ai-agents-profile`,
+`egedeniz1741/security-decay`, `nmb0725/cognition-gated` and
+`ScottAlbertine/JuneBug`, the last still lacking a licence after the
+2026-11-23 check); empty or trivial repositories
+(`gener8v/gener8v.guidelines.code-quality`, size 0);
+skill and rule dumps and single-source sync tools
+(`Chemaclass/agnostic-ai`, `Jack91124/ai-extension-manager`,
+`cargopete/kitbag`, `Kasakir-AI/agent-sync`, `cgraf78/agent-rules-sync`,
+`YoussTech-Gn/agentbrief`, `erickdronski/agentsmith`,
+`LeeYudok/agents-scaffold`, `TheAxeC/ordo`, `rizonesoft/Conclave-SDK`,
+`J-nowcow/awesome-korean-agent-skills`, `sickn33/agentic-awesome-skills`,
+`JerryLiu369/awesome-quant-skills`, `berataras/agent-system-kit`,
+`daniel-kindl/dkstack`, `khasky/silverback`, `HelixDevelopment/constitution`)
+overlapping `ruler`, `ai-rulez`, `acr`, `ctxray`, `skillcrew` and the
+2026-11-16 rule on platform-specific skill libraries (`NVIDIA/skills`,
+`rhesis-ai/skills`); agent frameworks and hosted runtimes rather than
+toolkits (`evalstate/fast-agent`, `KryptonGao/VelaHarness`,
+`psyb0t/peen`, `patrickab/agent-factory`, `mdsabibahamedsad/Open-Agent`);
+dependency-trust and supply-chain gates overlapping the admitted `pkgtruth`
+(`Seavleu/installgate`, `Tony-Stark2025/piton`, `Capacium/capacium`,
+`solanabr/safe-ai-skill`, `maxgfr/ultrasec`, `neomatrix369/AgentVetter`,
+`gkdataio/misconfig`, `cogniumhq/skillsregistry`); agent eval and regression
+harnesses (`gabeparra/agent-gate`, `hugaidev/agent-evalkit`,
+`JavierFrancoLeal/autonomy-ladder`, `aayushkrm/passk`,
+`balasaikunapareddi/agent-eval-harness`, `AlfredBateman/AgentProbe`,
+`randomittin/heimdall`, `stainless-code/verdict`,
+`alexaiarchitect/claude-agent-sdk-skills`) overlapping `eval-view`,
+`mcp-assert`, `mcp-spy` and the admitted `verdict-qa`; CI test intelligence
+and coverage services that need a hosted account
+(`BuildPulseLLC/buildpulse-mcp`, `qase-tms/qase-quality-supervisor`,
+`klrlabs-studio/coverctl`, `TestChimp/testchimp-mcp-client`,
+`nikolaylosev/sessionlens`) overlapping `codecov-rust-mcp`, `crapkit` and
+`playwright-e2e`; memory and code-index platforms
+(`ClickHouse/loom`, `knight22-21/CodePrism`, `STAIxBWLB/agent-mem`,
+`knight22-21/CodePrism`) overlapping `codebase-memory-mcp`, `chunkhound`,
+`powercontext` and `hippo-memory`; MCP observability and verification
+sidecars (`QWED-AI/qwed-mcp`, `mcpsmiths/tracehub-mcp`,
+`IntelligenceLattice/flowlog`, `RitikPatill/mcp-trace-studio`,
+`decentralizeallengineering/toolcensus`) overlapping `mcp-spy`, `kikimimi`
+and `prefix-cache-audit`; a Django debug panel with no agent, skill, MCP or
+LSP surface and no code of its own (`tracepanel/django-tracepanel`);
+framework-migration skills whose only recent representative is 0-star and at
+the edge of the review window (`silkyland/transform-my-repo`); and LSP
+bridges already represented or unreleased (`bug-ops/mcpls` is already in the
+catalog, `AbysmalBiscuit/mcpls` is a 0-star self-reported study,
+`asgharali2049/BizBridge-AI` has no licence). Domain-specific MCP servers
+for trading, quant finance, game engines, emulation, DCC/CAD, malware
+reverse engineering, voice AI and genomics (`chainstacklabs/pumpclaw`,
+`scry-mcp/scry-dosbox-x`, `dcc-mcp/dcc-mcp-unreal`,
+`malwarelens/revlab-mcp`, `alfonsoguv/deepdna-mcp`,
+`RosenAdvertising/ultravox-mcp` and similar) are outside the Python and Web
+development focus. Web results also surfaced `ChromeDevTools/chrome-devtools-mcp`
+v1.11-v1.13, `tiangolo/library-skills`, `PrefectHQ/fastmcp` 4.2.0 and
+`anthropics/skills` mcp-builder, all already represented by existing entries
+(`chrome-devtools`, `library-skills`, `fastmcp`, `anthropic-skills`). All
+five additions are reference-only, so the 52 installable/configurable
+integrations, the 18 `kind: lsp` entries, the profiles and the source pins
+are unchanged.
