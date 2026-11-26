@@ -1172,3 +1172,146 @@ v1.11-v1.13, `tiangolo/library-skills`, `PrefectHQ/fastmcp` 4.2.0 and
 five additions are reference-only, so the 52 installable/configurable
 integrations, the 18 `kind: lsp` entries, the profiles and the source pins
 are unchanged.
+
+### 2026-11-26 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over recent push dates, topics and keywords
+(coding-agent skills and rules, MCP servers, LSP and DAP bridges, Python
+toolchain, coverage and debugging, rule-pack quality, MCP regression gates,
+skill supply-chain signing and web/framework migration), plus three web
+searches for November 2026 official agent-tooling releases. Stars, push
+timestamps, SPDX licence identifiers, archive flags and default branches come
+from `gh api repos/<owner>/<repo>`, refreshed immediately before the write;
+the search API's `stargazers_count` was used only as a discovery signal (this
+pass again returned impossible values such as 467,722) and every candidate was
+re-queried singly. Every GitHub blob URL recorded in `evidence` was validated
+against the repository's recursive git tree on its default branch and
+re-checked against the `/contents` endpoint with `?ref=main` in the URL query
+string: 84 blob links, all present. All five default branches are `main`. No
+upstream package, binary, application, server, language server or MCP server
+was installed, configured or run. The review began 2026-11-26 at 23:30 CST
+and finished after midnight, so the branch is
+`feat/catalog-daily-20261127` while `checked_at`, `reviewed_at` and every
+document date are 2026-11-26, following the 2026-11-17/18/19/20 precedent.
+
+Two first-party official projects lead this pass. `stitch-skills`
+(`framework-best-practices`, 13,193 stars, Apache-2.0) is a
+`google-labs-code` library of sixteen Agent Skills and three plugin bundles
+that carry a Google Stitch design in both directions: `code-to-design`,
+`extract-design-md` and `extract-static-html` lift a design system out of
+frontend source, while `react-components`, `react-vite-dashboard`,
+`react-native` and `shadcn-ui` generate validated component trees with
+scripts, resources, examples and tests; `design-md`, `taste-design`,
+`site-md`, `enhance-prompt` and `stitch-loop` add a SITE.md constitution, an
+anti-generic standard and multi-page validation. `modern-web-guidance` keeps
+an agent on current web platform APIs with browser-vendor compatibility data
+and a legacy-pattern scan, `frontend-patterns` and `backend-patterns` are rule
+sets, `ui-ux-pro-max` queries a local design database and `backendskills`
+scores backend readiness; none performs design-to-code generation. The README
+states it is not an officially supported Google product, every workflow needs
+the hosted Stitch MCP server and credentials, and OpenCode needs manual skill
+copies with renamed kebab-case frontmatter, so the notes record those caveats.
+`secpriv-skill` (`security-tooling`, 12 stars, MIT) is a `facebookresearch`
+artifact: one SKILL.md system prompt that reviews a single source file across
+20 CWE-mapped security and 10 GDPR-mapped privacy categories with a shared
+flow_id, traces source-to-sink transformation state and suppresses findings
+with seven validator rules, measured on a 128-case Python and HTML benchmark
+with 30 near-miss true negatives, 10 held-out cases, eight cross-domain cases
+and a full evaluation harness. `trailofbits-skills` is a 47-skill marketplace,
+`mantis` runs agentic vulnerability research, `agentic-radar` maps framework
+workflows to OWASP lists, `skillspector` scans packages before installation,
+`agentcheck` scans committed instruction files and `invaris-agentsec`
+red-teams a running agent; none publishes a measured, unified security and
+privacy review skill. The benchmark scores are upstream self-reports from paid
+model runs, cross-file flows are invisible and the category schema is frozen.
+
+`codex-config-doctor` (`engineering-rules`, 0 stars, MIT) opens the config
+truth lane: a dependency-free Node program, running outside Codex and changing
+nothing, that lists every config layer in the order Codex applies it with the
+source of each merged key, marks files missing, skipped for an untrusted
+project or broken by a TOML error, shows AGENTS.md against the 32 KiB
+truncation cap, reports 44 lint findings with file, line, what Codex does and
+the fix, answers `why "<command>"` with the approval policy, sandbox and rule
+that matched, and computes the exact tokens of a first request. Each
+explanation line is labelled verified, documented or not verified, and the
+behaviour was put to the real codex binary through a fake API on 127.0.0.1.
+`mcp-doctor` validates and converts MCP client configs across nine agents,
+`ctxray` statically asserts a loadout in CI, `rulebook` compares instruction
+files, `woolly` flags lines naming removed code, `trace2rules` audits
+AGENTS.md compliance and `cross-code-organizer` inventories what an agent
+loads; none explains one agent's effective merged configuration. Caveats: it
+targets Codex CLI only, two findings rest on documentation rather than the
+binary, and the Codex-side cost figures are pinned to 0.170.0. `ajiro-api`
+(`python-toolchain`, 0 stars, MIT) statically scans FastAPI, Next.js Route
+Handlers, Hono, Express and Go net/http, chi and Echo routes into one plain
+YAML file per endpoint, runs those files as regression tests and serves them
+as mocks, so an agent can implement, scan, test, fix and re-test with no
+human in the loop; `scan` writes only `source`, implicit smoke tests hit only
+safe verbs unless `--smoke-unsafe` is passed, and `--json` returns the request,
+response body and handler location. `playwright-e2e` diagnoses a failing
+browser test, `verdict-qa` governs QA conclusions, `testdesk` orchestrates
+test runs, `schemathesis` derives property tests from an OpenAPI schema,
+`mcp-assert` asserts over MCP handshakes and `mipcode` finds inconsistent
+Python files; none derives an editable API contract from the backend's own
+route declarations. The repository is a sister product of a commercial WBS
+offering and its npm entry tracks the latest release by default, both noted.
+`complaint-replay` (`delivery-workflows`, 2 stars, Apache-2.0) starts from a
+user's natural-language complaint, reconstructs that user's device, network,
+language, timezone, zoom and screen-reader conditions in a real Chromium or
+WebKit browser, records each frame as browser evidence, replays the identical
+steps on the fix with no model in the loop, requires a guard test that passes
+on the fix and fails on the old code, and opens a PR carrying both films, the
+evidence and the guard. It ships as a Python 3.13 CLI, GitHub Action and MCP
+server with a real-bug benchmark, labelled multilingual complaints and
+recorded diffs. `playwright-e2e` repairs an already failing case, `verdict-qa`
+ages findings, `mantis` researches vulnerabilities and `testdesk` queues runs;
+none begins at the user's own conditions. The fix and ranking stages name the
+NVIDIA Nemotron 3 Super model and need model access, and the optional widget
+and dashboard are hosted, so the notes record those limits.
+
+Excluded after review: skill and rule dumps and single-source sync tools
+(`novnski/skills`, `skillland-io/skills`, `skillland-io/skill-validator`,
+`Szmelc-INC/CONVENTIONS.md`, `cardene777/agent-shared`,
+`krantikaridev/agent-skills`, `skea999/skea-opencode-harness`,
+`bezmoradi/knackpack`, `aliinal0/sole-skill`) overlapping `ruler`,
+`ai-rulez`, `acr`, `ctxray`, `skillcrew` and the 2026-11-16 rule on
+platform-specific skill libraries; instruction-file and SKILL.md linters
+(`dimarch0x/agent-context-doctor`, `pie527645-cloud/agent-lint`,
+`mustafakbaser/agentcheckup`, `Will413028/agentfile-lint`,
+`SatyamSingh-Git/ctxlock`, `MohitBhatnnagar/coding-agent-config`) overlapping
+`woolly`, `agentcheck`, `skillsaw`, `rulebook` and `trace2rules`; MCP and agent
+regression harnesses (`Paraspandey-debugs/regrip`,
+`stepan4002/plumbcheck`, `srdarkseer/qbq`, `FERBIN12/flakelens`,
+`lucashgrifoni/AI-Agent-Security`, `rurik-k9/athanor-at-mcp-listeners-audit`)
+overlapping `mcp-assert`, `mcp-spy`, `eval-view`, `verdict-qa` and
+`invaris-agentsec`; agent eval and QA engines that need a hosted model
+(`yashasviyadav30/qbq` equivalents, `Mcube333/claude-skills-for-qa`,
+`ymcbzrgn/engineering-corpus`); a language-port tool whose README is built on
+self-reported speedups and sponsor badges and whose purpose is to leave
+Python rather than develop it (`erkamyaman/rust-anything`); an already
+rejected 0-star unreleased LSP-bridge study (`qompassai/theodolite`, per the
+2026-11-24 decision) and a C#-only Roslyn bridge outside the Python and Web
+focus (`thomas-fazzari/roslyn-bridge-mcp`); Python skill bundles already
+covered (`wdm0006/python-skills` is in the catalog as `python-dev-skills`,
+which a search result had re-surfaced as a fresh candidate); thin, empty or
+domain-specific MCP servers (`cardinelabs/fs-sandbox-mcp`,
+`endformdev/skills`, `SlimHintz/kitchen-inventory-mcp`,
+`NetVar1337/ps4debug-mcp`, `Penguncisurga/Geokit`, `scry-mcp/scry-dosbox-x`,
+`probnode/probnode-sdk`); multi-agent desktop workspaces and harnesses
+(`ZH-NICO/ultraclaude`, `Antoine-Thomas/UH-Universal-Harness`,
+`kennethfan/jiaoag`, `qwwiwi/agent-jobs`, `mustafakbaser/agentcheckup`,
+`mnmal-ai/synoptic`); browser-automation and design-taste skill packs
+(`8bitgfx/drip`, `2yong-k/studio`, `Joymerrevent/video-transcribe`); and
+repositories with no SPDX licence or `NOASSERTION`, which the 2026-11-20 rule
+excludes. Web results also surfaced `google/skills`, `openai/skills`,
+`microsoft/skills`, `cloudflare/skills`, `google-gemini/gemini-skills`,
+`huggingface/skills`, `vercel-labs/agent-skills` and
+`anthropics/claude-plugins-official`, all platform-specific first-party skill
+libraries already represented or outside the Python and Web development
+focus, plus `ChromeDevTools/chrome-devtools-mcp` v2.2.0 skills,
+`anthropics/skills` mcp-builder and `PrefectHQ/fastmcp`, all already covered
+by existing entries (`chrome-devtools`, `anthropic-skills`, `fastmcp`). All
+five additions are reference-only, so the 52 installable/configurable
+integrations, the 18 `kind: lsp` entries, the profiles and the source pins
+are unchanged.
