@@ -710,3 +710,36 @@ Catalogue additions from the 2026-11-25 candidate review.
   was installed, configured or run, so no MCP smoke result is recorded for
   this date and `docs/LSP.md` is untouched; the count of `kind: lsp` entries
   remains 18.
+
+Catalogue additions from the 2026-11-26 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `complaint-replay`
+  (`delivery-workflows`, reproduce a user bug report in a real browser under
+  the user's own conditions and open a PR with a fix and a guard test, 2 stars),
+  `stitch-skills` (`framework-best-practices`, sixteen Agent Skills that turn
+  Google Stitch designs into React, Vite, shadcn/ui or React Native components,
+  13,193 stars, a first-party `google-labs-code` project), `secpriv-skill`
+  (`security-tooling`, one detector-validator code-review skill across 20 CWE
+  security and 10 GDPR privacy categories with a 128-case benchmark, 12 stars,
+  a first-party `facebookresearch` artifact), `codex-config-doctor`
+  (`engineering-rules`, report the merged config Codex CLI will actually apply,
+  with 44 lint findings and a `why` command verified against the real binary,
+  0 stars) and `ajiro-api` (`python-toolchain`, scan backend routes into one
+  YAML contract per endpoint and run them as regression tests and mocks, 0 stars).
+- Catalog grows from 181 to 186 entries: 52 installable/configurable
+  integrations and 134 reference-only tools. The installable counts and the
+  18 LSP entries are unchanged; no recipe, adapter, profile, website template
+  or release asset was modified.
+- Stars, push timestamps, licences and archive flags are dated
+  `gh api repos/<owner>/<repo>` observations refreshed before the write. All
+  84 GitHub blob links in the five evidence lists were checked against each
+  repository's recursive git tree and the `/contents` endpoint, with
+  `?ref=main` in the URL query string; all five default branches are `main`.
+  Candidates with no SPDX licence or `NOASSERTION` were excluded under the
+  2026-11-20 rule. No upstream package, binary, application, server, language
+  server or MCP server was installed, configured or run, so no MCP smoke result
+  is recorded for this date, `docs/LSP.md` is untouched; the count of
+  `kind: lsp` entries remains 18. The review ran across midnight CST: the
+  branch is `feat/catalog-daily-20261127` while `checked_at`, `reviewed_at`
+  and every document date are 2026-11-26, the date the review began.
