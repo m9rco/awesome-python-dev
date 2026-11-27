@@ -1315,3 +1315,152 @@ by existing entries (`chrome-devtools`, `anthropic-skills`, `fastmcp`). All
 five additions are reference-only, so the 52 installable/configurable
 integrations, the 18 `kind: lsp` entries, the profiles and the source pins
 are unchanged.
+
+### 2026-11-27 candidate review
+
+Five repositories were added as reference-only entries from `gh api -X GET
+search/repositories` queries over recent push dates, topics and keywords
+(coding-agent skills and rules, MCP servers, LSP bridges, Python testing and
+packaging, debugging, dependency resolution, context token budgets, skill
+supply-chain signing, MCP analytics and authorization regression gates),
+plus four web searches for November 2026 official agent-tooling releases.
+Stars, push timestamps, SPDX licence identifiers, archive flags and default
+branches come from `gh api repos/<owner>/<repo>`, refreshed immediately
+before the write and again before the commit; the search API's
+`stargazers_count` was used only as a discovery signal (this pass again
+returned impossible values such as 117,883, 47,584 and 17,273) and every
+candidate was re-queried singly. Every GitHub blob URL recorded in `evidence`
+was validated against each repository's recursive git tree on its default
+branch and re-checked against the `/contents` endpoint with `?ref=main` in
+the URL query string: 70 blob links, all present after one transient retry.
+All five default branches are `main`. No upstream package, binary,
+application, server, language server or MCP server was installed, configured
+or run. The review began 2026-11-27 at 23:30 CST and finished after midnight,
+so the branch is `feat/catalog-daily-20261128` while `checked_at`,
+`reviewed_at` and every document date are 2026-11-27, the date the review
+began, following the 2026-11-17/18/19/20/26 precedent.
+
+`mcpspan` (`mcp-ecosystem`, 24 stars, MIT) is the first entry for the MCP
+server author's own production telemetry rather than the agent's client-side
+view. `mcp-spy` records, replays, mocks and gates one agent's traffic at the
+transport; `mcp-doctor` validates and converts client configs; `mcp-assert`
+runs wire-level YAML assertions and fuzzing; `mcp-ade` orchestrates language
+servers and debug adapters. mcpspan instead measures every tool, resource and
+prompt call by client with p50/p95 latency and answer sizes, reports the token
+cost of the tool definitions every session reads (including tools shown but
+never called), distinguishes handler exceptions from tool-reported errors,
+refused arguments and unknown tool names, replays sessions with repeated calls
+marked, and produces per-release verdicts and client-version comparisons
+controlled on both releases. Eight SDKs share one contract and one conformance
+suite, including a Python package that instruments the official SDK and
+FastMCP; a proxy covers any server without code changes and `mcpspan-lint`
+checks tool definitions before shipping. Its own read-only MCP API answers
+questions from the numbers. Docker and a local account are required and
+parameter values never leave the server process by design.
+
+`mcp-attest` (`security-tooling`, 10 stars, MIT) is a policy-as-code
+authorization conformance harness. `mcp-assert` lints and fuzzes servers over
+real transports, `mcp-doctor` validates client configs, `skillspector` scans
+third-party packages before installation and `agentcheck` scans committed
+instruction files; none tests the decision a running server makes. mcp-attest
+connects as each identity in the policy, derives every identity x tool pair
+and its arguments from the live schema, sends real calls and compares each
+allow/deny against the policy. It covers the OWASP MCP Security Testing
+Guide's minimum automated set - the authorization matrix including
+cross-user object identifiers (`AT-AUTHZ-001/002`) and token validation -
+with 24 live and trace rules and twelve OAuth checks, then writes a
+hash-chained, optionally HMAC-signed evidence bundle an auditor verifies
+offline. Zero-dependency Python 3.10+ CLI, OTLP trace checks, SARIF, exit
+code 1 on a blocking finding and a GitHub Action; no model, API key or
+network beyond the server under test. The OAuth half needs Streamable HTTP
+and the harness cannot block anything.
+
+`depquiet` (`python-toolchain`, 3 stars, MIT) closes a gap next to the
+existing dependency-hygiene entries. `pkgtruth` checks names an agent is
+about to install, `pip-audit`, `osv-scanner` and `mustel` report known CVEs,
+`deptry` compares declared with imported distributions, `wheelgap` finds
+missing wheels and `python-package-template` starts a package green; none
+works out why a security patch will not install and proves the change that
+makes it install. depquiet starts from the alerts Dependabot reports as
+unfixable - a pin of your own, a parent capping the vulnerable one, or a
+`requires-python` that still allows an old Python - and tries changes on a
+temporary copy with the project's own uv, Poetry or npm resolver, returning
+only a diff whose fixes resolve together plus the exact lock command. Two
+read-only MCP tools (`triage_alerts`, `plan_fixes`), a CLI and a weekly
+GitHub Action; the README documents five merged upstream PRs and states
+plainly that one broke something downstream. `pip-audit` is required and a
+verified resolution is not a verified runtime.
+
+`honest-tests` (`python-toolchain`, 3 stars, MIT) asks whether the tests an
+agent just wrote could ever fail. `snitch` catches weakened, skipped or
+deleted tests, `playwright-e2e` repairs a failing browser or pytest case,
+`crapkit` gates on complexity times uncovered branches and `verdict-qa`
+governs QA finding lifecycles. `audit` flags `no-assertions`,
+`tautological-assertion`, `swallowed-assertion`, `asserts-on-mock`, mocking
+the unit under test, snapshot-only tests and leftover `.only`/`.skip`;
+`mutate` flips operators, booleans, constants and return values on a
+temporary copy and prints a mutation score. The Agent Skills-format SKILL.md
+teaches one rule - a test is honest only if it fails when the behaviour it
+names is broken. JavaScript/TypeScript gets every rule plus mutation
+testing; Python pytest and unittest files are parsed by Python's own `ast`
+module (3.9+) and get every rule except three, with no Python mutation
+testing yet, so the Python path is a static audit rather than a score.
+Node 22+ and the project's test runner are needed and the audited code is
+never imported.
+
+`research-to-fix` (`delivery-workflows`, 3 stars, MIT) is an evidence-first
+debugging Agent Skill. `systematic-debugging` is instruction-only,
+`playwright-e2e` diagnoses a failing test from captured page evidence,
+`complaint-replay` reproduces a bug report in a real browser and `mcp-ade`
+hosts debug adapters; none makes an agent research prior fixes and viable
+approaches across GitHub, arXiv, Crossref, Hugging Face, Semantic Scholar,
+OpenAlex, DBLP and original papers, then map that evidence onto local code
+before proposing a repair. A multi-round research ledger keeps distinct-query
+budgets and coverage gaps; the distinguishing layer is frozen evidence - an
+independently pinned manifest, a semantic audit that rejected 13/13 named
+evidence contradictions where unpinned hash-only verification rejected 0/13
+after resealing, and a trusted-local unittest recorder that freezes
+before/after code and failure IDs and binds claims to sealed snapshots and a
+plan digest. The 42 actual Python test subprocesses, 174 method-level
+outcomes and retrieval-transfer benchmarks are upstream self-reports from
+constructed diagnostic cases and fixed-outcome simulations, stated as such
+in the README; no mandatory third-party package, hosted search service or
+embedding model, and no automatic execution of untrusted code.
+
+Rejected candidates fell into the usual groups. First-party skill catalogues
+that WebSearch re-surfaced are already represented or outside the Python and
+Web focus (`openai/skills`, whose GitHub SPDX is `NOASSERTION` and last push
+2026-10-28, `K-Dense-AI/scientific-agent-skills`, `remotion-dev/skills`,
+`anthropics/skills`, `wshobson/agents`, `vercel-labs/agent-skills`); a legal
+research MCP (`ykarapazar/fontes`), an SAP GUI driver (`DidroAI/sap-ui-mcp`),
+a PCB quoting skill (`pcb-dog/skills`), a scoped filesystem server
+(`NTLx/ServerFS_MCP`) and several video, game, resume and design-taste packs
+are domain-specific rather than coding-toolkit material. Duplicative lanes
+covered by existing entries: context token-budget and stale-reference linters
+(`Naeha-S/ctxcap`, `SatyamSingh-Git/ctxlock`, `ChloeVPin/trim`) next to
+`context-inspector`, `ctxray`, `woolly` and `codex-config-doctor`; skill
+pre-install scanners (`FrancoisChastel/skill-scanner`,
+`spellwarden-ai/agent-plugin`, `aegisgatesecurity/aegisgate-scanner`) next to
+`skillspector`, `skillsaw` and `agentcheck`; session replay and trace
+harnesses (`Siddhant-K-code/agent-trace`, `agent-trace-replay` variants)
+next to `trajectory-ir`, `sessionflow` and `eval-view`; MCP mock and
+simulation harnesses (`skillberry-ai/simulation-harness`) next to `mcp-spy`;
+another JS/TS mutation tester (`azat-io/mootant`, early development) next to
+the newly admitted `honest-tests`; a skill package format with declared
+permissions and conformance tests (`dengzy1998/skillfoundry`, created the
+day of the review with 0 stars) next to `signet` and `skillsaw`. Two
+0-star unreleased LSP-bridge studies (`qompassai/theodolite`,
+`AbysmalBiscuit/mcpls`) and a C#-only Roslyn bridge
+(`thomas-fazzari/roslyn-bridge-mcp`) follow the 2026-11-24/26 decisions.
+A code-visualization MCP surfaced by WebSearch (`svailla4/glimpse`) has no
+SPDX licence, and multi-agent desktop workbenches (`flyhero/antumi`,
+`ClickHouse/loom`, `komla-dev/komla`, `WispAgents/wisp`, `pqant/claude-continuity`)
+are outside the catalog's toolkit scope. Repositories with no SPDX licence
+or `NOASSERTION` were excluded under the 2026-11-20 rule, as were the
+language-porting `*-anything` projects with self-reported speed claims.
+
+All five additions are reference-only, so the 52 installable/configurable
+integrations, the 18 `kind: lsp` entries, the profiles and the source pins
+are unchanged. No upstream package, binary, application, server, language
+server or MCP server was installed, configured or run, so `docs/LSP.md` is
+untouched and no MCP smoke result is recorded for this date.
