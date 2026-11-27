@@ -743,3 +743,39 @@ Catalogue additions from the 2026-11-26 candidate review.
   `kind: lsp` entries remains 18. The review ran across midnight CST: the
   branch is `feat/catalog-daily-20261127` while `checked_at`, `reviewed_at`
   and every document date are 2026-11-26, the date the review began.
+
+Catalogue additions from the 2026-11-27 candidate review.
+
+- Five reference-only entries, recorded from repository metadata, upstream
+  documentation, file trees and licence files only: `mcpspan`
+  (`mcp-ecosystem`, self-hosted analytics for MCP server calls, latency,
+  failures, sessions and releases with eight SDKs including Python FastMCP,
+  24 stars), `mcp-attest` (`security-tooling`, prove a live MCP server denies
+  what a written policy denies with 24 rules, twelve OAuth checks and
+  hash-chained signed evidence, 10 stars), `depquiet` (`python-toolchain`,
+  turn unfixable Dependabot alerts into a change plan verified with the
+  project's own uv, Poetry or npm resolver over CLI, MCP and a weekly Action,
+  3 stars), `honest-tests` (`python-toolchain`, detect AI-written tests that
+  can never fail and prove weak tests with mutation testing across JS/TS and
+  Python pytest/unittest, 3 stars) and `research-to-fix`
+  (`delivery-workflows`, research prior fixes across GitHub, arXiv and papers
+  then repair and validate against a frozen, hash-pinned evidence ledger,
+  3 stars).
+- Catalog grows from 186 to 191 entries: 52 installable/configurable
+  integrations and 139 reference-only tools. The installable counts and the
+  18 LSP entries are unchanged; no recipe, adapter, profile, website template
+  or release asset was modified.
+- Stars, push timestamps, licences and archive flags are dated
+  `gh api repos/<owner>/<repo>` observations refreshed before the write and
+  again before the commit. All 70 GitHub blob links in the five evidence
+  lists were checked against each repository's recursive git tree and the
+  `/contents` endpoint, with `?ref=main` in the URL query string; all five
+  default branches are `main`, and one transient `/contents` failure was
+  confirmed present on retry. Candidates with no SPDX licence or
+  `NOASSERTION` were excluded under the 2026-11-20 rule. No upstream package,
+  binary, application, server, language server or MCP server was installed,
+  configured or run, so no MCP smoke result is recorded for this date and
+  `docs/LSP.md` is untouched; the count of `kind: lsp` entries remains 18.
+  The review ran across midnight CST: the branch is
+  `feat/catalog-daily-20261128` while `checked_at`, `reviewed_at` and every
+  document date are 2026-11-27, the date the review began.
